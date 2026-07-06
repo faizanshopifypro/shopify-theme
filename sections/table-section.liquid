@@ -1,0 +1,551 @@
+<div class="dynemic-tabele-wrapper section-{{ section.id }}-padding">
+  <div class="{{ section.settings.section_width }}">
+    <div class="dynamic-table-wrapper">
+      <table class="dynamic-table">
+        {% assign headers_block = section.blocks | where: 'type', 'header' | first %}
+        {% if headers_block %}
+          <thead>
+            <tr>
+              {% assign header_titles = headers_block.settings.headers | split: ',' %}
+              {% for header in header_titles %}
+                <th>{{ header | strip }}</th>
+              {% endfor %}
+            </tr>
+          </thead>
+        {% endif %}
+    
+        <tbody>
+          {% for block in section.blocks %}
+            {% if block.type == 'row' %}
+              <tr>
+                {% assign row_items = block.settings.row_data | split: ',' %}
+                {% for item in row_items %}
+                  <td>{{ item | strip }}</td>
+                {% endfor %}
+              </tr>
+            {% endif %}
+            {% if block.type == 'image_row' %}
+              <tr>
+                {% assign image_urls = block.settings.image_urls | split: ',' %}
+                {% for image in image_urls %}
+                  <td>
+                    <img src="{{ image | strip }}" alt="Table Image" style="max-width: {{ block.settings.image_max_width }}px; height: auto;" loading="lazy" />
+                  </td>
+                {% endfor %}
+              </tr>
+            {% endif %}
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+  <style>
+  .dynamic-table-wrapper {
+    overflow-x: auto;
+  }
+
+  .dynamic-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px;
+  }
+
+  .dynamic-table th,
+  .dynamic-table td {
+    text-align: {{ section.settings.text_alignment }};
+    padding: 12px;
+    white-space: nowrap;
+    line-height: 1;
+  }
+
+  {% assign headers_block = section.blocks | where: 'type', 'header' | first %}
+  {% if headers_block %}
+    .dynamic-table th {
+      border: 1px solid {{ headers_block.settings.heding_border }};
+      background-color: {{ headers_block.settings.heding_bg }};
+      color: {{ headers_block.settings.heding_text }};
+      font-weight: bold;
+      text-align: {{ section.settings.text_alignment }};
+      font-size: 16px;
+    }
+  {% endif %}
+
+  {% for block in section.blocks %}
+    {% if block.type == 'row' %}
+      .dynamic-table td {
+        border: 1px solid {{ block.settings.content_border }};
+        background-color: {{ block.settings.content_bg }};
+        color: {{ block.settings.content_text }};
+        font-size: 14px;
+      }
+
+      .dynamic-table td a {
+        color: {{ block.settings.content_link }};
+        text-decoration: underline !important;
+      }
+    {% endif %}
+  {% endfor %}
+
+  {% if section.settings.section_bg != "rgba(0,0,0,0)" %}
+  .dynemic-tabele-wrapper{
+      background-color: {{ section.settings.section_bg }};
+    }
+  {% endif %}
+    
+  {% if section.settings.bg_img != blank %}
+    .dynemic-tabele-wrapper{
+      background-image: url({% if section.settings.bg_img != blank %} {{ section.settings.bg_img | image_url: width: 1920 }} {% endif %}) !important;
+      background-position: center !important;
+      background-repeat: no-repeat !important;
+      background-size: cover !important;
+      background-attachment: {{ section.settings.image_behaviour }};
+    }
+  {% endif %}
+  
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding-top }}px;
+    padding-bottom: {{ section.settings.padding-bottom }}px;
+    margin-top: {{ section.settings.margin-top }}px;
+    margin-bottom: {{ section.settings.margin-bottom }}px;
+    
+  }
+  @media screen and (max-width: 1429px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding-top-1429 }}px;
+      padding-bottom: {{ section.settings.padding-bottom-1429 }}px;
+      margin-top: {{ section.settings.margin-top-1429 }}px;
+      margin-bottom: {{ section.settings.margin-bottom-1429 }}px;
+    }
+  }
+  @media screen and (max-width: 1199px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding-top-1199 }}px;
+      padding-bottom: {{ section.settings.padding-bottom-1199 }}px;
+      margin-top: {{ section.settings.margin-top-1199 }}px;
+      margin-bottom: {{ section.settings.margin-bottom-1199 }}px;
+    }
+  }
+  @media screen and (max-width: 991px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding-top-991 }}px;
+      padding-bottom: {{ section.settings.padding-bottom-991 }}px;
+      margin-top: {{ section.settings.margin-top-991 }}px;
+      margin-bottom: {{ section.settings.margin-bottom-991 }}px;
+    }
+    .banner1-{{ section.id }} .four-image-with-text-banner-section-wrapper{
+      row-gap: {{ settings.spacing_grid_vertical | divided_by: 2 }}px;
+      margin: 0px -{{ settings.spacing_grid_horizontal | divided_by: 4 }}px;
+    }
+    .banner1-{{ section.id }} .four-first-banner-section.col-lg-6,
+    .banner1-{{ section.id }} .four-first-banner-section.col-lg-3{
+       padding: 0px {{ settings.spacing_grid_horizontal | divided_by: 4 }}px;
+    }
+  }
+  @media screen and (max-width: 767px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding-top-767 }}px;
+      padding-bottom: {{ section.settings.padding-bottom-767 }}px;
+      margin-top: {{ section.settings.margin-top-767 }}px;
+      margin-bottom: {{ section.settings.margin-bottom-767 }}px;  
+    }
+  }
+  @media screen and (max-width: 575px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding-top-575 }}px;
+      padding-bottom: {{ section.settings.padding-bottom-575 }}px;
+      margin-top: {{ section.settings.margin-top-575 }}px;
+      margin-bottom: {{ section.settings.margin-bottom-575 }}px;  
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Table section",
+  "tag": "section",
+  "class": "dynamic-table-section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "section_width",
+      "options": [
+        {
+          "value": "full__width",
+          "label": "Full width"
+        },
+        {
+          "value": "page-width",
+          "label": "Page width"
+        }
+      ],
+      "label": "Layout width",
+      "default": "page-width"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Content text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "Section background",
+      "default": "#ffffff",
+      "info": "Leave blank if not need color."
+    },
+    {
+      "type" : "image_picker",
+      "id" : "bg_img",
+      "label" : "Background image",
+      "info": "If need image in main background."
+    },
+    {
+      "type": "select",
+      "id": "image_behaviour",
+      "label": "Image behavior",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "None"
+        },
+        {
+          "value": "fixed",
+          "label": "Fixed background position"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "number",
+      "id": "padding-top",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 60
+    },
+    {
+      "type": "number",
+      "id": "padding-bottom",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 60
+    },
+    {
+      "type": "header",
+      "content": "Screen wise section padding"
+    },
+    {
+      "type": "header",
+      "content": "@media screen 1429"
+    },
+    {
+      "type": "number",
+      "id": "padding-top-1429",
+      "label": "Padding top",
+      "default": 50
+    },
+    {
+      "type": "number",
+      "id": "padding-bottom-1429",
+      "label": "Padding bottom",
+      "default": 50
+    },
+    {
+      "type": "header",
+      "content": "@media screen 1199"
+    },
+    {
+      "type": "number",
+      "id": "padding-top-1199",
+      "label": "Padding top",
+      "default": 45
+    },
+    {
+      "type": "number",
+      "id": "padding-bottom-1199",
+      "label": "Padding bottom",
+      "default": 45
+    },
+    {
+      "type": "header",
+      "content": "@media screen 991"
+    },
+    {
+      "type": "number",
+      "id": "padding-top-991",
+      "label": "Padding top",
+      "default": 40
+    },
+    {
+      "type": "number",
+      "id": "padding-bottom-991",
+      "label": "Padding bottom",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "@media screen 767"
+    },
+    {
+      "type": "number",
+      "id": "padding-top-767",
+      "label": "Padding top",
+      "default": 35
+    },
+    {
+      "type": "number",
+      "id": "padding-bottom-767",
+      "label": "Padding bottom",
+      "default": 35
+    },
+    {
+      "type": "header",
+      "content": "@media screen 575"
+    },
+    {
+      "type": "number",
+      "id": "padding-top-575",
+      "label": "Padding top",
+      "default": 30
+    },
+    {
+      "type": "number",
+      "id": "padding-bottom-575",
+      "label": "Padding bottom",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Margin settings"
+    },
+    {
+      "type": "number",
+      "id": "margin-top",
+      "label": "Margin top",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "margin-bottom",
+      "label": "Margin bottom",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Screen wise section margin"
+    },
+    {
+      "type": "header",
+      "content": "@media screen 1429"
+    },
+    {
+      "type": "number",
+      "id": "margin-top-1429",
+      "label": "Margin top",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "margin-bottom-1429",
+      "label": "Margin bottom",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "@media screen 1199"
+    },
+    {
+      "type": "number",
+      "id": "margin-top-1199",
+      "label": "Margin top",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "margin-bottom-1199",
+      "label": "Margin bottom",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "@media screen 991"
+    },
+    {
+      "type": "number",
+      "id": "margin-top-991",
+      "label": "Margin top",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "margin-bottom-991",
+      "label": "Margin bottom",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "@media screen 767"
+    },
+    {
+      "type": "number",
+      "id": "margin-top-767",
+      "label": "Margin top",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "margin-bottom-767",
+      "label": "Margin bottom",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "@media screen 575"
+    },
+    {
+      "type": "number",
+      "id": "margin-top-575",
+      "label": "Margin top",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "margin-bottom-575",
+      "label": "Margin bottom",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "header",
+      "name": "Table Header (TH)",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "headers",
+          "label": "Header Columns (comma-separated)",
+          "default": "Title 1, Title 2, Title 3",
+          "info": "Title 1, Title 2, Title 3"
+        },
+        {
+          "type": "header",
+          "content": "Color settings"
+        },
+        {
+          "type": "color",
+          "id": "heding_bg",
+          "label": "Background",
+          "default": "#e5e5e5"
+        },
+        {
+          "type": "color",
+          "id": "heding_text",
+          "label": "Text",
+          "default": "#333333"
+        },
+        {
+          "type": "color",
+          "id": "heding_border",
+          "label": "Border",
+          "default": "#dddddd"
+        }
+      ]
+    },
+    {
+      "type": "row",
+      "name": "Table Row (TR)",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "row_data",
+          "label": "Row Data (comma-separated)",
+          "info": "Data 1, Data 2, Data 3"
+        },
+        {
+          "type": "header",
+          "content": "Color settings"
+        },
+        {
+          "type": "color",
+          "id": "content_bg",
+          "label": "Background",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "content_text",
+          "label": "Text",
+          "default": "#333333"
+        },
+        {
+          "type": "color",
+          "id": "content_border",
+          "label": "Border",
+          "default": "#dddddd"
+        },
+        {
+          "type": "color",
+          "id": "content_link",
+          "label": "Link",
+          "default": "#d0473e",
+          "info": "If adding link in richtext."
+        }
+      ]
+    },
+    {
+      "type": "image_row",
+      "name": "Table Image Row",
+      "settings": [
+        {
+          "type": "text",
+          "id": "image_urls",
+          "label": "Image URLs (comma-separated)",
+          "info": "Add image URLs in the same order as headers. Example: https://...jpg, https://...jpg"
+        },
+        {
+          "type": "header",
+          "content": "Image Style"
+        },
+        {
+          "type": "range",
+          "id": "image_max_width",
+          "label": "Max Image Width (px)",
+          "min": 30,
+          "max": 300,
+          "step": 10,
+          "default": 80
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Table section",
+      "category": "11 More sections",
+      "blocks": [
+        { "type": "header" },
+        { "type": "row" },
+        { "type": "row" }
+      ]
+    }
+  ]
+}
+{% endschema %}

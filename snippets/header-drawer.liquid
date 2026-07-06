@@ -1,0 +1,443 @@
+{% comment %}
+  Renders a header drawer menu for mobile and desktop.
+
+  Usage:
+  {% render 'header-drawer' %}
+{% endcomment %}
+
+<header-drawer data-breakpoint="{% if section.settings.menu_type_desktop == 'drawer' %}desktop{% else %}tablet{% endif %}">
+  <details id="Details-menu-drawer-container" class="menu-drawer-container">
+    <summary
+      class="header__icon header__icon--menu header__icon--summary link focus-inset"
+      aria-label="{{ 'sections.header.menu' | t }}"
+    >
+      <span>
+        {% render 'icon-hamburger' %}
+        {% render 'icon-close' %}
+      </span>
+    </summary>
+    <div id="menu-drawer" class="gradient menu-drawer motion-reduce color-{{ section.settings.menu_color_scheme }}">
+      <div class="menu-drawer__inner-container">
+        <div class="menu-drawer__header">
+          <a href="{{ routes.root_url }}" class="menu-drawer__logo">
+            {%- if settings.logo != blank -%}
+              {%- assign logo_alt = settings.logo.alt | default: shop.name | escape -%}
+              {{ settings.logo | image_url: width:350 | image_tag: class: 'menu-drawer__logo-img', alt: logo_alt }}
+            {%- else -%}
+              <span class="h2">{{ shop.name }}</span>
+            {%- endif -%}
+          </a>
+        </div>
+        
+        <div class="menu-drawer__navigation-container">
+          <!-- Trustpilot Ratings -->
+          <div class="menu-drawer__trustpilot">
+            <div class="menu-drawer__trustpilot-stars">
+              {%- for i in (1..5) -%}{%- render 'icon-star' -%}{%- endfor -%}
+            </div>
+            <span class="menu-drawer__trustpilot-rating">{{ section.settings.mobile_menu_trustpilot_rating }}</span>
+            <div class='new_l'>
+            <span class="menu-drawer__trustpilot-verified">
+              {{ section.settings.mobile_menu_trustpilot_verified }}
+            </span>
+          </div>
+          </div>
+
+          <!-- Promo Banner Slider -->
+          {%- assign promo_slides = section.blocks | where: 'type', 'promo_slide' -%}
+          {%- if promo_slides.size > 0 -%}
+            <div class="menu-drawer__promo-slider" id="PromoSlider-{{ section.id }}">
+              <div class="menu-drawer__promo-track">
+                {%- for block in promo_slides -%}
+                  <div class="menu-drawer__promo-slide {% if forloop.first %}is-active{% endif %}" data-index="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
+                    <a href="{{ block.settings.link | default: '#' }}" class="menu-drawer__promo-link">
+                      {%- if block.settings.image != blank -%}
+                        {{ block.settings.image | image_url: width: 600 | image_tag: class: 'menu-drawer__promo-banner-img', loading: 'lazy', alt: block.settings.image.alt | default: shop.name }}
+                      {%- else -%}
+                        <img src="{{ 'menu-promo-dog.png' | asset_url }}" alt="Promo banner" class="menu-drawer__promo-banner-img" loading="lazy">
+                      {%- endif -%}
+                    </a>
+                  </div>
+                {%- endfor -%}
+              </div>
+              {%- if promo_slides.size > 1 -%}
+                <div class="menu-drawer__promo-dots">
+                  {%- for block in promo_slides -%}
+                    <button class="menu-drawer__promo-dot {% if forloop.first %}is-active{% endif %}" data-index="{{ forloop.index0 }}" aria-label="Slide {{ forloop.index }}"></button>
+                  {%- endfor -%}
+                </div>
+              {%- endif -%}
+            </div>
+            <script>
+              (function() {
+                var slider = document.getElementById('PromoSlider-{{ section.id }}');
+                if (!slider) return;
+                var track = slider.querySelector('.menu-drawer__promo-track');
+                var slides = slider.querySelectorAll('.menu-drawer__promo-slide');
+                var dots   = slider.querySelectorAll('.menu-drawer__promo-dot');
+                if (!track || slides.length <= 1) return;
+
+                // Highlight dot when slide scrolls into view
+                var observer = new IntersectionObserver(function(entries) {
+                  entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                      var idx = parseInt(entry.target.getAttribute('data-index'));
+                      dots.forEach(function(d) { d.classList.remove('is-active'); });
+                      if (dots[idx]) dots[idx].classList.add('is-active');
+                    }
+                  });
+                }, { root: track, threshold: 0.6 });
+                slides.forEach(function(slide) { observer.observe(slide); });
+
+                // Dot click → scroll to that slide
+                dots.forEach(function(dot) {
+                  dot.addEventListener('click', function() {
+                    var idx   = parseInt(this.getAttribute('data-index'));
+                    var slide = slides[idx];
+                    if (slide) track.scrollTo({ left: slide.offsetLeft, behavior: 'smooth' });
+                  });
+                });
+              })();
+            </script>
+          {%- else -%}
+            <div class="menu-drawer__promo-banner">
+              <a href="#" class="menu-drawer__promo-link">
+                <img src="{{ 'menu-promo-dog.png' | asset_url }}" alt="Promo banner" class="menu-drawer__promo-banner-img" loading="lazy">
+              </a>
+            </div>
+          {%- endif -%}
+
+          <nav class="menu-drawer__navigation">
+            <ul class="menu-drawer__menu has-submenu list-menu" role="list">
+              {%- for link in section.settings.menu.links -%}
+                {%- assign title_handle = link.title | handle -%}
+                <li class="{{ title_handle | escape }}">
+                  {%- if link.links != blank -%}
+                    <details id="Details-menu-drawer-menu-item-{{ forloop.index }}">
+                      <summary
+                        id="HeaderDrawer-{{ link.handle }}"
+                        class="menu-drawer__menu-item list-menu__item link link--text focus-inset{% if link.child_active %} menu-drawer__menu-item--active{% endif %}"
+                      >
+                        <div class="menu-drawer__link-content">
+                          {%- if title_handle == 'startseite' or title_handle == 'home' -%}
+                            {%- render 'icon-home' -%}
+                          {%- elsif title_handle == 'produkte' or title_handle == 'shop' or title_handle == 'products' -%}
+                            {%- render 'icon-menu-leaf' -%}
+                          {%- elsif title_handle == 'zubehor' or title_handle == 'zubehoer' or title_handle == 'accessories' -%}
+                            {%- render 'icon-menu-collar' -%}
+                             {%- elsif title_handle == 'contact' or title_handle == 'contact' or title_handle == 'contact' -%}
+                            {%- render 'icon-menu-collar' -%}
+                          {%- elsif title_handle == 'mein-konto' or title_handle == 'konto' or title_handle == 'account' -%}
+                            {%- render 'icon-account' -%}
+                          {%- endif -%}
+                          <span class="menu-drawer__link-text">{{ link.title | escape | uppercase }}</span>
+                        </div>
+                        <span class="menu-drawer__link-arrow">
+                          {%- render 'icon-chevron-right' -%}
+                        </span>
+                      </summary>
+                      <div
+                        id="link-{{ link.handle | escape }}"
+                        class="menu-drawer__submenu has-submenu gradient motion-reduce"
+                        tabindex="-1"
+                      >
+                        <div class="menu-drawer__inner-submenu">
+                          <button class="menu-drawer__close-button link link--text focus-inset" aria-expanded="true">
+                            {% render 'icon-arrow' %}
+                            {{ link.title | escape }}
+                          </button>
+                          <ul class="menu-drawer__menu list-menu" role="list" tabindex="-1">
+                            {%- for childlink in link.links -%}
+                              {% if childlink.title contains 'https://' or childlink.title contains 'http://' %}
+                              {% assign img_url = childlink.title | split:'|' %}
+                                <li>
+                                  <div class="mega_img_container">
+                                    <a href="{{ childlink.url }}">
+                                      <div class="mega_zoom_img">
+                                          <img src="{{ img_url[1] }}" class="mega_product_image" alt="megamenu-img">
+                                      </div>
+                                      <h4>{{ img_url[0] }}</h4>
+                                    </a>
+                                  </div>
+                                </li>
+                                {% else %}
+                                <li>
+                                  {%- if childlink.links == blank -%}
+                                  <a href="{{ childlink.url }}"
+                                    class="menu-drawer__menu-item link link--text list-menu__item focus-inset{% if childlink.current %} menu-drawer__menu-item--active{% endif %}"
+                                    {% if childlink.current %} aria-current="page" {% endif %}>
+                                    {%- if childlink.title contains '[' and childlink.title contains ']'
+                                    -%}{{childlink.title | escape | split: '[' | first}}{%- else -%}{{childlink.title |
+                                    escape}}{%- endif -%}
+                                    {%- if childlink.title contains '[' and childlink.title contains ']' -%}
+                                    {%- assign labelName = childlink.title | escape | split:'[' | last | replace:']',''
+                                    -%}
+                                    {%- case labelName -%}
+                                    {%- when 'new' -%} {%- assign labelClass = 'menu-label--new' -%}
+                                    {%- when 'hot' -%} {%- assign labelClass = 'menu-label--hot' -%}
+                                    {%- when 'sale' -%} {%- assign labelClass = 'menu-label--sale' -%}
+                                    {%- else -%} {%- assign labelClass = 'menu-label--other' -%}
+                                    {%- endcase -%}
+                                    <span class="menu-label {{labelClass}}"><span>{{labelName}}</span></span>
+                                    {%- endif -%}
+                                  </a>
+                                  {%- else -%}
+                                  <details id="Details-menu-drawer-{{ link.handle }}-{{ childlink.handle }}">
+                                    <summary
+                                      id="HeaderDrawer-{{ link.handle }}-{{ childlink.handle }}"
+                                      class="menu-drawer__menu-item link link--text list-menu__item focus-inset"
+                                    >
+                                      {{ childlink.title | escape }}
+                                      {% render 'icon-arrow' %}
+                                      {% render 'icon-caret' %}
+                                    </summary>
+                                    <div
+                                      id="childlink-{{ childlink.handle | escape }}"
+                                      class="menu-drawer__submenu has-submenu gradient motion-reduce"
+                                    >
+                                      <button
+                                        class="menu-drawer__close-button link link--text focus-inset"
+                                        aria-expanded="true"
+                                      >
+                                        {% render 'icon-arrow' %}
+                                        {{ childlink.title | escape }}
+                                      </button>
+                                      <ul
+                                        class="menu-drawer__menu list-menu"
+                                        role="list"
+                                        tabindex="-1"
+                                      >
+                                        {%- for grandchildlink in childlink.links -%}
+                                          {% if grandchildlink.title contains 'https://' or grandchildlink.title contains
+                                          'http://' %}
+                                          {% assign img_url = grandchildlink.title | split:'|' %}
+                                          <li>
+                                            <div class="mega_img_container">
+                                              <a href="{{ grandchildlink.url }}">
+                                                <div class="mega_zoom_img">
+                                                <img src="{{ img_url[1] }}" class="mega_product_image" alt="megamenu-img">
+                                                </div>
+                                                <h4>{{ img_url[0] }}</h4>
+                                              </a>
+                                            </div>
+                                          </li>
+                                          {% else %}
+                                          <li>
+                                            <a href="{{ grandchildlink.url }}"
+                                              class="menu-drawer__menu-item link link--text list-menu__item focus-inset{% if grandchildlink.current %} menu-drawer__menu-item--active{% endif %}"
+                                              {% if grandchildlink.current %} aria-current="page" {% endif %}>
+                                              {%- if grandchildlink.title contains '[' and grandchildlink.title contains ']'
+                                              -%}{{grandchildlink.title | escape | split: '[' | first}}{%- else
+                                              -%}{{grandchildlink.title | escape}}{%- endif -%}
+                                              {%- if grandchildlink.title contains '[' and grandchildlink.title contains ']'
+                                              -%}
+                                              {%- assign labelName = grandchildlink.title | escape | split:'[' | last |
+                                              replace:']','' -%}
+                                              {%- case labelName -%}
+                                              {%- when 'new' -%} {%- assign labelClass = 'menu-label--new' -%}
+                                              {%- when 'hot' -%} {%- assign labelClass = 'menu-label--hot' -%}
+                                              {%- when 'sale' -%} {%- assign labelClass = 'menu-label--sale' -%}
+                                              {%- else -%} {%- assign labelClass = 'menu-label--other' -%}
+                                              {%- endcase -%}
+                                              <span class="menu-label {{labelClass}}"><span>{{labelName}}</span></span>
+                                              {%- endif -%}
+                                            </a>
+                                          </li>
+                                          {% endif %}
+                                        {%- endfor -%}
+                                      </ul>
+                                    </div>
+                                  </details>
+                                {%- endif -%}
+                              </li>
+                              {%- endif -%}
+                            {%- endfor -%}
+                          </ul>
+                        </div>
+                      </div>
+                    </details>
+                  {%- else -%}
+                    <a
+                      id="HeaderDrawer-{{ link.handle }}"
+                      href="{{ link.url }}"
+                      class="menu-drawer__menu-item list-menu__item link link--text focus-inset{% if link.current %} menu-drawer__menu-item--active{% endif %}"
+                      {% if link.current %}
+                        aria-current="page"
+                      {% endif %}
+                    >
+                      <div class="menu-drawer__link-content">
+                        {%- if title_handle == 'startseite' or title_handle == 'home' -%}
+                          {%- render 'icon-home' -%}
+                        {%- elsif title_handle == 'produkte' or title_handle == 'shop' or title_handle == 'products' -%}
+                          {%- render 'icon-menu-leaf' -%}
+                        {%- elsif title_handle == 'zubehor' or title_handle == 'zubehoer' or title_handle == 'accessories' -%}
+                          {%- render 'icon-menu-collar' -%}
+                        {%- elsif title_handle == 'mein-konto' or title_handle == 'konto' or title_handle == 'account' -%}
+                          {%- render 'icon-account' -%}
+                        {%- endif -%}
+                        <span class="menu-drawer__link-text">{{ link.title | escape | uppercase }}</span>
+                      </div>
+                      <span class="menu-drawer__link-arrow">
+                        {%- render 'icon-chevron-right' -%}
+                      </span>
+                    </a>
+                  {%- endif -%}
+                </li>
+              {%- endfor -%}
+              
+              <!-- Mein Konto card (fallback if not in navigation menu) -->
+              {%- if shop.customer_accounts_enabled -%}
+                {%- assign has_account_in_menu = false -%}
+                {%- for link in section.settings.menu.links -%}
+                  {%- assign title_handle = link.title | handle -%}
+                  {%- if title_handle == 'mein-konto' or title_handle == 'konto' or title_handle == 'account' -%}
+                    {%- assign has_account_in_menu = true -%}
+                  {%- endif -%}
+                {%- endfor -%}
+                {%- unless has_account_in_menu -%}
+                  <li>
+                    <a
+                      href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
+                      class="menu-drawer__menu-item list-menu__item link link--text focus-inset"
+                    >
+                      <div class="menu-drawer__link-content">
+                        {%- render 'icon-account' -%}
+                        <span class="menu-drawer__link-text">{{ 'customer.account_fallback' | t | uppercase }}</span>
+                      </div>
+                      <span class="menu-drawer__link-arrow">
+                        {%- render 'icon-chevron-right' -%}
+                      </span>
+                    </a>
+                  </li>
+                {%- endunless -%}
+              {%- endif -%}
+            </ul>
+          </nav>
+          
+          <!-- Highlight Info Card -->
+          <a href="{{ section.settings.mobile_menu_highlight_link | default: '#' }}" class="menu-drawer__highlight-card">
+          
+  
+  {% if section.settings.mobile_menu_highlight_image != blank %}
+    <img src="{{ section.settings.mobile_menu_highlight_image | image_url }}" alt="{{ section.settings.mobile_menu_highlight_text | escape }}" class="menu-drawer__highlight-img" />
+  {% endif %}
+             
+
+          </a>
+
+          <!-- Bottom Links -->
+          {%- assign bottom_linklist = linklists[section.settings.mobile_menu_bottom_links] -%}
+          {%- if bottom_linklist.links.size > 0 -%}
+            <div class="menu-drawer__bottom-links">
+              {%- for link in bottom_linklist.links -%}
+                <a href="{{ link.url }}" class="menu-drawer__bottom-link">{{ link.title | escape }}</a>
+              {%- endfor -%}
+            </div>
+          {%- else -%}
+            <div class="menu-drawer__bottom-links">
+              <a href="/pages/kontakt" class="menu-drawer__bottom-link">Kontakt</a>
+              <a href="/policies/legal-notice" class="menu-drawer__bottom-link">Impressum</a>
+              <a href="/pages/rucksendungen" class="menu-drawer__bottom-link">Rücksendungen</a>
+              <a href="/pages/uber-uns" class="menu-drawer__bottom-link">Über uns</a>
+            </div>
+          {%- endif -%}
+
+          <!-- Socials -->
+          <div class="menu-drawer__socials">
+            {%- render 'social-icons', class: 'menu-drawer__social-list' -%}
+          </div>
+            {%- if localization.available_countries or localization.available_languages -%}
+              <div class="menu-drawer__localization header-localization">
+                {%- if localization.available_countries and localization.available_countries.size > 1 -%}
+                  <noscript>
+                    {%- form 'localization', id: 'HeaderCountryMobileFormNoScriptDrawer', class: 'localization-form' -%}
+                      <div class="localization-form__select">
+                        <h2 class="visually-hidden" id="HeaderCountryMobileLabelNoScriptDrawer">
+                          {{ 'localization.country_label' | t }}
+                        </h2>
+                        <select
+                          class="localization-selector link"
+                          name="country_code"
+                          aria-labelledby="HeaderCountryMobileLabelNoScriptDrawer"
+                        >
+                          {%- for country in localization.available_countries -%}
+                            <option
+                              value="{{ country.iso_code }}"
+                              {%- if country.iso_code == localization.country.iso_code %}
+                                selected
+                              {% endif %}
+                            >
+                              {{ country.name }} ({{ country.currency.iso_code }}
+                              {{ country.currency.symbol }})
+                            </option>
+                          {%- endfor -%}
+                        </select>
+                        {% render 'icon-caret' %}
+                      </div>
+                      <button class="button button--tertiary">{{ 'localization.update_country' | t }}</button>
+                    {%- endform -%}
+                  </noscript>
+
+                  <localization-form class="no-js-hidden">
+                    {%- form 'localization', id: 'HeaderCountryMobileForm', class: 'localization-form' -%}
+                      <div>
+                        <h2 class="visually-hidden" id="HeaderCountryMobileLabel">
+                          {{ 'localization.country_label' | t }}
+                        </h2>
+                        {%- render 'country-localization', localPosition: 'HeaderCountryMobile' -%}
+                      </div>
+                    {%- endform -%}
+                  </localization-form>
+                {% endif %}
+
+                {%- if localization.available_languages and localization.available_languages.size > 1 -%}
+                  <noscript>
+                    {%- form 'localization',
+                      id: 'HeaderLanguageMobileFormNoScriptDrawer',
+                      class: 'localization-form'
+                    -%}
+                      <div class="localization-form__select">
+                        <h2 class="visually-hidden" id="HeaderLanguageMobileLabelNoScriptDrawer">
+                          {{ 'localization.language_label' | t }}
+                        </h2>
+                        <select
+                          class="localization-selector link"
+                          name="locale_code"
+                          aria-labelledby="HeaderLanguageMobileLabelNoScriptDrawer"
+                        >
+                          {%- for language in localization.available_languages -%}
+                            <option
+                              value="{{ language.iso_code }}"
+                              lang="{{ language.iso_code }}"
+                              {%- if language.iso_code == localization.language.iso_code %}
+                                selected
+                              {% endif %}
+                            >
+                              {{ language.endonym_name | capitalize }}
+                            </option>
+                          {%- endfor -%}
+                        </select>
+                        {% render 'icon-caret' %}
+                      </div>
+                      <button class="button button--tertiary">{{ 'localization.update_language' | t }}</button>
+                    {%- endform -%}
+                  </noscript>
+
+                  <localization-form class="no-js-hidden">
+                    {%- form 'localization', id: 'HeaderLanguageMobileForm', class: 'localization-form' -%}
+                      <div>
+                        <h2 class="visually-hidden" id="HeaderLanguageMobileLabel">
+                          {{ 'localization.language_label' | t }}
+                        </h2>
+                        {%- render 'language-localization', localPosition: 'HeaderLanguageMobile' -%}
+                      </div>
+                    {%- endform -%}
+                  </localization-form>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </details>
+</header-drawer>

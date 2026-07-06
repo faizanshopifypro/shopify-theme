@@ -1,0 +1,189 @@
+.image-banner-bg{
+  background-repeat: repeat;
+  position: relative;
+}
+.banner-main-content{
+  display: flex;
+  justify-content: space-between;
+}
+.image-banner-icon-content{
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.image-banner-content .banner-content-title{
+  margin-left: 15px;
+  font-size: 22px;
+  font-family: var(--font-heading-family);
+  font-weight: 600;
+  text-transform: capitalize;
+}
+.image-banner-content .theme_main_heading{
+  font-size: 46px;
+  line-height: 50px;
+}
+.image-banner .banner-right-text,
+.banner-left-text{
+  max-width: 430px;
+  width: 100%;
+  z-index: 2;
+}
+.image-banner .banner-right-text .countdown_timer{
+  font-size: 30px;
+  font-weight: 600;
+  font-family: var(--font-heading-family);
+  line-height: 34px;
+}
+.image-banner-countdown{
+  margin: 20px 0px 40px 0px;
+}
+.image-content-text{
+  margin-top: 40px;
+}
+.image-banner-countdown .contdown_row {
+  display: flex;
+  column-gap: 5px;
+  align-items: center;
+}
+.image-banner-countdown .countdown_section {
+  list-style: none;
+  text-transform: uppercase;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0px 10px;
+  width: 90px;
+  height: 90px;
+  font-weight: 600;
+  border-radius: calc(var(--buttons-radius) / 2);
+}
+.image-banner-countdown .countdown_section:first-child{
+  margin-left: 0;
+}
+.image-banner-countdown .countdown_section:last-child{
+  margin-right: 0;
+}
+.image-banner .banner-second-img{
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-width: 580px;
+  width: 100%;
+  margin: auto;
+  z-index: 1;
+}
+.image-banner{
+  position: relative;
+}
+.image-banner:after {
+  content: "";
+  position: absolute;
+  height: 90px;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 0;
+}
+@media screen and (max-width: 1429px) {
+  .image-banner .banner-second-img {
+    max-width: 480px;
+  }
+  .image-banner .banner-right-text .countdown_timer {
+    font-size: 26px;
+    line-height: 30px;
+  }
+  .image-banner-countdown .countdown_section {
+    width: 75px;
+    height: 75px;
+    margin: 0px 5px;
+  }
+  .image-banner .banner-right-text,
+  .banner-left-text{
+    max-width: 350px;
+  }
+  .image-banner-content .banner-content-title {
+    font-size: 20px;
+  }
+  .image-content-text {
+    margin-top: 30px;
+  }
+}
+@media screen and (max-width: 1199px) {
+  .image-banner-content .theme_main_heading {
+    font-size: 32px;
+    line-height: 36px;
+  }
+  .image-banner .banner-second-img {
+    max-width: 380px;
+  }
+  .image-banner-countdown {
+    margin: 10px 0 35px;
+  }
+  .image-banner .banner-right-text .countdown_timer {
+    font-size: 22px;
+    line-height: 26px;
+  }
+  .image-banner-content .banner-content-title{
+    font-size: 18px;
+    margin-left: 10px;
+  }
+  .image-content-text {
+    margin-top: 20px;
+  }
+}
+@media screen and (max-width: 991px) {
+  .image-banner .banner-second-img {
+    max-width: 280px;
+  }
+  .image-banner-countdown {
+    margin: 10px 0 30px;
+  }
+  .image-banner-content .theme_main_heading {
+    font-size: 26px;
+    line-height: 30px;
+  }
+  .image-banner .banner-right-text,
+  .banner-left-text {
+    max-width: 300px;
+  }
+  .image-banner .banner-right-text .countdown_timer {
+    font-size: 18px;
+    line-height: 22px;
+  }
+}
+@media screen and (max-width: 767px) {
+  .image-banner-countdown .countdown_section{
+    margin: 0px;
+  }
+  .image-banner-content .theme_main_heading {
+    font-size: 22px;
+    line-height: 26px;
+  }
+  .image-banner-content .banner-content-title {
+    font-size: 16px;
+  }
+  .image-banner .banner-second-img {
+    max-width: 290px;
+    position: relative;
+    margin-top: 15px;
+  }
+  .banner-left-text, .image-banner .banner-right-text {
+    max-width: 100%;
+  }
+  .banner-main-content {
+    display: block;
+  }
+  .image-banner-countdown {
+    margin: 10px 0 20px;
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .image-banner-content .theme_main_heading {
+    font-size: 18px;
+    line-height: 22px;
+  }
+}

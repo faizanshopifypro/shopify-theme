@@ -1,0 +1,450 @@
+{{ 'component-slideshow.css' | asset_url | stylesheet_tag }}
+{{ 'component-slider.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign social_icons = true
+  if settings.social_facebook_link == blank and settings.social_instagram_link == blank and settings.social_youtube_link == blank and settings.social_tiktok_link == blank and settings.social_twitter_link == blank and settings.social_pinterest_link == blank and settings.social_snapchat_link == blank and settings.social_tumblr_link == blank and settings.social_vimeo_link == blank
+    assign social_icons = false
+  endif
+  if section.settings.enable_country_selector or section.settings.enable_language_selector
+    assign language_country_selector = true
+  endif
+  if section.blocks.size > 0
+    assign announcement_bar = true
+  endif
+-%}
+
+{% if social_icons %}
+  {{ 'component-list-social.css' | asset_url | stylesheet_tag }}
+{% endif %}
+
+{% style %}
+  {% if section.settings.pattern-style == true -%}
+    .utility-bar:after{
+      background: {{ section.settings.section_bg }};
+      -webkit-mask-image: url({% if section.settings.pattern-img != blank %} {{ section.settings.pattern-img | img_url: 'master' }} {% endif %});
+   }
+  {% endif %}
+  {% if section.settings.pattern-style == false  -%}
+    .utility-bar:after{
+      content: none;
+    }
+  {% endif %}
+  .utility-bar .swiper-button-next,
+  .utility-bar .swiper-button-prev{
+    stroke: {{ section.settings.text_color }};
+  }
+  .utility-bar .swiper-button-next:hover,
+  .utility-bar .swiper-button-prev:hover{
+    stroke: {{ section.settings.text_hr_color }};
+  }
+  .announcement-bar__message{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .utility-bar{
+    background-color: {{ section.settings.section_bg }};
+  }
+  .utility-bar .list-social__item .icon {
+    color: {{ section.settings.text_color }};
+    fill: {{ section.settings.text_color }};
+  }
+  .utility-bar .list-social__item:hover .icon{
+    color: {{ section.settings.text_hr_color }};
+    fill: {{ section.settings.text_hr_color }};
+  }
+  .utility-bar .announcement-bar__message span,
+  .utility-bar.header-localization .disclosure .localization-form__select,
+  .utility-bar .slider-button.slider-button--prev,
+  .utility-bar .slider-button.slider-button--next{
+    color: {{ section.settings.text_color }};
+  }
+  .utility-bar .slider-button.slider-button--prev:hover,
+  .utility-bar .slider-button.slider-button--next:hover,
+  .utility-bar.header-localization .disclosure .localization-form__select:hover{
+    color: {{ section.settings.text_hr_color }};
+  }
+  .utility-bar .announcement-bar__message span svg{
+    vertical-align: top;
+  }
+  {% if section.settings.arrows == false and section.settings.show_social == false %}
+    @media screen and (min-width: 990px){
+      .announcement-bar__message{
+        justify-content: left;
+      }
+    }
+  {% endif %}
+{% endstyle %}
+
+<div
+  class="utility-bar {% if section.settings.show_line_separator and section.blocks.size > 0 %} utility-bar--bottom-border{% elsif section.settings.show_line_separator and section.settings.show_social and social_icons%} utility-bar--bottom-border-social-only{% endif %}{% if section.settings.enable_country_selector or section.settings.enable_language_selector %} header-localization{% endif %}"
+  {{ block.shopify_attributes }}
+>
+  <div class="{{ section.settings.section_width }} utility-bar__grid{% if announcement_bar and language_country_selector or section.settings.show_social and social_icons %} utility-bar__grid--3-col{% elsif language_country_selector or section.settings.show_social and social_icons %} utility-bar__grid--2-col{% endif %} {{ section.settings.flip_vertical }}">
+    {%- if section.settings.show_social and social_icons -%}
+      {%- render 'social-icons' -%}
+    {%- endif -%}
+    {%- if section.blocks.size == 1 -%}
+      <div
+        class="announcement-bar{% if section.settings.show_social %} announcement-bar--one-announcement{% endif %}"
+        role="region"
+        aria-label="{{ 'sections.header.announcement' | t }}"
+        {{ block.shopify_attributes }}
+      >
+        {%- if section.blocks.first.settings.text != blank -%}
+          {%- if section.blocks.first.settings.link != blank -%}
+            <a
+              href="{{ section.blocks.first.settings.link }}"
+              class="announcement-bar__link link link--text focus-inset animate-arrow"
+            >
+          {%- endif -%}
+          <p class="announcement-bar__message">
+            <span>{{ section.blocks.first.settings.text | escape }}</span>
+            {%- if section.blocks.first.settings.link != blank -%}
+              {% render 'icon-arrow' %}
+            {%- endif -%}
+          </p>
+          {%- if section.blocks.first.settings.link != blank -%}
+            </a>
+          {%- endif -%}
+        {%- endif -%}
+      </div>
+      {%- elsif section.blocks.size > 1 -%}
+        <div class="swiper-container announcement-text-function">
+            <div class="swiper-wrapper">
+              {%- for block in section.blocks -%}
+                <div class="swiper-slide announcement-bar__message">
+                  <span>{% render 'icon-hand' %}</span>
+                  <span>{{ block.settings.text }}</span>
+                </div>
+              {%- endfor -%}
+            </div>
+            {% if section.settings.arrows %}
+              <div class="swiper-buttons">
+                <div class="content-buttons">
+                  <div class="swiper-button-next">{% render 'icon-right' %}</div>
+                  <div class="swiper-button-prev">{% render 'icon-left' %}</div>
+                </div>
+              </div>  
+          {% endif %}
+        </div>
+  
+    {%- endif -%}
+    <div class="localization-wrapper">
+      {%- if section.settings.enable_country_selector and localization.available_countries.size > 1 -%}
+        <noscript>
+          {%- form 'localization', id: 'AnnouncementCountryMobileFormNoScript', class: 'localization-form' -%}
+            <div class="localization-form__select">
+              <h2 class="visually-hidden" id="AnnouncementCountryMobileLabelNoScript">
+                {{ 'localization.country_label' | t }}
+              </h2>
+              <select
+                class="localization-selector link"
+                name="country_code"
+                aria-labelledby="AnnouncementCountryMobileLabelNoScript"
+              >
+                {%- for country in localization.available_countries -%}
+                  <option
+                    value="{{ country.iso_code }}"
+                    {%- if country.iso_code == localization.country.iso_code %}
+                      selected
+                    {% endif %}
+                  >
+                    {{ country.name }} ({{ country.currency.iso_code }}
+                    {{ country.currency.symbol }})
+                  </option>
+                {%- endfor -%}
+              </select>
+              {% render 'icon-caret' %}
+            </div>
+            <button class="button button--tertiary">{{ 'localization.update_country' | t }}</button>
+          {%- endform -%}
+        </noscript>
+
+        <localization-form>
+          {%- form 'localization', id: 'AnnouncementCountryForm', class: 'localization-form' -%}
+            <div>
+              <h2 class="visually-hidden" id="AnnouncementCountryLabel">{{ 'localization.country_label' | t }}</h2>
+              {%- render 'country-localization', localPosition: 'AnnouncementCountry' -%}
+            </div>
+          {%- endform -%}
+        </localization-form>
+      {% endif %}
+
+      {%- if section.settings.enable_language_selector and localization.available_languages.size > 1 -%}
+        <noscript>
+          {%- form 'localization', id: 'AnnouncementLanguageMobileFormNoScript', class: 'localization-form' -%}
+            <div class="localization-form__select">
+              <h2 class="visually-hidden" id="AnnouncementLanguageMobileLabelNoScript">
+                {{ 'localization.language_label' | t }}
+              </h2>
+              <select
+                class="localization-selector link"
+                name="locale_code"
+                aria-labelledby="AnnouncementLanguageMobileLabelNoScript"
+              >
+                {%- for language in localization.available_languages -%}
+                  <option
+                    value="{{ language.iso_code }}"
+                    lang="{{ language.iso_code }}"
+                    {%- if language.iso_code == localization.language.iso_code %}
+                      selected
+                    {% endif %}
+                  >
+                    {{ language.endonym_name | capitalize }}
+                  </option>
+                {%- endfor -%}
+              </select>
+              {% render 'icon-caret' %}
+            </div>
+            <button class="button button--tertiary">{{ 'localization.update_language' | t }}</button>
+          {%- endform -%}
+        </noscript>
+
+        <localization-form>
+          {%- form 'localization', id: 'AnnouncementLanguageForm', class: 'localization-form' -%}
+            <div>
+              <h2 class="visually-hidden" id="AnnouncementLanguageLabel">{{ 'localization.language_label' | t }}</h2>
+              {%- render 'language-localization', localPosition: 'AnnouncementLanguage' -%}
+            </div>
+          {%- endform -%}
+        </localization-form>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+<script>
+ document.addEventListener('DOMContentLoaded', function() {
+    let brand;
+  
+    function initBlogSwiper() {
+      brand = new Swiper('.announcement-text-function', {
+        slidesPerView: 1,
+        spaceBetween: 0,
+        autoplay: {{ section.settings.autoplay-enable }},
+        grabCursor: true,
+        freeMode: false,
+        loop: {{ section.settings.loop }},
+        speed: {{ section.settings.speed }},
+        mousewheel: false,
+        dots: false,
+         navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+        pagination: {
+          el: ".brand-swiper-pagination",
+          clickable: true,
+        }
+      });
+    }
+  
+    // Initialize brand swiper on page load
+    initBlogSwiper();
+  
+    document.addEventListener('shopify:section:select', function() {
+      // Reinitialize brand swiper on section select
+      initBlogSwiper();
+    });
+
+    document.addEventListener('shopify:section:load', function() {
+      // Reinitialize brand swiper on section load
+      initBlogSwiper();
+    });
+  
+    document.addEventListener('shopify:section:deselect', function() {
+      // Cleanup brand swiper on section deselect if necessary
+      if (brand) {
+        brand.destroy();
+        brand = null;
+      }
+    });
+  });
+</script>
+{% schema %}
+{
+  "name": "t:sections.announcement-bar.name",
+  "max_blocks": 12,
+  "class": "announcement-bar-section",
+  "enabled_on": {
+    "groups": ["header"]
+  },
+  "settings": [
+    {
+      "type": "select",
+      "id": "section_width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "Page width"
+        },
+        {
+          "value": "padding_width",
+          "label": "With padding"
+        }
+      ],
+      "label": "Section width",
+      "default": "page-width"
+    },
+    {
+      "type": "checkbox",
+      "id": "pattern-style",
+      "label": "Show pattern",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "pattern-img",
+      "label": "Pattern image",
+      "info": "1920px X 10px"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_line_separator",
+      "default": true,
+      "label": "t:sections.header.settings.show_line_separator.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.announcement-bar.settings.header__1.content",
+      "info": "t:sections.announcement-bar.settings.header__1.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_social",
+      "default": true,
+      "label": "t:sections.announcement-bar.settings.show_social.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.announcement-bar.settings.header__2.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay-enable",
+      "label": "Autoplay enable",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "arrows",
+      "label": "Enable navigation arrows",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "speed",
+      "label": "Slide speed",
+      "default": "500"
+    },
+    {
+      "type": "checkbox",
+      "id": "loop",
+      "label": "Enable loop",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "t:sections.announcement-bar.settings.header__3.content",
+      "info": "t:sections.announcement-bar.settings.header__3.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_country_selector",
+      "default": true,
+      "label": "t:sections.announcement-bar.settings.enable_country_selector.label"
+    },
+    {
+      "type": "select",
+      "id": "flag_design",
+      "options": [
+        {
+          "value": "square",
+          "label": "Square"
+        },
+        {
+          "value": "circle",
+          "label": "Circle"
+        }
+      ],
+      "default": "circle",
+      "label": "Flag design"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.announcement-bar.settings.header__4.content",
+      "info": "t:sections.announcement-bar.settings.header__4.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_language_selector",
+      "default": true,
+      "label": "t:sections.announcement-bar.settings.enable_language_selector.label"
+    },
+    {
+      "type": "select",
+      "id": "flip_vertical",
+      "options": [
+        {
+          "value": "social-icons-first",
+          "label": "t:sections.announcement-bar.settings.flip_vertical.options__1.label"
+        },
+        {
+          "value": "social-icons-last",
+          "label": "t:sections.announcement-bar.settings.flip_vertical.options__2.label"
+        }
+      ],
+      "default": "social-icons-first",
+      "label": "t:sections.announcement-bar.settings.flip_vertical.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.announcement-bar.settings.color_setting"
+    },
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "t:sections.announcement-bar.settings.section_background",
+      "default": "#262613"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "t:sections.announcement-bar.settings.text_color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_hr_color",
+      "label": "t:sections.announcement-bar.settings.text_hr_color",
+      "default": "#ffffff"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "announcement",
+      "name": "t:sections.announcement-bar.blocks.announcement.name",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "text",
+          "default": "Welcome to our store",
+          "label": "t:sections.announcement-bar.blocks.announcement.settings.text.label"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.announcement-bar.presets.name",
+      "blocks": [
+        {
+          "type": "announcement"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,683 @@
+{{ 'parallax-style3.css' | asset_url | stylesheet_tag }}
+
+<div class="image-banner {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
+ <div class="image-banner-bg section-{{ section.id }}-padding">
+   <div class="image-banner-content">
+     <div class="{{ section.settings.section_width }}">
+       <div class="banner-main-content">
+         <div class="banner-left-text">
+             <div class="theme_main_subheading">{{ section.settings.main_subheading }}</div>
+              <h2 class="theme_main_heading">{{ section.settings.main_heading }}</h2>
+              <div class="image-content-text">
+                {% for block in section.blocks %}
+                    {% if block.type == 'banner-content' %}
+                      <div class="image-banner-icon-content">
+                          <div class="banner-content-icon">
+                            {{ block.settings.box-block-icon }}
+                          </div>
+                          <div class="banner-box-content">
+                            <div class="banner-content-title">{{ block.settings.box-title }}</div>
+                          </div>
+                        </div>
+                    {% endif %} 
+                  {% endfor %}
+              </div>
+         </div>
+         <div class="banner-right-text">
+           <p class="theme_main_description">{{ section.settings.main_paragraph }}</p>
+             <div class="image-banner-countdown">
+              <ul class="contdown_row">
+                <li class="countdown_section">
+                  <span id="days" class="countdown_timer"></span>
+                  <span class="countdown_title">{{ section.settings.day_title }}</span>
+                </li>
+                <li class="countdown_section">
+                  <span id="hours" class="countdown_timer"></span>
+                  <span class="countdown_title">{{ section.settings.hour_title }}</span>
+                </li>
+                <li class="countdown_section">
+                  <span id="minutes" class="countdown_timer"></span>
+                  <span class="countdown_title">{{ section.settings.minute_title }}</span>
+                </li>
+                <li class="countdown_section">
+                  <span id="seconds" class="countdown_timer"></span>
+                  <span class="countdown_title">{{ section.settings.second_title }}</span>
+                </li>
+              </ul>
+            </div>
+            <script>
+              const second = 1000,
+                minute = second * 60,
+                hour = minute * 60,
+                day = hour * 24;
+                let countDown = new Date('{{ section.settings.product_mont }} {{ section.settings.product_date }}, {{ section.settings.product_year }} 00:00:00').getTime(),
+                  x = setInterval(function () {
+                    let now = new Date().getTime(),
+                      distance = countDown - now;
+                    document.getElementById('days').innerText = Math.floor(distance / (day)),
+                      document.getElementById('hours').innerText = Math.floor((distance % (day)) / (hour)),
+                      document.getElementById('minutes').innerText = Math.floor((distance % (hour)) / (minute)),
+                      document.getElementById('seconds').innerText = Math.floor((distance % (minute)) / second);
+                  }, second)
+            </script>
+
+           <a {% if section.settings.banner-url %} href="{{ section.settings.banner-url }}" {% else %}
+                role="link" aria-disabled="true" {% endif %} class="button theme_buttons wow fadeInUp">{{
+                section.settings.banner-btn-text }}</a>
+         </div>
+     </div>
+   </div>
+ </div>
+   <div class="banner-second-img">
+    {% if section.settings.banner_img != blank %}
+      <div class="media media--transparent ratio" style="--ratio-percent: 88%">
+        {{ section.settings.banner_img | image_url: width: 1920 | image_tag : loading: 'lazy', class: 'w-100' }}
+      </div>
+      {% else %}
+      <div class="media media--transparent ratio" style="--ratio-percent: 88%">
+        {{ 'image' | placeholder_svg_tag: 'placeholder placeholder-svg' }}
+      </div>
+      {% endif %}    
+    </div>
+</div>
+
+{%- style -%}
+  {% if section.settings.pattern-style -%}
+  .image-banner:after{
+    background: {{ section.settings.pattrn_background_color }};
+    -webkit-mask-image: url({% if section.settings.section_pattern != blank %} {{ section.settings.section_pattern | img_url: 'master' }} {% endif %});
+  }
+  {% endif %}
+  {% if section.settings.pattern-style == false  -%}
+   .image-banner:after{
+    content: none;
+  }
+  {% endif %}
+  .image-banner-content .theme_buttons:hover {
+    color:{{ section.settings.theme_btn_hr_text }};
+    background:{{ section.settings.theme_btn_hr_bg }}; 
+  }
+  .image-banner-content .theme_buttons {
+    background: {{ section.settings.theme_btn_bg }}; 
+    color:{{ section.settings.theme_btn_text }}; 
+  }
+  .image-banner-content .countdown_section{
+    background: {{ section.settings.count_bg }};
+    color: {{ section.settings.count_text }};
+  }
+  .image-banner-content .banner-content-title{
+    color: {{ section.settings.content_color }};
+  }
+  .image-banner-content .banner-content-icon svg path{
+    stroke: {{ section.settings.content_color }};
+    fill: {{ section.settings.content_color }} !important;
+  }
+  .image-banner-content .theme_main_heading {
+    color: {{ section.settings.theme_heading_color }};
+  }
+  .image-banner-content .theme_main_subheading {
+    background: {{ section.settings.theme_subheading_bgcolor }};
+    color: {{ section.settings.theme_subheading_color }};
+  }
+  {% if section.settings.theme_subheading_bgcolor == 'rgba(0,0,0,0)' %}
+    .image-banner-content .theme_main_subheading { 
+      background-color: transparent;
+      padding: 0px;
+    }
+  {% endif %}
+  .image-banner-content .theme_main_description{
+    color: {{ section.settings.description_color }};
+  }
+  .section-{{ section.id }}-padding {
+    background-color: {{ section.settings.section_bg }};
+    padding-top: {{ section.settings.padding-top }}px;
+    padding-bottom: {{ section.settings.padding-bottom }}px;
+    margin-top: {{ section.settings.margin-top }}px;
+    margin-bottom: {{ section.settings.margin-bottom }}px;
+    background-image: url({% if section.settings.bg_pattern != blank %} {{ section.settings.bg_pattern | img_url: 'master' }} {% endif %});
+  }
+  @media screen and (max-width: 1429px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding-top-1429 }}px;
+      padding-bottom: {{ section.settings.padding-bottom-1429 }}px;
+      margin-top: {{ section.settings.margin-top-1429 }}px;
+      margin-bottom: {{ section.settings.margin-bottom-1429 }}px;
+    }
+  }
+  @media screen and (max-width: 1199px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding-top-1199 }}px;
+      padding-bottom: {{ section.settings.padding-bottom-1199 }}px;
+      margin-top: {{ section.settings.margin-top-1199 }}px;
+      margin-bottom: {{ section.settings.margin-bottom-1199 }}px;
+    }
+  }
+  @media screen and (max-width: 991px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding-top-991 }}px;
+      padding-bottom: {{ section.settings.padding-bottom-991 }}px;
+      margin-top: {{ section.settings.margin-top-991 }}px;
+      margin-bottom: {{ section.settings.margin-bottom-991 }}px;
+    }
+  }
+  @media screen and (max-width: 767px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding-top-767 }}px;
+      padding-bottom: {{ section.settings.padding-bottom-767 }}px;
+      margin-top: {{ section.settings.margin-top-767 }}px;
+      margin-bottom: {{ section.settings.margin-bottom-767 }}px;  
+    }
+  }
+  @media screen and (max-width: 575px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding-top-575 }}px;
+      padding-bottom: {{ section.settings.padding-bottom-575 }}px;
+      margin-top: {{ section.settings.margin-top-575 }}px;
+      margin-bottom: {{ section.settings.margin-bottom-575 }}px;  
+    }
+  }
+{%- endstyle -%}
+
+{% schema %}
+{
+  "name": "Parallax style3",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "section_width",
+      "options": [
+        {
+          "value": "full_width",
+          "label": "Full width"
+        },
+        {
+          "value": "page-width",
+          "label": "Page width"
+        },
+        {
+          "value": "padding_width",
+          "label": "Width padding"
+        }
+      ],
+      "label": "Section width",
+      "default": "page-width"
+    },
+    {
+      "type": "header",
+      "content": "Pattern settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_pattern",
+      "label": "Background pattern"
+    },
+    {
+      "type": "checkbox",
+      "id": "pattern-style",
+      "label": "Show bottom pattern",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "pattrn_background_color",
+      "label": "Bottom pattern bg color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "image_picker",
+      "id": "section_pattern",
+      "label": "Pattern image",
+      "info": "1920px X 65px"
+    },
+    {
+      "type": "header",
+      "content": "Image settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_img",
+      "label": "Center image",
+      "info": "580px X 510px "
+    },
+    {
+      "type": "header",
+      "content": "Text settings"
+    },
+    {
+      "type": "text",
+      "id": "main_subheading",
+      "label": "Subheading",
+      "default": "Best collections"
+    },
+    {
+      "type": "textarea",
+      "id": "main_heading",
+      "label": "Heading",
+      "default": "Category collection"
+    },
+    {
+      "type": "textarea",
+      "id": "main_paragraph",
+      "label": "Content",
+      "default": "Pair text with an image to focus on your chosen product."
+    },
+    {
+      "type": "select",
+      "id": "product_mont",
+      "label": "Countdown month",
+      "options": [
+        {
+          "label": "January",
+          "value": "January"
+        },
+        {
+          "label": "February",
+          "value": "February"
+        },
+        {
+          "label": "March",
+          "value": "March"
+        },
+        {
+          "label": "April",
+          "value": "April"
+        },
+        {
+          "label": "May",
+          "value": "May"
+        },
+        {
+          "label": "June",
+          "value": "June"
+        },
+        {
+          "label": "July",
+          "value": "July"
+        },
+        {
+          "label": "August",
+          "value": "August"
+        },
+        {
+          "label": "September",
+          "value": "September"
+        },
+        {
+          "label": "October",
+          "value": "October"
+        },
+        {
+          "label": "November",
+          "value": "November"
+        },
+        {
+          "label": "December",
+          "value": "December"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "product_year",
+      "label": "Countdown year",
+      "default": "2025"
+    },
+    {
+      "type": "text",
+      "id": "product_date",
+      "label": "Countdown date",
+      "default": "30"
+    },
+    {
+      "type": "text",
+      "id": "day_title",
+      "label": "Day title",
+      "default": "Day"
+    },
+    {
+      "type": "text",
+      "id": "hour_title",
+      "label": "Hour title",
+      "default": "Hour"
+    },
+    {
+      "type": "text",
+      "id": "minute_title",
+      "label": "Minute title",
+      "default": "Min"
+    },
+    {
+      "type": "text",
+      "id": "second_title",
+      "label": "Second title",
+      "default": "Sec"
+    },
+    {
+      "type": "text",
+      "id": "banner-btn-text",
+      "label": "Button",
+      "default": "Shop now"
+    },
+    {
+      "type": "url",
+      "id": "banner-url",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Color settings"
+    },
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "Section bg",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "color",
+      "id": "theme_subheading_bgcolor",
+      "label": "Subheading bg color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "theme_subheading_color",
+      "label": "t:sections.social_media_collage.settings.subheading_color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "theme_heading_color",
+      "label": "t:sections.social_media_collage.settings.heading_color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "description_color",
+      "label": "t:sections.social_media_collage.settings.description_color",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "theme_btn_bg",
+      "label": "t:settings_schema.colors.settings.button_bg_color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "theme_btn_text",
+      "label": "t:settings_schema.colors.settings.button_text_color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "theme_btn_hr_bg",
+      "label": "t:settings_schema.colors.settings.button_hover_bg",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "theme_btn_hr_text",
+      "label": "t:settings_schema.colors.settings.button_hover_text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "count_bg",
+      "label": "Countdown bg color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "count_text",
+      "label": "Countdown text color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "content_color",
+      "label": "Content color",
+      "default": "#333333"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "number",
+      "id": "padding-top",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 120
+    },
+    {
+      "type": "number",
+      "id": "padding-bottom",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 120
+    },
+    {
+      "type": "header",
+      "content": "Screen wise section padding"
+    },
+    {
+      "type": "header",
+      "content": "@media screen 1429"
+    },
+    {
+      "type": "number",
+      "id": "padding-top-1429",
+      "label": "Padding top",
+      "default": 70
+    },
+    {
+      "type": "number",
+      "id": "padding-bottom-1429",
+      "label": "Padding bottom",
+      "default": 70
+    },
+    {
+      "type": "header",
+      "content": "@media screen 1199"
+    },
+    {
+      "type": "number",
+      "id": "padding-top-1199",
+      "label": "Padding top",
+      "default": 60
+    },
+    {
+      "type": "number",
+      "id": "padding-bottom-1199",
+      "label": "Padding bottom",
+      "default": 60
+    },
+    {
+      "type": "header",
+      "content": "@media screen 991"
+    },
+    {
+      "type": "number",
+      "id": "padding-top-991",
+      "label": "Padding top",
+      "default": 50
+    },
+    {
+      "type": "number",
+      "id": "padding-bottom-991",
+      "label": "Padding bottom",
+      "default": 50
+    },
+    {
+      "type": "header",
+      "content": "@media screen 767"
+    },
+    {
+      "type": "number",
+      "id": "padding-top-767",
+      "label": "Padding top",
+      "default": 40
+    },
+    {
+      "type": "number",
+      "id": "padding-bottom-767",
+      "label": "Padding bottom",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "@media screen 575"
+    },
+    {
+      "type": "number",
+      "id": "padding-top-575",
+      "label": "Padding top",
+      "default": 30
+    },
+    {
+      "type": "number",
+      "id": "padding-bottom-575",
+      "label": "Padding bottom",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Margin settings"
+    },
+    {
+      "type": "number",
+      "id": "margin-top",
+      "label": "Margin top",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "margin-bottom",
+      "label": "Margin bottom",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Screen wise section margin"
+    },
+    {
+      "type": "header",
+      "content": "@media screen 1429"
+    },
+    {
+      "type": "number",
+      "id": "margin-top-1429",
+      "label": "Margin top",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "margin-bottom-1429",
+      "label": "Margin bottom",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "@media screen 1199"
+    },
+    {
+      "type": "number",
+      "id": "margin-top-1199",
+      "label": "Margin top",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "margin-bottom-1199",
+      "label": "Margin bottom",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "@media screen 991"
+    },
+    {
+      "type": "number",
+      "id": "margin-top-991",
+      "label": "Margin top",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "margin-bottom-991",
+      "label": "Margin bottom",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "@media screen 767"
+    },
+    {
+      "type": "number",
+      "id": "margin-top-767",
+      "label": "Margin top",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "margin-bottom-767",
+      "label": "Margin bottom",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "@media screen 575"
+    },
+    {
+      "type": "number",
+      "id": "margin-top-575",
+      "label": "Margin top",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "margin-bottom-575",
+      "label": "Margin bottom",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "banner-content",
+      "name": "Banner content",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "box-block-icon",
+          "label": "Heading",
+          "default": "<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='27px' height='28px'><path fill-rule='evenodd' fill='#415b80' d='M24.023,19.605 C22.058,21.063 19.632,21.199 18.603,19.906 C17.575,18.615 18.332,16.385 20.297,14.927 C22.261,13.467 24.688,13.332 25.717,14.625 C26.746,15.916 25.987,18.146 24.023,19.605 ZM22.813,11.706 C20.749,13.243 18.203,13.388 17.124,12.028 C16.046,10.669 16.843,8.322 18.906,6.785 C20.969,5.247 23.517,5.103 24.595,6.463 C25.673,7.821 24.875,10.168 22.813,11.706 ZM13.080,9.029 C11.326,8.490 10.491,6.119 11.215,3.733 C11.939,1.348 13.947,-0.148 15.702,0.392 C17.456,0.932 18.291,3.303 17.568,5.688 C16.844,8.073 14.834,9.568 13.080,9.029 ZM14.626,11.718 C14.626,11.718 20.643,17.542 15.222,25.311 C12.079,29.902 9.624,25.283 9.624,25.283 C9.624,25.283 9.136,22.535 7.791,21.602 L7.474,21.329 C6.129,20.396 3.397,20.893 3.397,20.893 C3.397,20.893 -1.813,20.256 1.373,15.696 C6.729,7.880 14.284,11.480 14.284,11.480 L14.626,11.718 ZM5.003,10.457 C3.416,9.969 2.691,7.722 3.384,5.440 C4.077,3.156 5.925,1.702 7.512,2.191 C9.099,2.678 9.824,4.925 9.131,7.207 C8.438,9.491 6.590,10.945 5.003,10.457 Z'/></svg>"
+        },
+        {
+          "type": "text",
+          "id": "box-title",
+          "label": "Heading",
+          "default": "One line title"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Parallax style3",
+      "blocks": [
+        {
+          "type": "banner-content"
+        },
+        {
+          "type": "banner-content"
+        },
+        {
+          "type": "banner-content"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
