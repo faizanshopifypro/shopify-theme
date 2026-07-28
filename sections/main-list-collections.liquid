@@ -1,69 +1,22 @@
 {{ 'component-card.css' | asset_url | stylesheet_tag }}
 {{ 'section-collection-list.css' | asset_url | stylesheet_tag }}
 
-{%- style -%}
-  .main_collection_topper .collection-list__item .icon-wrap{
-    border: 2px solid {{ section.settings.collection_button_border_color }};
-    color: {{ section.settings.collection_button_icon_color }};
-  }
-  .main_collection_topper .collection-list__item:hover .icon-wrap{
-    border: 2px solid {{ section.settings.collection_button_hover_bg_color }};
-    background-color: {{ section.settings.collection_button_hover_bg_color }};
-    color: {{ section.settings.collection_button_hover_icon_color }};
-  }
-  .main_collection_topper .card-wrapper .card.card--card{
-    background-color: {{ settings.collection_card_main_color }};
-  }
-  .collection-list .card__heading a{
-    color: {{ section.settings.title_color }};
-  }
-  .main_collection_topper .card-wrapper:hover .card__heading a{
-    color: {{ section.settings.title_hr_color }};
-  }
-  .collection_inner_page{
-    text-align: {{ section.settings.main_title_alignment }}
-  }
-  .section-{{ section.id }}-padding {
-    padding-top: {{ section.settings.padding-top }}px;
-    padding-bottom: {{ section.settings.padding-bottom }}px;
-  }
-  @media screen and (max-width: 1429px) {
-    .section-{{ section.id }}-padding {
-      padding-top: {{ section.settings.padding-top-1429 }}px;
-      padding-bottom: {{ section.settings.padding-bottom-1429 }}px;
-    }
-  }
-  @media screen and (max-width: 1199px) {
-    .section-{{ section.id }}-padding {
-      padding-top: {{ section.settings.padding-top-1199 }}px;
-      padding-bottom: {{ section.settings.padding-bottom-1199 }}px;
-    }
-  }
-  @media screen and (max-width: 991px) {
-    .section-{{ section.id }}-padding {
-      padding-top: {{ section.settings.padding-top-991 }}px;
-      padding-bottom: {{ section.settings.padding-bottom-991 }}px;
-    }
-  }
-  @media screen and (max-width: 767px) {
-    .section-{{ section.id }}-padding {
-      padding-top: {{ section.settings.padding-top-767 }}px;
-      padding-bottom: {{ section.settings.padding-bottom-767 }}px;
-    }
-  }
-  @media screen and (max-width: 575px) {
-    .section-{{ section.id }}-padding {
-      padding-top: {{ section.settings.padding-top-575 }}px;
-      padding-bottom: {{ section.settings.padding-bottom-575 }}px; 
-    }
-  }
-{%- endstyle -%}
-
 <div class="page-width">
-  <h1 class="collection_inner_page title title--primary inline-richtext{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
+  <h1 class="title title--primary inline-richtext{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
     {{ section.settings.title }}
   </h1>
   {%- liquid
+    case section.settings.sort
+      when 'products_high', 'products_low'
+        assign collections = collections | sort: 'all_products_count'
+      when 'date', 'date_reversed'
+        assign collections = collections | sort: 'published_at'
+    endcase
+
+    if section.settings.sort == 'products_high' or section.settings.sort == 'date_reversed' or section.settings.sort == 'alphabetical_reversed'
+      assign collections = collections | reverse
+    endif
+
     assign moduloResult = 28 | modulo: section.settings.columns_desktop
     assign paginate_by = 30
     if moduloResult == 0
@@ -72,7 +25,7 @@
   -%}
   {%- paginate collections by paginate_by -%}
     <ul
-      class="collection-list main_collection_topper section-{{ section.id }}-padding section-{{ section.id }}-margin grid grid--{{ section.settings.columns_desktop }}-col-desktop grid--{{ section.settings.columns_mobile }}-col-mobile"
+      class="collection-list grid grid--{{ section.settings.columns_desktop }}-col-desktop grid--{{ section.settings.columns_mobile }}-col-tablet-down"
       role="list"
     >
       {%- for collection in collections -%}
@@ -100,30 +53,42 @@
   "class": "section",
   "settings": [
     {
-      "type": "textarea",
+      "type": "inline_richtext",
       "id": "title",
       "label": "t:sections.main-list-collections.settings.title.label",
-      "default": "Collections"
+      "default": "t:sections.main-list-collections.settings.title.default"
     },
     {
       "type": "select",
-      "id": "main_title_alignment",
+      "id": "sort",
       "options": [
         {
-          "value": "left",
-          "label": "t:sections.social_media_collage.settings.left"
+          "value": "alphabetical",
+          "label": "t:sections.main-list-collections.settings.sort.options__1.label"
         },
         {
-          "value": "center",
-          "label": "t:sections.social_media_collage.settings.center"
+          "value": "alphabetical_reversed",
+          "label": "t:sections.main-list-collections.settings.sort.options__2.label"
         },
         {
-          "value": "right",
-          "label": "t:sections.social_media_collage.settings.right"
+          "value": "date_reversed",
+          "label": "t:sections.main-list-collections.settings.sort.options__3.label"
+        },
+        {
+          "value": "date",
+          "label": "t:sections.main-list-collections.settings.sort.options__4.label"
+        },
+        {
+          "value": "products_high",
+          "label": "t:sections.main-list-collections.settings.sort.options__5.label"
+        },
+        {
+          "value": "products_low",
+          "label": "t:sections.main-list-collections.settings.sort.options__6.label"
         }
       ],
-      "default": "center",
-      "label": "t:sections.social_media_collage.settings.main_title_alignment"
+      "default": "alphabetical",
+      "label": "t:sections.main-list-collections.settings.sort.label"
     },
     {
       "type": "select",
@@ -142,167 +107,33 @@
           "label": "t:sections.main-list-collections.settings.image_ratio.options__3.label"
         }
       ],
-      "default": "portrait",
-      "label": "t:sections.multicolumn.settings.image_ratio.label2",
-      "info": "t:sections.main-list-collections.settings.image_ratio.info"
+      "default": "adapt",
+      "label": "t:sections.main-list-collections.settings.image_ratio.label"
     },
     {
       "type": "range",
       "id": "columns_desktop",
       "min": 1,
-      "max": 4,
+      "max": 6,
       "step": 1,
       "default": 3,
       "label": "t:sections.main-list-collections.settings.columns_desktop.label"
     },
     {
-      "type": "range",
+      "type": "select",
       "id": "columns_mobile",
-      "min": 1,
-      "max": 3,
-      "step": 1,
-      "default": 2,
-      "label": "t:sections.main-collection-product-grid.settings.columns_mobile.label"
-    },
-    {
-      "type": "header",
-      "content": "t:sections.social_media_collage.settings.color_setting"
-    },
-    {
-      "type": "color",
-      "id": "title_color",
-      "label": "Collection title color",
-      "default": "#333333"
-    },
-    {
-      "type": "color",
-      "id": "title_hr_color",
-      "label": "Collection title hover color",
-      "default": "#333333"
-    },
-    {
-      "type": "color",
-      "id": "collection_button_border_color",
-      "label": "t:sections.social_media_collage.settings.button_border_color",
-      "default": "#333333"
-    },
-    {
-      "type": "color",
-      "id": "collection_button_icon_color",
-      "label": "t:sections.social_media_collage.settings.icon_color",
-      "default": "#333333"
-    },
-    {
-      "type": "color",
-      "id": "collection_button_hover_bg_color",
-      "label": "t:sections.social_media_collage.settings.button_hr_bg",
-      "default": "#333333"
-    },
-    {
-      "type": "color",
-      "id": "collection_button_hover_icon_color",
-      "label": "t:sections.social_media_collage.settings.icon_hover_color",
-      "default": "#ffffff"
-    },
-    {
-      "type": "header",
-      "content": "Section padding"
-    },
-    {
-      "type": "number",
-      "id": "padding-top",
-      "label": "Padding top",
-      "default": 60
-    },
-    {
-      "type": "number",
-      "id": "padding-bottom",
-      "label": "Padding bottom",
-      "default": 60
-    },
-    {
-      "type": "header",
-      "content": "Screen wise section padding"
-    },
-    {
-      "type": "header",
-      "content": "@media screen 1429"
-    },
-    {
-      "type": "number",
-      "id": "padding-top-1429",
-      "label": "Padding top",
-      "default": 50
-    },
-    {
-      "type": "number",
-      "id": "padding-bottom-1429",
-      "label": "Padding bottom",
-      "default": 50
-    },
-    {
-      "type": "header",
-      "content": "@media screen 1199"
-    },
-    {
-      "type": "number",
-      "id": "padding-top-1199",
-      "label": "Padding top",
-      "default": 45
-    },
-    {
-      "type": "number",
-      "id": "padding-bottom-1199",
-      "label": "Padding bottom",
-      "default": 45
-    },
-    {
-      "type": "header",
-      "content": "@media screen 991"
-    },
-    {
-      "type": "number",
-      "id": "padding-top-991",
-      "label": "Padding top",
-      "default": 40
-    },
-    {
-      "type": "number",
-      "id": "padding-bottom-991",
-      "label": "Padding bottom",
-      "default": 40
-    },
-    {
-      "type": "header",
-      "content": "@media screen 767"
-    },
-    {
-      "type": "number",
-      "id": "padding-top-767",
-      "label": "Padding top",
-      "default": 35
-    },
-    {
-      "type": "number",
-      "id": "padding-bottom-767",
-      "label": "Padding bottom",
-      "default": 35
-    },
-    {
-      "type": "header",
-      "content": "@media screen 575"
-    },
-    {
-      "type": "number",
-      "id": "padding-top-575",
-      "label": "Padding top",
-      "default": 30
-    },
-    {
-      "type": "number",
-      "id": "padding-bottom-575",
-      "label": "Padding bottom",
-      "default": 30
+      "options": [
+        {
+          "value": "1",
+          "label": "t:sections.main-list-collections.settings.columns_mobile.options__1.label"
+        },
+        {
+          "value": "2",
+          "label": "t:sections.main-list-collections.settings.columns_mobile.options__2.label"
+        }
+      ],
+      "default": "2",
+      "label": "t:sections.main-list-collections.settings.columns_mobile.label"
     }
   ]
 }

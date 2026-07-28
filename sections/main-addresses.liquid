@@ -3,98 +3,29 @@
 <script src="{{ 'customer.js' | asset_url }}" defer></script>
 
 {%- style -%}
-  .customer .theme_main_heading{
-    color: {{ settings.theme_heading_color }};
-  }
-  .customer .return-account{
-    color: {{ settings.page_title_text_color }};
-    transition: all .5s ease;
-  }
-  .customer .return-account:hover{
-    color: {{ settings.theme_text_hover_color }};
-  }
-  .customer .address_button,.addresses form button,.addresses li>button{
-    background-color:{{ settings.button_bg }};
-    color:{{ settings.button_text }};
-    transition: all .5s ease;
-    border: none;
-    cursor: pointer;
-  }
-  .customer .address_button:hover,.addresses form button:hover,.addresses li>button:hover{
-    background-color:{{ settings.button_hr_bg }}; 
-    color:{{ settings.button_hr_text }}; 
-  }
-  .customer .field input{
-    background-color: {{ settings.input_bg_color }};
-    color: {{ settings.input_text_color }};
-  }
-  .customer select{
-    background-color: {{ settings.input_bg_color }};
-  }
-  .customer .field input::placeholder, .customer select, .customer .select svg{
-    color: {{ settings.input_text_color }};
-  }
-  .addresses h2,.addresses label,li[data-address]>h2{
-    color: {{ settings.page_title_text_color }};
-  }
-  .customer thead th, .customer tbody td{
-    color: {{ settings.page_title_text_color }};
-  }
-  .addresses ul p{
-    color: {{ settings.content_color }};
-  }
   .section-{{ section.id }}-padding {
-    padding-top: {{ section.settings.padding-top }}px;
-    padding-bottom: {{ section.settings.padding-bottom }}px;
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
   }
-  @media screen and (max-width: 1429px) {
+
+  @media screen and (min-width: 750px) {
     .section-{{ section.id }}-padding {
-      padding-top: {{ section.settings.padding-top-1429 }}px;
-      padding-bottom: {{ section.settings.padding-bottom-1429 }}px;
-    }
-  }
-  @media screen and (max-width: 1199px) {
-    .section-{{ section.id }}-padding {
-      padding-top: {{ section.settings.padding-top-1199 }}px;
-      padding-bottom: {{ section.settings.padding-bottom-1199 }}px;
-    }
-  }
-  @media screen and (max-width: 991px) {
-    .section-{{ section.id }}-padding {
-      padding-top: {{ section.settings.padding-top-991 }}px;
-      padding-bottom: {{ section.settings.padding-bottom-991 }}px;
-    }
-  }
-  @media screen and (max-width: 767px) {
-    .section-{{ section.id }}-padding {
-      padding-top: {{ section.settings.padding-top-767 }}px;
-      padding-bottom: {{ section.settings.padding-bottom-767 }}px;
-    }
-  }
-  @media screen and (max-width: 575px) {
-    .section-{{ section.id }}-padding {
-      padding-top: {{ section.settings.padding-top-575 }}px;
-      padding-bottom: {{ section.settings.padding-bottom-575 }}px; 
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
     }
   }
 {%- endstyle -%}
 
 {%- paginate customer.addresses by 5 -%}
   <div class="customer addresses section-{{ section.id }}-padding" data-customer-addresses>
-    <svg style="display: none">
-      <symbol id="icon-caret" viewBox="0 0 10 6">
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor">
-      </symbol>
-    </svg>
-    <h1 class="theme_main_heading">{{ 'customer.addresses.title' | t }}</h1>
-    <a href="{{ routes.account_url }}" class="return-account">
+    <h1>{{ 'customer.addresses.title' | t }}</h1>
+    <a href="{{ routes.account_url }}">
       {{ 'customer.account.return' | t }}
     </a>
 
     <div data-address>
       <button
         type="button"
-        class="address_button"
         aria-expanded="false"
         aria-controls="AddAddress"
       >
@@ -112,7 +43,7 @@
               autocomplete="given-name"
               placeholder="{{ 'customer.addresses.first_name' | t }}"
             >
-            <label for="AddressFirstNameNew" class="visually-hidden">{{ 'customer.addresses.first_name' | t }}</label>
+            <label for="AddressFirstNameNew">{{ 'customer.addresses.first_name' | t }}</label>
           </div>
           <div class="field">
             <input
@@ -123,7 +54,7 @@
               autocomplete="family-name"
               placeholder="{{ 'customer.addresses.last_name' | t }}"
             >
-            <label for="AddressLastNameNew" class="visually-hidden">{{ 'customer.addresses.last_name' | t }}</label>
+            <label for="AddressLastNameNew">{{ 'customer.addresses.last_name' | t }}</label>
           </div>
           <div class="field">
             <input
@@ -134,7 +65,7 @@
               autocomplete="organization"
               placeholder="{{ 'customer.addresses.company' | t }}"
             >
-            <label for="AddressCompanyNew" class="visually-hidden">{{ 'customer.addresses.company' | t }}</label>
+            <label for="AddressCompanyNew">{{ 'customer.addresses.company' | t }}</label>
           </div>
           <div class="field">
             <input
@@ -145,7 +76,7 @@
               autocomplete="address-line1"
               placeholder="{{ 'customer.addresses.address1' | t }}"
             >
-            <label for="AddressAddress1New" class="visually-hidden">{{ 'customer.addresses.address1' | t }}</label>
+            <label for="AddressAddress1New">{{ 'customer.addresses.address1' | t }}</label>
           </div>
           <div class="field">
             <input
@@ -156,7 +87,7 @@
               autocomplete="address-line2"
               placeholder="{{ 'customer.addresses.address2' | t }}"
             >
-            <label for="AddressAddress2New" class="visually-hidden">{{ 'customer.addresses.address2' | t }}</label>
+            <label for="AddressAddress2New">{{ 'customer.addresses.address2' | t }}</label>
           </div>
           <div class="field">
             <input
@@ -167,10 +98,10 @@
               autocomplete="address-level2"
               placeholder="{{ 'customer.addresses.city' | t }}"
             >
-            <label for="AddressCityNew" class="visually-hidden">{{ 'customer.addresses.city' | t }}</label>
+            <label for="AddressCityNew">{{ 'customer.addresses.city' | t }}</label>
           </div>
           <div>
-            <label for="AddressCountryNew" class="visually-hidden">{{ 'customer.addresses.country' | t }}</label>
+            <label for="AddressCountryNew">{{ 'customer.addresses.country' | t }}</label>
             <div class="select">
               <select
                 id="AddressCountryNew"
@@ -180,13 +111,13 @@
               >
                 {{ all_country_option_tags }}
               </select>
-              <svg aria-hidden="true" focusable="false" viewBox="0 0 10 6">
-                <use href="#icon-caret" />
-              </svg>
+              <span class="svg-wrapper">
+                {{- 'icon-caret.svg' | inline_asset_content -}}
+              </span>
             </div>
           </div>
           <div id="AddressProvinceContainerNew" style="display: none">
-            <label for="AddressProvinceNew" class="visually-hidden">{{ 'customer.addresses.province' | t }}</label>
+            <label for="AddressProvinceNew">{{ 'customer.addresses.province' | t }}</label>
             <div class="select">
               <select
                 id="AddressProvinceNew"
@@ -194,9 +125,9 @@
                 data-default="{{ form.province }}"
                 autocomplete="address-level1"
               ></select>
-              <svg aria-hidden="true" focusable="false" viewBox="0 0 10 6">
-                <use href="#icon-caret" />
-              </svg>
+              <span class="svg-wrapper">
+                {{- 'icon-caret.svg' | inline_asset_content -}}
+              </span>
             </div>
           </div>
           <div class="field">
@@ -209,7 +140,7 @@
               autocomplete="postal-code"
               placeholder="{{ 'customer.addresses.zip' | t }}"
             >
-            <label for="AddressZipNew" class="visually-hidden">{{ 'customer.addresses.zip' | t }}</label>
+            <label for="AddressZipNew">{{ 'customer.addresses.zip' | t }}</label>
           </div>
           <div class="field">
             <input
@@ -220,15 +151,15 @@
               autocomplete="tel"
               placeholder="{{ 'customer.addresses.phone' | t }}"
             >
-            <label for="AddressPhoneNew" class="visually-hidden">{{ 'customer.addresses.phone' | t }}</label>
+            <label for="AddressPhoneNew">{{ 'customer.addresses.phone' | t }}</label>
           </div>
           <div>
             {{ form.set_as_default_checkbox }}
-            <label for="address_default_address_new" class="address_label">{{ 'customer.addresses.set_default' | t }}</label>
+            <label for="address_default_address_new">{{ 'customer.addresses.set_default' | t }}</label>
           </div>
           <div>
-            <button class="address_button">{{ 'customer.addresses.add' | t }}</button>
-            <button type="reset" class="address_button">{{ 'customer.addresses.cancel' | t }}</button>
+            <button>{{ 'customer.addresses.add' | t }}</button>
+            <button type="reset">{{ 'customer.addresses.cancel' | t }}</button>
           </div>
         {%- endform -%}
       </div>
@@ -243,7 +174,6 @@
           {{ address | format_address }}
           <button
             type="button"
-            class="address_button"
             id="EditFormButton_{{ address.id }}"
             aria-label="{{ 'customer.addresses.edit_address' | t }} {{ forloop.index }}"
             aria-controls="EditAddress_{{ address.id }}"
@@ -254,7 +184,6 @@
           </button>
           <button
             type="button"
-            class="address_button"
             aria-label="{{ 'customer.addresses.delete' | t }} {{ forloop.index }}"
             data-target="{{ address.url }}"
             data-confirm-message="{{ 'customer.addresses.delete_confirm' | t }}"
@@ -273,7 +202,7 @@
                   autocomplete="given-name"
                   placeholder="{{ 'customer.addresses.first_name' | t }}"
                 >
-                <label for="AddressFirstName_{{ form.id }}" class="visually-hidden">{{ 'customer.addresses.first_name' | t }}</label>
+                <label for="AddressFirstName_{{ form.id }}">{{ 'customer.addresses.first_name' | t }}</label>
               </div>
               <div class="field">
                 <input
@@ -284,7 +213,7 @@
                   autocomplete="family-name"
                   placeholder="{{ 'customer.addresses.last_name' | t }}"
                 >
-                <label for="AddressLastName_{{ form.id }}" class="visually-hidden">{{ 'customer.addresses.last_name' | t }}</label>
+                <label for="AddressLastName_{{ form.id }}">{{ 'customer.addresses.last_name' | t }}</label>
               </div>
               <div class="field">
                 <input
@@ -295,7 +224,7 @@
                   autocomplete="organization"
                   placeholder="{{ 'customer.addresses.company' | t }}"
                 >
-                <label for="AddressCompany_{{ form.id }}" class="visually-hidden">{{ 'customer.addresses.company' | t }}</label>
+                <label for="AddressCompany_{{ form.id }}">{{ 'customer.addresses.company' | t }}</label>
               </div>
               <div class="field">
                 <input
@@ -306,7 +235,7 @@
                   autocomplete="address-line1"
                   placeholder="{{ 'customer.addresses.address1' | t }}"
                 >
-                <label for="AddressAddress1_{{ form.id }}" class="visually-hidden">{{ 'customer.addresses.address1' | t }}</label>
+                <label for="AddressAddress1_{{ form.id }}">{{ 'customer.addresses.address1' | t }}</label>
               </div>
               <div class="field">
                 <input
@@ -317,7 +246,7 @@
                   autocomplete="address-line2"
                   placeholder="{{ 'customer.addresses.address2' | t }}"
                 >
-                <label for="AddressAddress2_{{ form.id }}" class="visually-hidden">{{ 'customer.addresses.address2' | t }}</label>
+                <label for="AddressAddress2_{{ form.id }}">{{ 'customer.addresses.address2' | t }}</label>
               </div>
               <div class="field">
                 <input
@@ -328,10 +257,10 @@
                   autocomplete="address-level2"
                   placeholder="{{ 'customer.addresses.city' | t }}"
                 >
-                <label for="AddressCity_{{ form.id }}" class="visually-hidden">{{ 'customer.addresses.city' | t }}</label>
+                <label for="AddressCity_{{ form.id }}">{{ 'customer.addresses.city' | t }}</label>
               </div>
               <div>
-                <label for="AddressCountry_{{ form.id }}" class="visually-hidden">
+                <label for="AddressCountry_{{ form.id }}">
                   {{ 'customer.addresses.country' | t }}
                 </label>
                 <div class="select">
@@ -345,13 +274,13 @@
                   >
                     {{ all_country_option_tags }}
                   </select>
-                  <svg aria-hidden="true" focusable="false" viewBox="0 0 10 6">
-                    <use href="#icon-caret" />
-                  </svg>
+                  <span class="svg-wrapper">
+                    {{- 'icon-caret.svg' | inline_asset_content -}}
+                  </span>
                 </div>
               </div>
               <div id="AddressProvinceContainer_{{ form.id }}" style="display:none;">
-                <label for="AddressProvince_{{ form.id }}" class="visually-hidden">
+                <label for="AddressProvince_{{ form.id }}">
                   {{ 'customer.addresses.province' | t }}
                 </label>
                 <div class="select">
@@ -361,9 +290,9 @@
                     data-default="{{ form.province }}"
                     autocomplete="address-level1"
                   ></select>
-                  <svg aria-hidden="true" focusable="false" viewBox="0 0 10 6">
-                    <use href="#icon-caret" />
-                  </svg>
+                  <span class="svg-wrapper">
+                    {{- 'icon-caret.svg' | inline_asset_content -}}
+                  </span>
                 </div>
               </div>
               <div class="field">
@@ -376,7 +305,7 @@
                   autocomplete="postal-code"
                   placeholder="{{ 'customer.addresses.zip' | t }}"
                 >
-                <label for="AddressZip_{{ form.id }}" class="visually-hidden">{{ 'customer.addresses.zip' | t }}</label>
+                <label for="AddressZip_{{ form.id }}">{{ 'customer.addresses.zip' | t }}</label>
               </div>
               <div class="field">
                 <input
@@ -387,17 +316,17 @@
                   autocomplete="tel"
                   placeholder="{{ 'customer.addresses.phone' | t }}"
                 >
-                <label for="AddressPhone_{{ form.id }}" class="visually-hidden">{{ 'customer.addresses.phone' | t }}</label>
+                <label for="AddressPhone_{{ form.id }}">{{ 'customer.addresses.phone' | t }}</label>
               </div>
               <div>
                 {{ form.set_as_default_checkbox }}
-                <label for="address_default_address_{{ form.id }}" class="address_label">
+                <label for="address_default_address_{{ form.id }}">
                   {{ 'customer.addresses.set_default' | t }}
                 </label>
               </div>
               <div>
-                <button class="address_button">{{ 'customer.addresses.update' | t }}</button>
-                <button type="reset" class="address_button">{{ 'customer.addresses.cancel' | t }}</button>
+                <button>{{ 'customer.addresses.update' | t }}</button>
+                <button type="reset">{{ 'customer.addresses.cancel' | t }}</button>
               </div>
             {%- endform -%}
           </div>
@@ -412,9 +341,9 @@
             {%- if paginate.previous -%}
               <li>
                 <a href="{{ paginate.previous.url }}" aria-label="{{ 'general.pagination.previous' | t }}">
-                  <svg aria-hidden="true" focusable="false" viewBox="0 0 10 6">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor">
-                  </svg>
+                  <span class="svg-wrapper">
+                    {{- 'icon-caret.svg' | inline_asset_content -}}
+                  </span>
                 </a>
               </li>
             {%- endif -%}
@@ -440,9 +369,9 @@
             {%- if paginate.next -%}
               <li>
                 <a href="{{ paginate.next.url }}" aria-label="{{ 'general.pagination.next' | t }}">
-                  <svg aria-hidden="true" focusable="false" viewBox="0 0 10 6">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor">
-                  </svg>
+                  <span class="svg-wrapper">
+                    {{- 'icon-caret.svg' | inline_asset_content -}}
+                  </span>
                 </a>
               </li>
             {%- endif -%}
@@ -462,108 +391,30 @@
 {% schema %}
 {
   "name": "t:sections.main-addresses.name",
-  "tag": "section",
-  "class": "section main-address-page",
   "settings": [
     {
       "type": "header",
-      "content": "Section padding"
+      "content": "t:sections.all.padding.section_padding_heading"
     },
     {
-      "type": "number",
-      "id": "padding-top",
-      "label": "Padding top",
-      "default": 60
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
     },
     {
-      "type": "number",
-      "id": "padding-bottom",
-      "label": "Padding bottom",
-      "default": 60
-    },
-    {
-      "type": "header",
-      "content": "Screen wise section padding"
-    },
-    {
-      "type": "header",
-      "content": "@media screen 1429"
-    },
-    {
-      "type": "number",
-      "id": "padding-top-1429",
-      "label": "Padding top",
-      "default": 50
-    },
-    {
-      "type": "number",
-      "id": "padding-bottom-1429",
-      "label": "Padding bottom",
-      "default": 50
-    },
-    {
-      "type": "header",
-      "content": "@media screen 1199"
-    },
-    {
-      "type": "number",
-      "id": "padding-top-1199",
-      "label": "Padding top",
-      "default": 45
-    },
-    {
-      "type": "number",
-      "id": "padding-bottom-1199",
-      "label": "Padding bottom",
-      "default": 45
-    },
-    {
-      "type": "header",
-      "content": "@media screen 991"
-    },
-    {
-      "type": "number",
-      "id": "padding-top-991",
-      "label": "Padding top",
-      "default": 40
-    },
-    {
-      "type": "number",
-      "id": "padding-bottom-991",
-      "label": "Padding bottom",
-      "default": 40
-    },
-    {
-      "type": "header",
-      "content": "@media screen 767"
-    },
-    {
-      "type": "number",
-      "id": "padding-top-767",
-      "label": "Padding top",
-      "default": 35
-    },
-    {
-      "type": "number",
-      "id": "padding-bottom-767",
-      "label": "Padding bottom",
-      "default": 35
-    },
-    {
-      "type": "header",
-      "content": "@media screen 575"
-    },
-    {
-      "type": "number",
-      "id": "padding-top-575",
-      "label": "Padding top",
-      "default": 30
-    },
-    {
-      "type": "number",
-      "id": "padding-bottom-575",
-      "label": "Padding bottom",
-      "default": 30
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
     }
   ]
 }

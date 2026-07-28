@@ -30,17 +30,9 @@
       data-section-id="{{ section.id }}"
     >
       <div class="product-form__error-message-wrapper" role="alert" hidden>
-        <svg
-          aria-hidden="true"
-          focusable="false"
-          class="icon icon-error"
-          viewBox="0 0 13 13"
-        >
-          <circle cx="6.5" cy="6.50049" r="5.5" stroke="white" stroke-width="2"/>
-          <circle cx="6.5" cy="6.5" r="5.5" fill="#EB001B" stroke="#EB001B" stroke-width="0.7"/>
-          <path d="M5.87413 3.52832L5.97439 7.57216H7.02713L7.12739 3.52832H5.87413ZM6.50076 9.66091C6.88091 9.66091 7.18169 9.37267 7.18169 9.00504C7.18169 8.63742 6.88091 8.34917 6.50076 8.34917C6.12061 8.34917 5.81982 8.63742 5.81982 9.00504C5.81982 9.37267 6.12061 9.66091 6.50076 9.66091Z" fill="white"/>
-          <path d="M5.87413 3.17832H5.51535L5.52424 3.537L5.6245 7.58083L5.63296 7.92216H5.97439H7.02713H7.36856L7.37702 7.58083L7.47728 3.537L7.48617 3.17832H7.12739H5.87413ZM6.50076 10.0109C7.06121 10.0109 7.5317 9.57872 7.5317 9.00504C7.5317 8.43137 7.06121 7.99918 6.50076 7.99918C5.94031 7.99918 5.46982 8.43137 5.46982 9.00504C5.46982 9.57872 5.94031 10.0109 6.50076 10.0109Z" fill="white" stroke="#EB001B" stroke-width="0.7">
-        </svg>
+        <span class="svg-wrapper">
+          {{- 'icon-error.svg' | inline_asset_content -}}
+        </span>
         <span class="product-form__error-message"></span>
       </div>
 
@@ -55,7 +47,10 @@
           type="hidden"
           name="id"
           value="{{ product.selected_or_first_available_variant.id }}"
-          {% if product.selected_or_first_available_variant.available == false or quantity_rule_soldout %}
+          {% if product.selected_or_first_available_variant.available == false
+            or quantity_rule_soldout
+            or product.selected_or_first_available_variant == null
+          %}
             disabled
           {% endif %}
           class="product-variant-id"
@@ -76,55 +71,28 @@
             endif
           -%}
           <button
-  id="ProductSubmitButton-{{ section_id }}"
-  type="submit"
-  name="add"
-  class="product-form__submit button button--full-width button--primary flex items-center justify-center gap-2"
-  {% if product.selected_or_first_available_variant.available == false
-    or quantity_rule_soldout
-    or product.selected_or_first_available_variant == nil
-  %}
-    disabled
-  {% endif %}
->
-  <!-- Cart Icon (static, will not disappear on variant change) -->
-  <svg version="1.0" xmlns="http://www.w3.org/2000/svg" fill="white" width="20" height="20" viewBox="0 0 512.000000 512.000000"
-     preserveAspectRatio="xMidYMid meet">
-    <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-       stroke="none">
-      <path d="M162 4900 c-57 -13 -108 -55 -136 -111 -44 -89 -31 -175 37 -243 61
-      -60 91 -66 342 -66 237 0 267 -6 304 -59 10 -14 183 -521 385 -1126 427 -1284
-      396 -1146 325 -1427 -64 -254 -56 -378 36 -533 70 -118 219 -228 347 -254 37
-      -8 459 -10 1404 -9 l1351 3 39 27 c21 15 50 44 64 65 21 31 25 48 25 113 0 67
-      -3 81 -27 116 -15 21 -44 50 -65 64 l-37 25 -1340 5 c-1458 5 -1365 1 -1400
-      61 -22 37 -20 63 10 182 29 115 41 140 87 167 31 19 60 20 1206 20 900 0 1183
-      3 1215 12 23 7 59 30 82 54 41 40 45 53 338 930 163 489 296 902 296 918 0 80
-      -54 165 -124 197 -39 18 -110 19 -1786 19 -1153 0 -1757 4 -1782 10 -71 20
-      -87 51 -204 405 -97 291 -113 332 -147 371 -62 71 -84 74 -476 73 -185 -1
-      -351 -5 -369 -9z"/>
-      <path d="M1570 830 c-165 -61 -273 -200 -287 -371 -21 -254 202 -477 456 -456
-      176 15 322 132 375 302 28 88 19 211 -21 297 -44 93 -109 160 -201 205 -68 34
-      -83 38 -171 40 -77 3 -107 -1 -151 -17z"/>
-      <path d="M4130 830 c-165 -61 -273 -200 -287 -371 -21 -254 202 -477 456 -456
-      176 15 322 132 375 302 28 88 19 211 -21 297 -44 93 -109 160 -201 205 -68 34
-      -83 38 -171 40 -77 3 -107 -1 -151 -17z"/>
-    </g>
-  </svg>
-
-  <!-- Shopify dynamic text (gets replaced on variant change) -->
-  <span class="add-to-cart-text">
-    {%- if product.selected_or_first_available_variant == nil -%}
-      {{ 'products.product.unavailable' | t }}
-    {%- elsif product.selected_or_first_available_variant.available == false or quantity_rule_soldout -%}
-      {{ 'products.product.sold_out' | t }}
-    {%- else -%}
-      {{ 'products.product.add_to_cart' | t }}
-    {%- endif -%}
-  </span>
-
-  {%- render 'loading-spinner' -%}
-</button>
-
+            id="ProductSubmitButton-{{ section_id }}"
+            type="submit"
+            name="add"
+            class="product-form__submit button button--full-width {% if show_dynamic_checkout %}button--secondary{% else %}button--primary{% endif %}"
+            {% if product.selected_or_first_available_variant.available == false
+              or quantity_rule_soldout
+              or product.selected_or_first_available_variant == null
+            %}
+              disabled
+            {% endif %}
+          >
+            <span>
+              {%- if product.selected_or_first_available_variant == null -%}
+                {{ 'products.product.unavailable' | t }}
+              {%- elsif product.selected_or_first_available_variant.available == false or quantity_rule_soldout -%}
+                {{ 'products.product.sold_out' | t }}
+              {%- else -%}
+                {{ 'products.product.add_to_cart' | t }}
+              {%- endif -%}
+            </span>
+            {%- render 'loading-spinner' -%}
+          </button>
           {%- if show_dynamic_checkout -%}
             {{ form | payment_button }}
           {%- endif -%}
@@ -154,7 +122,7 @@
     -%}
 
     <pickup-availability
-      class="product__pickup-availabilities no-js-hidden quick-add-hidden"
+      class="product__pickup-availabilities quick-add-hidden"
       {% if product.selected_or_first_available_variant.available and pick_up_availabilities.size > 0 %}
         available
       {% endif %}
@@ -165,7 +133,9 @@
     >
       <template>
         <pickup-availability-preview class="pickup-availability-preview">
-          {% render 'icon-unavailable' %}
+          <span class="svg-wrapper">
+            {{- 'icon-unavailable.svg' | inline_asset_content -}}
+          </span>
           <div class="pickup-availability-info">
             <p class="caption-large">{{ 'products.product.pickup_availability.unavailable' | t }}</p>
             <button class="pickup-availability-button link link--text underlined-link">

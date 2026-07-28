@@ -5,8 +5,7 @@
   {% render 'header-mega-menu' %}
 {% endcomment %}
 
-
-<nav class="header__inline-menu header-mega-menu">
+<nav class="header__inline-menu">
   <ul class="list-menu list-menu--inline" role="list">
     {%- for link in section.settings.menu.links -%}
       <li>
@@ -24,11 +23,11 @@
                 >
                   {{- link.title | escape -}}
                 </span>
-                {% render 'icon-caret' %}
+                {{- 'icon-caret.svg' | inline_asset_content -}}
               </summary>
               <div
                 id="MegaMenu-Content-{{ forloop.index }}"
-                class="mega-menu__content motion-reduce global-settings-popup"
+                class="mega-menu__content color-{{ section.settings.menu_color_scheme }} gradient motion-reduce global-settings-popup"
                 tabindex="-1"
               >
                 <ul
@@ -36,73 +35,36 @@
                   role="list"
                 >
                   {%- for childlink in link.links -%}
-                    {% if childlink.title contains 'https://' or childlink.title contains 'http://' %}
-                      {% assign img_url = childlink.title | split:'|' %}
-                        <li>
-                          <div class="mega_img_container">
-                            <a href="{{ childlink.url }}">
-                              <img src="{{ img_url[1] }}" class="mega_product_image" alt="megamenu-img">
-                              <h4>{{ img_url[0] }}</h4>
-                            </a>
-                          </div>
-                        </li>
-                        {% else %}
-                        <li>
-                          <a href="{{ childlink.url }}"
-                            class="mega-menu__link mega-menu__link--level-2 link{% if childlink.current %} mega-menu__link--active{% endif %}"
-                            {% if childlink.current %} aria-current="page" {% endif %}>
-                            {%- if childlink.title contains '[' and childlink.title contains ']' -%}{{childlink.title |
-                            escape | split: '[' | first}}{%- else -%}{{childlink.title | escape}}{%- endif -%}
-                            {%- if childlink.title contains '[' and childlink.title contains ']' -%}
-                              {%- assign labelName = childlink.title | escape | split:'[' | last | replace:']','' -%}
-                              {%- case labelName -%}
-                              {%- when 'new' -%} {%- assign labelClass = 'menu-label--new' -%}
-                              {%- when 'hot' -%} {%- assign labelClass = 'menu-label--hot' -%}
-                              {%- when 'sale' -%} {%- assign labelClass = 'menu-label--sale' -%}
-                              {%- else -%} {%- assign labelClass = 'menu-label--other' -%}
-                              {%- endcase -%}
-                              <span class="menu-label {{labelClass}}"><span>{{labelName}}</span></span>
-                            {%- endif -%}
-                          </a>
-                          {%- if childlink.links != blank -%}
-                            <ul class="list-unstyled" role="list">
-                              {%- for grandchildlink in childlink.links -%}
-                              {% if grandchildlink.title contains 'https://' or grandchildlink.title contains 'http://' %}
-                              {% assign img_url = grandchildlink.title | split:'|' %}
-                              <li>
-                                <div class="mega_img_container">
-                                  <a href="{{ grandchildlink.url }}">
-                                    <img src="{{ img_url[1] }}" class="mega_product_image" alt="megamenu-img">
-                                    <h4>{{ img_url[0] }}</h4>
-                                  </a>
-                                </div>
-                              </li>
-                              {% else %}
-                              <li>
-                                <a href="{{ grandchildlink.url }}"
-                                  class="mega-menu__link link{% if grandchildlink.current %} mega-menu__link--active{% endif %}"
-                                  {% if grandchildlink.current %} aria-current="page" {% endif %}>
-                                  {%- if grandchildlink.title contains '[' and grandchildlink.title contains ']'
-                                    -%}{{grandchildlink.title | escape | split: '[' | first}}{%- else -%}{{grandchildlink.title
-                                    | escape}}{%- endif -%}
-                                    {%- if grandchildlink.title contains '[' and grandchildlink.title contains ']' -%}
-                                    {%- assign labelName = grandchildlink.title | escape | split:'[' | last | replace:']','' -%}
-                                    {%- case labelName -%}
-                                    {%- when 'new' -%} {%- assign labelClass = 'menu-label--new' -%}
-                                    {%- when 'hot' -%} {%- assign labelClass = 'menu-label--hot' -%}
-                                    {%- when 'sale' -%} {%- assign labelClass = 'menu-label--sale' -%}
-                                    {%- else -%} {%- assign labelClass = 'menu-label--other' -%}
-                                    {%- endcase -%}
-                                    <span class="menu-label {{labelClass}}"><span>{{labelName}}</span></span>
-                                  {%- endif -%}
-                                </a>
-                              </li>
-                            {% endif %}
+                    <li>
+                      <a
+                        id="HeaderMenu-{{ link.handle }}-{{ childlink.handle }}"
+                        href="{{ childlink.url }}"
+                        class="mega-menu__link mega-menu__link--level-2 link{% if childlink.current %} mega-menu__link--active{% endif %}"
+                        {% if childlink.current %}
+                          aria-current="page"
+                        {% endif %}
+                      >
+                        {{ childlink.title | escape }}
+                      </a>
+                      {%- if childlink.links != blank -%}
+                        <ul class="list-unstyled" role="list">
+                          {%- for grandchildlink in childlink.links -%}
+                            <li>
+                              <a
+                                id="HeaderMenu-{{ link.handle }}-{{ childlink.handle }}-{{ grandchildlink.handle }}"
+                                href="{{ grandchildlink.url }}"
+                                class="mega-menu__link link{% if grandchildlink.current %} mega-menu__link--active{% endif %}"
+                                {% if grandchildlink.current %}
+                                  aria-current="page"
+                                {% endif %}
+                              >
+                                {{ grandchildlink.title | escape }}
+                              </a>
+                            </li>
                           {%- endfor -%}
                         </ul>
-                        {%- endif -%}
-                      </li>
-                    {%- endif -%}
+                      {%- endif -%}
+                    </li>
                   {%- endfor -%}
                 </ul>
               </div>

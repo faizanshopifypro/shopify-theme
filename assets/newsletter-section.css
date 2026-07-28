@@ -1,42 +1,47 @@
 .newsletter__wrapper {
-  border-radius: var(--media-radius);
-  padding-right: 1.5rem;
-  padding-left: 1.5rem;
+  padding-right: calc(4rem / var(--font-body-scale));
+  padding-left: calc(4rem / var(--font-body-scale));
 }
+
+@media screen and (min-width: 750px) {
+  .newsletter__wrapper {
+    padding-right: 9rem;
+    padding-left: 9rem;
+  }
+}
+
+.newsletter__wrapper > * {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.newsletter__wrapper > * + * {
+  margin-top: 2rem;
+}
+
 .newsletter__wrapper > * + .newsletter-form {
   margin-top: 3rem;
 }
-.newsletter__wrapper .newsletter-form__field-wrapper {
-  max-width: 90rem;
+
+.newsletter__subheading {
+  max-width: 70rem;
+  margin-left: auto;
+  margin-right: auto;
 }
+
+.newsletter__wrapper .newsletter-form__field-wrapper {
+  max-width: 36rem;
+}
+
 .newsletter-form__field-wrapper .newsletter-form__message {
   margin-top: 1.5rem;
 }
+
 .newsletter__button {
   margin-top: 3rem;
   width: fit-content;
 }
-.newsletter__wrapper--left .newsletter__heading,
-.newsletter__wrapper--left .newsletter__subheading {
-  max-width: 75rem;
-  margin-left: 0;
-  margin-right: auto;
-}
-.newsletter__wrapper--center .newsletter__heading,
-.newsletter__wrapper--center .newsletter__subheading {
-  max-width: 75rem;
-  margin-left: auto;
-  margin-right: auto;
-}
-.newsletter__wrapper--right .newsletter__heading,
-.newsletter__wrapper--right .newsletter__subheading {
-  max-width: 75rem;
-  margin-left: auto;
-  margin-right: 0;
-}
-.newsletter-input{
-  margin-top: 20px;
-}
+
 @media screen and (min-width: 750px) {
   .newsletter__button {
     flex-shrink: 0;

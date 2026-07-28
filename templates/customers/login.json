@@ -1,1 +1,15 @@
-{"sections":{"main":{"type":"main-login","settings":{"show_topimg":true,"login_img":"shopify:\/\/shop_images\/about-us.webp","padding-top":60,"padding-bottom":60,"padding-top-1429":50,"padding-bottom-1429":50,"padding-top-1199":45,"padding-bottom-1199":45,"padding-top-991":40,"padding-bottom-991":40,"padding-top-767":35,"padding-bottom-767":35,"padding-top-575":30,"padding-bottom-575":30}}},"order":["main"]}
+{
+  "sections": {
+    "main": {
+      "type": "main-login",
+      "settings": {
+        "enable_shop_login_button": "true",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

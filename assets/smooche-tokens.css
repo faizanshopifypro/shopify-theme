@@ -1,0 +1,120 @@
+/**
+ * Smooche PDP design tokens
+ * Extracted from https://smooche.com/products/color-changing-foundation
+ * Phase 1 foundation — used by product.smooche template / theme.smooche layout
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
+
+:root {
+  /* Brand / accent (sale badges, highlights) */
+  --smooche-accent: #df8096;
+  --smooche-accent-text: #ffffff;
+  --smooche-sale-bg: #df8096;
+  --smooche-sale-text: #ffffff;
+  --smooche-saving-bg: #df8096;
+
+  /* Neutrals */
+  --smooche-bg: #ffffff;
+  --smooche-bg-secondary: #f7f7f7;
+  --smooche-bg-darken: #e6e6e6;
+  --smooche-text: #151515;
+  --smooche-text-lighten: #484848;
+  --smooche-text-darken: #000000;
+  --smooche-border: #f7f7f7;
+  --smooche-border-strong: #e6e6e6;
+
+  /* Buttons */
+  --smooche-btn-bg: #000000;
+  --smooche-btn-text: #ffffff;
+  --smooche-btn-border: #000000;
+  --smooche-btn-hover: #1a1a1a;
+
+  /* Status */
+  --smooche-success: #56ad6a;
+  --smooche-success-bg: #ecfef0;
+  --smooche-error: #d02e2e;
+  --smooche-error-bg: #f3cbcb;
+  --smooche-warn: #ecbd5e;
+  --smooche-sold-bg: #000000;
+  --smooche-sold-text: #ffffff;
+
+  /* Typography — reference uses futura-pt (Adobe); Jost is the free geometric match used on-page */
+  --smooche-font: 'Jost', 'futura-pt', sans-serif;
+  --smooche-font-body-weight: 400;
+  --smooche-font-heading-weight: 600;
+  --smooche-font-button-weight: 600;
+
+  /* Layout */
+  --smooche-page-width: 1200px;
+  --smooche-gap: 1.6rem;
+  --smooche-radius-sm: 4px;
+  --smooche-radius-md: 8px;
+  --smooche-radius-pill: 999px;
+
+  /* Breakpoints (documented; use in media queries as needed)
+     mobile: < 750px
+     tablet: 750px – 989px
+     desktop: >= 990px
+  */
+}
+
+/* Scope overrides for the Smooche PDP layout */
+body.template-product-smooche,
+body.smooche-pdp {
+  --font-body-family: var(--smooche-font);
+  --font-heading-family: var(--smooche-font);
+  background-color: var(--smooche-bg);
+  color: var(--smooche-text);
+  font-family: var(--smooche-font);
+}
+
+body.smooche-pdp .product,
+body.smooche-pdp .product-section {
+  font-family: var(--smooche-font);
+}
+
+body.smooche-pdp h1,
+body.smooche-pdp h2,
+body.smooche-pdp h3,
+body.smooche-pdp h4,
+body.smooche-pdp .h0,
+body.smooche-pdp .h1,
+body.smooche-pdp .h2,
+body.smooche-pdp .h3,
+body.smooche-pdp .h4 {
+  font-family: var(--smooche-font);
+  font-weight: var(--smooche-font-heading-weight);
+  color: var(--smooche-text);
+}
+
+/* Utility helpers for upcoming sections */
+.smooche-accent {
+  color: var(--smooche-accent);
+}
+
+.smooche-badge-sale {
+  background: var(--smooche-sale-bg);
+  color: var(--smooche-sale-text);
+}
+
+.smooche-btn-primary {
+  background: var(--smooche-btn-bg);
+  color: var(--smooche-btn-text);
+  border: 1px solid var(--smooche-btn-border);
+}
+
+.smooche-btn-primary:hover {
+  background: var(--smooche-btn-hover);
+}
+
+.visually-hidden-skip {
+  position: absolute !important;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  clip: rect(0 0 0 0);
+}

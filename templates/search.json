@@ -1,1 +1,26 @@
-{"sections":{"main":{"type":"main-search","settings":{"columns_desktop":3,"enable_filtering":true,"filter_type":"vertical","advertize_heading":"Advertizement","cover_image":"shopify:\/\/shop_images\/left-banner.webp","video_url":"https:\/\/www.youtube.com\/watch?v=_9VUPq3SxOc","collection-promote-banner":"shopify:\/\/shop_images\/banner-04.webp","banner_url":"shopify:\/\/collections\/all","first_heading":"Pet food","first_content":"Introducing Petzy's delectable range of pet food, crafted with love and care to cater to your furry friend's every nutritional need. From tantalizing treats to wholesome meals, Petzy ensures that your beloved companion receives only the finest ingredients, expertly blended for optimal health and happiness. With Petzy, mealtime becomes a delightful experience, fostering the bond between you and your pet while providing essential nourishment. Trust Petzy for quality, flavor, and nutrition that your pet will wag their tail for every time.","second_heading":"Pet food","second_content":"Introducing Petzy's delectable range of pet food, crafted with love and care to cater to your furry friend's every nutritional need. From tantalizing treats to wholesome meals, Petzy ensures that your beloved companion receives only the finest ingredients, expertly blended for optimal health and happiness. With Petzy, mealtime becomes a delightful experience, fostering the bond between you and your pet while providing essential nourishment. Trust Petzy for quality, flavor, and nutrition that your pet will wag their tail for every time.","enable_sorting":true,"article_show_date":true,"article_show_author":true,"padding-top":60,"padding-bottom":60,"padding-top-1429":50,"padding-bottom-1429":50,"padding-top-1199":45,"padding-bottom-1199":45,"padding-top-991":40,"padding-bottom-991":40,"padding-top-767":35,"padding-bottom-767":35,"padding-top-575":30,"padding-bottom-575":30}}},"order":["main"]}
+{
+  "sections": {
+    "main": {
+      "type": "main-search",
+      "settings": {
+        "columns_desktop": 4,
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "enable_filtering": true,
+        "filter_type": "horizontal",
+        "enable_sorting": true,
+        "article_show_date": true,
+        "article_show_author": false,
+        "columns_mobile": "2",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

@@ -1,0 +1,527 @@
+{{ 'smooche-buy-box.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'smooche-buy-box.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign product = product
+  assign current_variant = product.selected_or_first_available_variant
+  assign product_form_id = 'SmoocheProductForm-' | append: section.id
+  assign compare_price = current_variant.compare_at_price
+  assign sale_price = current_variant.price
+  assign installment = sale_price | divided_by: 4.0
+  assign sold_percent = section.settings.sold_percent | default: 89
+  assign media_count = product.media.size
+-%}
+
+<section
+  id="SmoocheBuyBox-{{ section.id }}"
+  class="smooche-buy-box section-{{ section.id }}"
+  data-section-id="{{ section.id }}"
+>
+  <div class="smooche-buy-box__inner page-width">
+    <div class="smooche-buy-box__grid">
+      {%- comment -%} ========== Gallery ========== {%- endcomment -%}
+      <div class="smooche-buy-box__gallery" data-smooche-gallery>
+        <div class="smooche-buy-box__media-main">
+          {%- if section.settings.show_gallery_badges -%}
+            <div class="smooche-buy-box__media-badges" aria-hidden="true">
+              {%- if section.settings.badge_left != blank -%}
+                <div class="smooche-buy-box__badge smooche-buy-box__badge--left">
+                  {{ section.settings.badge_left | image_url: width: 160 | image_tag: loading: 'lazy', widths: '80,120,160' }}
+                </div>
+              {%- endif -%}
+              {%- if section.settings.badge_right != blank -%}
+                <div class="smooche-buy-box__badge smooche-buy-box__badge--right">
+                  {{ section.settings.badge_right | image_url: width: 140 | image_tag: loading: 'lazy', widths: '70,100,140' }}
+                </div>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+
+          <div class="smooche-buy-box__stage" data-gallery-stage>
+            {%- if product.featured_media -%}
+              {%- assign stage_alt = product.featured_media.alt | default: product.title -%}
+              {{
+                product.featured_media
+                | image_url: width: 1200
+                | image_tag:
+                  loading: 'eager',
+                  class: 'smooche-buy-box__stage-img',
+                  widths: '400,600,800,1000,1200',
+                  sizes: '(min-width: 990px) 48vw, 100vw',
+                  alt: stage_alt
+              }}
+            {%- else -%}
+              {{ 'product-1' | placeholder_svg_tag: 'smooche-buy-box__stage-img' }}
+            {%- endif -%}
+          </div>
+        </div>
+
+        {%- if media_count > 1 -%}
+          <div class="smooche-buy-box__thumbs" data-gallery-thumbs role="list">
+            {%- for media in product.media -%}
+              <button
+                type="button"
+                class="smooche-buy-box__thumb{% if forloop.first %} is-active{% endif %}"
+                data-thumb-index="{{ forloop.index0 }}"
+                data-media-id="{{ media.id }}"
+                data-full-src="{{ media | image_url: width: 1200 }}"
+                data-srcset="{{ media | image_url: width: 400 }} 400w, {{ media | image_url: width: 800 }} 800w, {{ media | image_url: width: 1200 }} 1200w"
+                aria-label="{{ 'products.product.media.load_image' | t: index: forloop.index }}"
+                {% if forloop.first %}aria-current="true"{% endif %}
+              >
+                {%- assign thumb_alt = media.alt | default: product.title -%}
+                {{
+                  media
+                  | image_url: width: 160
+                  | image_tag:
+                    loading: 'lazy',
+                    widths: '80,120,160',
+                    sizes: '72px',
+                    alt: thumb_alt
+                }}
+              </button>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} ========== Product info ========== {%- endcomment -%}
+      <div class="smooche-buy-box__info">
+        {%- if section.settings.eyebrow != blank -%}
+          <div class="smooche-buy-box__eyebrow">{{ section.settings.eyebrow }}</div>
+        {%- endif -%}
+
+        <div class="smooche-buy-box__social-proof">
+          <div class="smooche-buy-box__avatars" aria-hidden="true">
+            <span class="smooche-buy-box__avatar" style="background-image:url('{{ 'smooche-avatar-1.png' | asset_url }}')"></span>
+            <span class="smooche-buy-box__avatar" style="background-image:url('{{ 'smooche-avatar-2.png' | asset_url }}')"></span>
+            <span class="smooche-buy-box__avatar" style="background-image:url('{{ 'smooche-avatar-3.png' | asset_url }}')"></span>
+          </div>
+          <div class="smooche-buy-box__social-text">
+            <strong>{{ section.settings.social_name }}</strong>
+            <span class="smooche-buy-box__verified" aria-hidden="true">
+              <svg viewBox="0 0 128 128" width="16" height="16" focusable="false"><g><path d="m124 64c0 5.12-6.29 9.34-7.55 14.06-1.3 4.88 1.99 11.68-.48 15.95-2.51 4.34-10.06 4.86-13.58 8.38s-4.04 11.07-8.38 13.58c-4.27 2.47-11.07-.82-15.95.48-4.72 1.26-8.94 7.55-14.06 7.55s-9.34-6.29-14.06-7.55c-4.88-1.3-11.68 1.99-15.95-.48-4.34-2.51-4.86-10.06-8.38-13.58s-11.07-4.04-13.58-8.38c-2.47-4.27.82-11.07-.48-15.95-1.26-4.72-7.55-8.94-7.55-14.06s6.29-9.34 7.55-14.06c1.3-4.88-1.99-11.68.48-15.95 2.51-4.34 10.06-4.86 13.58-8.38s4.04-11.07 8.38-13.58c4.27-2.47 11.07.82 15.95-.48 4.72-1.26 8.94-7.55 14.06-7.55s9.34 6.29 14.06 7.55c4.88 1.3 11.68-1.99 15.95.48 4.34 2.51 4.86 10.06 8.38 13.58s11.07 4.04 13.58 8.38c2.47 4.27-.82 11.07.48 15.95 1.26 4.72 7.55 8.94 7.55 14.06z" fill="#2568ef"/><path d="m81.34 46.12-22.84 22.84-11.84-11.83c-2.57-2.57-6.74-2.57-9.31 0-2.57 2.57-2.57 6.74 0 9.31l16.61 16.61c2.5 2.5 6.56 2.5 9.06 0l27.62-27.62c2.57-2.57 2.57-6.74 0-9.31-2.57-2.57-6.73-2.57-9.3 0z" fill="#fffcee"/></g></svg>
+            </span>
+            <span>{{ section.settings.social_text }}</span>
+          </div>
+        </div>
+
+        <a class="smooche-buy-box__rating" href="{{ section.settings.reviews_anchor | default: '#smooche-reviews' }}">
+          <span class="smooche-buy-box__stars" aria-hidden="true">
+            {%- for i in (1..5) -%}
+              <svg viewBox="0 0 24 24" width="16" height="16"><path fill="#a94e63" d="M12 2.5l2.9 5.88 6.49.94-4.7 4.58 1.11 6.47L12 17.77l-5.8 3.05 1.11-6.47-4.7-4.58 6.49-.94L12 2.5z"/></svg>
+            {%- endfor -%}
+          </span>
+          <span>{{ section.settings.rating_label }}</span>
+        </a>
+
+        <h1 class="smooche-buy-box__title">{{ product.title }}</h1>
+
+        <div class="smooche-buy-box__price-row">
+          <div class="smooche-buy-box__prices" data-price-wrapper>
+            {%- if compare_price > sale_price -%}
+              <s class="smooche-buy-box__compare">{{ compare_price | money }}</s>
+            {%- endif -%}
+            <span class="smooche-buy-box__price{% if compare_price > sale_price %} smooche-buy-box__price--sale{% endif %}" data-product-price>
+              {{ sale_price | money }}
+            </span>
+          </div>
+          {%- if section.settings.badge_text != blank -%}
+            <span class="smooche-buy-box__sale-badge">{{ section.settings.badge_text }}</span>
+          {%- endif -%}
+        </div>
+
+        {%- if section.settings.show_afterpay -%}
+          <div class="smooche-buy-box__afterpay">
+            <span>
+              or 4 interest-free payments of <strong data-installment-amount>{{ installment | money }}</strong> with
+              <img
+                src="{{ 'smooche-afterpay-badge.png' | asset_url }}"
+                alt="Afterpay"
+                width="72"
+                height="16"
+                loading="lazy"
+              >
+            </span>
+          </div>
+        {%- endif -%}
+
+        <div class="smooche-usp-grid">
+          <div class="smooche-usp-grid__item">
+            <img src="{{ 'smooche-usp-adapts.svg' | asset_url }}" alt="" width="22" height="22" loading="lazy">
+            <span>{{ section.settings.usp_1 }}</span>
+          </div>
+          <div class="smooche-usp-grid__item">
+            <img src="{{ 'smooche-usp-hides.svg' | asset_url }}" alt="" width="22" height="22" loading="lazy">
+            <span>{{ section.settings.usp_2 }}</span>
+          </div>
+          <div class="smooche-usp-grid__item">
+            <img src="{{ 'smooche-usp-hours.svg' | asset_url }}" alt="" width="22" height="22" loading="lazy">
+            <span>{{ section.settings.usp_3 }}</span>
+          </div>
+          <div class="smooche-usp-grid__item">
+            <img src="{{ 'smooche-usp-spf.svg' | asset_url }}" alt="" width="22" height="22" loading="lazy">
+            <span>{{ section.settings.usp_4 }}</span>
+          </div>
+        </div>
+
+        {%- if product.description != blank or section.settings.description != blank -%}
+          <div class="smooche-buy-box__description">
+            {%- if section.settings.description != blank -%}
+              {{ section.settings.description }}
+            {%- else -%}
+              {{ product.description }}
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+        {%- liquid
+          assign bundle_1_price = sale_price
+          assign bundle_1_compare = compare_price
+          assign bundle_2_qty = section.settings.bundle_2_qty | default: 2
+          assign bundle_2_price = sale_price | times: bundle_2_qty
+          assign bundle_2_compare = compare_price | times: bundle_2_qty
+          if section.settings.bundle_2_price != blank
+            assign bundle_2_price = section.settings.bundle_2_price | times: 100
+          endif
+          if section.settings.bundle_2_compare != blank
+            assign bundle_2_compare = section.settings.bundle_2_compare | times: 100
+          endif
+          assign bundle_2_save = bundle_2_compare | minus: bundle_2_price
+        -%}
+
+        <product-form class="smooche-buy-box__form" data-section-id="{{ section.id }}">
+          <div class="product-form__error-message-wrapper" role="alert" hidden>
+            <span class="product-form__error-message"></span>
+          </div>
+
+          {%- form 'product', product, id: product_form_id, class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+            <input type="hidden" name="id" value="{{ current_variant.id }}" class="product-variant-id" {% unless current_variant.available %}disabled{% endunless %}>
+            <input type="hidden" name="quantity" value="1" data-smooche-qty>
+
+            {%- if section.settings.show_bundles -%}
+              <fieldset class="smooche-bundles" data-smooche-bundles>
+                <legend class="visually-hidden">Purchase options</legend>
+
+                <label class="smooche-bundle is-selected" data-bundle-option data-qty="1" data-price="{{ bundle_1_price }}">
+                  <input type="radio" name="smooche-bundle" value="1" checked>
+                  <span class="smooche-bundle__radio" aria-hidden="true"></span>
+                  <span class="smooche-bundle__body">
+                    <span class="smooche-bundle__top">
+                      <span class="smooche-bundle__title">{{ section.settings.bundle_1_title }}</span>
+                      <span class="smooche-bundle__prices">
+                        <span class="smooche-bundle__price">{{ bundle_1_price | money }}</span>
+                        {%- if bundle_1_compare > bundle_1_price -%}
+                          <s class="smooche-bundle__compare">{{ bundle_1_compare | money }}</s>
+                        {%- endif -%}
+                      </span>
+                    </span>
+                    <span class="smooche-bundle__subtitle">{{ section.settings.bundle_1_subtitle }}</span>
+                  </span>
+                </label>
+
+                <label class="smooche-bundle" data-bundle-option data-qty="{{ bundle_2_qty }}" data-price="{{ bundle_2_price }}">
+                  <input type="radio" name="smooche-bundle" value="{{ bundle_2_qty }}">
+                  <span class="smooche-bundle__radio" aria-hidden="true"></span>
+                  <span class="smooche-bundle__body">
+                    <span class="smooche-bundle__top">
+                      <span class="smooche-bundle__title-wrap">
+                        <span class="smooche-bundle__title">{{ section.settings.bundle_2_title }}</span>
+                        {%- if bundle_2_save > 0 -%}
+                          <span class="smooche-bundle__save">SAVE {{ bundle_2_save | money }}</span>
+                        {%- endif -%}
+                      </span>
+                      <span class="smooche-bundle__prices">
+                        <span class="smooche-bundle__deal">{{ section.settings.bundle_2_deal_label }}</span>
+                        <span class="smooche-bundle__price">{{ bundle_2_price | money }}</span>
+                        {%- if bundle_2_compare > bundle_2_price -%}
+                          <s class="smooche-bundle__compare">{{ bundle_2_compare | money }}</s>
+                        {%- endif -%}
+                      </span>
+                    </span>
+                    {%- if section.settings.bundle_2_perks != blank -%}
+                      <span class="smooche-bundle__perks">{{ section.settings.bundle_2_perks }}</span>
+                    {%- endif -%}
+                  </span>
+                </label>
+              </fieldset>
+            {%- endif -%}
+
+            <button
+              type="submit"
+              name="add"
+              class="smooche-buy-box__atc product-form__submit"
+              {% unless current_variant.available %}disabled{% endunless %}
+            >
+              <span>
+                {%- if current_variant.available -%}
+                  {{ section.settings.atc_label }}
+                {%- else -%}
+                  {{ 'products.product.sold_out' | t }}
+                {%- endif -%}
+              </span>
+              {%- render 'loading-spinner' -%}
+            </button>
+          {%- endform -%}
+        </product-form>
+
+        <p class="smooche-buy-box__stock" id="stockinfop-{{ section.id }}">
+          <span class="stock-left">
+            <span class="pulsing-dot"></span>
+            <span>{{ section.settings.shipped_label }}</span>
+          </span>
+          <span class="location-right" data-smooche-shipping>
+            {{ section.settings.shipping_fallback }}
+          </span>
+        </p>
+
+        {%- if section.settings.show_urgency -%}
+          <div class="smooche-urgency">
+            <p class="smooche-urgency__copy">
+              <strong>{{ section.settings.urgency_title }}</strong><br>
+              {{ section.settings.urgency_text }}
+            </p>
+            <div class="countdown-timer-container" data-smooche-countdown data-hours="{{ section.settings.countdown_hours }}">
+              <div class="countdown-timer-bar">
+                <div class="countdown-timer-progress" style="width: {{ sold_percent }}%;"></div>
+              </div>
+              <div class="countdown-timer-info">
+                <span class="countdown-timer-prefix">{{ sold_percent }}% sold</span>
+                <div class="countdown-timer-end">
+                  <span>Ends in</span>
+                  <span class="countdown-timer-time" data-countdown-display>00:00:00</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Smooche buy box",
+  "tag": "section",
+  "class": "section-smooche-buy-box",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "The viral skin tone adapting foundation"
+    },
+    {
+      "type": "text",
+      "id": "social_name",
+      "label": "Social proof name",
+      "default": "Hilda"
+    },
+    {
+      "type": "text",
+      "id": "social_text",
+      "label": "Social proof text",
+      "default": "and 100.000+ others purchased"
+    },
+    {
+      "type": "text",
+      "id": "rating_label",
+      "label": "Rating label",
+      "default": "4.8/5 (51,837 reviews)"
+    },
+    {
+      "type": "text",
+      "id": "reviews_anchor",
+      "label": "Reviews link",
+      "default": "#smooche-reviews"
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Price badge",
+      "default": "Bestseller"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_afterpay",
+      "label": "Show Afterpay line",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "usp_1",
+      "label": "USP 1",
+      "default": "Adapts to your skin tone"
+    },
+    {
+      "type": "text",
+      "id": "usp_2",
+      "label": "USP 2",
+      "default": "Hides imperfections"
+    },
+    {
+      "type": "text",
+      "id": "usp_3",
+      "label": "USP 3",
+      "default": "Natural look for 16+ hours"
+    },
+    {
+      "type": "text",
+      "id": "usp_4",
+      "label": "USP 4",
+      "default": "With SPF 15"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description override",
+      "info": "Leave blank to use product description"
+    },
+    {
+      "type": "header",
+      "content": "Bundles"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_bundles",
+      "label": "Show quantity bundles",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "bundle_1_title",
+      "label": "Bundle 1 title",
+      "default": "1 bottle"
+    },
+    {
+      "type": "text",
+      "id": "bundle_1_subtitle",
+      "label": "Bundle 1 subtitle",
+      "default": "Regular price"
+    },
+    {
+      "type": "text",
+      "id": "bundle_2_title",
+      "label": "Bundle 2 title",
+      "default": "2 bottles"
+    },
+    {
+      "type": "number",
+      "id": "bundle_2_qty",
+      "label": "Bundle 2 quantity",
+      "default": 2
+    },
+    {
+      "type": "text",
+      "id": "bundle_2_deal_label",
+      "label": "Bundle 2 deal label",
+      "default": "Temporary deal"
+    },
+    {
+      "type": "text",
+      "id": "bundle_2_price",
+      "label": "Bundle 2 price (store currency, e.g. 49)",
+      "info": "Optional. Leave blank for price × quantity."
+    },
+    {
+      "type": "text",
+      "id": "bundle_2_compare",
+      "label": "Bundle 2 compare price",
+      "info": "Optional. Leave blank for compare-at × quantity."
+    },
+    {
+      "type": "richtext",
+      "id": "bundle_2_perks",
+      "label": "Bundle 2 perks",
+      "default": "<p>+ FREE Smooche Blender<br>+ FREE Mystery Gift<br>+ FREE Shipping</p>"
+    },
+    {
+      "type": "text",
+      "id": "atc_label",
+      "label": "Add to cart label",
+      "default": "Add to Cart"
+    },
+    {
+      "type": "text",
+      "id": "shipped_label",
+      "label": "Shipped label",
+      "default": "Shipped today"
+    },
+    {
+      "type": "text",
+      "id": "shipping_fallback",
+      "label": "Shipping fallback text",
+      "default": "Free shipping worldwide"
+    },
+    {
+      "type": "header",
+      "content": "Urgency"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_urgency",
+      "label": "Show urgency bar",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "urgency_title",
+      "label": "Urgency title",
+      "default": "Selling out fast"
+    },
+    {
+      "type": "text",
+      "id": "urgency_text",
+      "label": "Urgency text",
+      "default": "Due to high demand, limited quantities available"
+    },
+    {
+      "type": "range",
+      "id": "sold_percent",
+      "min": 50,
+      "max": 99,
+      "step": 1,
+      "unit": "%",
+      "label": "Sold percent",
+      "default": 89
+    },
+    {
+      "type": "range",
+      "id": "countdown_hours",
+      "min": 1,
+      "max": 24,
+      "step": 1,
+      "unit": "h",
+      "label": "Countdown length (hours, rolling)",
+      "default": 6
+    },
+    {
+      "type": "header",
+      "content": "Gallery badges"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_gallery_badges",
+      "label": "Show gallery badges",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_left",
+      "label": "Left badge image"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_right",
+      "label": "Right badge image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Smooche buy box"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,41 @@
+{
+  "layout": "theme.smooche",
+  "sections": {
+    "main": {
+      "type": "smooche-buy-box",
+      "settings": {
+        "eyebrow": "The viral skin tone adapting foundation",
+        "social_name": "Hilda",
+        "social_text": "and 100.000+ others purchased",
+        "rating_label": "4.8/5 (51,837 reviews)",
+        "reviews_anchor": "#smooche-reviews",
+        "badge_text": "Bestseller",
+        "show_afterpay": true,
+        "usp_1": "Adapts to your skin tone",
+        "usp_2": "Hides imperfections",
+        "usp_3": "Natural look for 16+ hours",
+        "usp_4": "With SPF 15",
+        "description": "<p>Say goodbye to shade-matching struggles. This color-changing foundation adapts flawlessly to your unique skin tone, blurring blemishes, redness, and fine lines in seconds.</p>",
+        "show_bundles": true,
+        "bundle_1_title": "1 bottle",
+        "bundle_1_subtitle": "Regular price",
+        "bundle_2_title": "2 bottles",
+        "bundle_2_qty": 2,
+        "bundle_2_deal_label": "Temporary deal",
+        "bundle_2_price": "",
+        "bundle_2_compare": "",
+        "bundle_2_perks": "<p>+ FREE Smooche Blender<br>+ FREE Mystery Gift<br>+ FREE Shipping</p>",
+        "atc_label": "Add to Cart",
+        "shipped_label": "Shipped today",
+        "shipping_fallback": "Free shipping worldwide",
+        "show_urgency": true,
+        "urgency_title": "Selling out fast",
+        "urgency_text": "Due to high demand, limited quantities available",
+        "sold_percent": 89,
+        "countdown_hours": 6,
+        "show_gallery_badges": false
+      }
+    }
+  },
+  "order": ["main"]
+}

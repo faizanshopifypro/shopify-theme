@@ -1,170 +1,48 @@
-.video-close{
-  position: absolute;
-  right: 0;
-  top: 0;
-  cursor: pointer;
-  z-index: 2;
-  height: 40px;
-  width: 40px;
-  line-height: 40px;
-  text-align: center;
-  border-radius: var(--buttons-radius-outset);
-  transition: all .5s ease;
-}
-.video-section .deferred-media__poster-button {
-  position: inherit;
-  transform: inherit;
-}
-.deferred-media__poster-button-video-section {
-  display: inline-block;
-  vertical-align: middle;
-}
 .video-section__media {
+  --ratio-percent: 56.25%;
   position: relative;
-  padding-bottom: 35%;
+  padding-bottom: calc(var(--ratio-percent) - var(--media-border-width));
 }
-.collection-grid-video-part .video-section__media {
-  padding-bottom: 125%;
+
+/* Needed for gradient continuity with or without animation so that transparent PNG images come up as we would expect */
+.scroll-trigger:where(.gradient.video-section__media) {
+  background: transparent;
 }
-.video_inner-content {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  height: 100%;
-  width: 100%;
-  vertical-align: middle;
-  justify-content: center;
+
+.video-section__media.global-media-settings--full-width {
+  padding-bottom: var(--ratio-percent);
 }
-.video_inner-content.content-block--left{
-  align-items: flex-start;
-}
-.video_inner-content.content-block--right{
-  align-items: flex-end;
-}
+
 .video-section__media.deferred-media {
-  box-shadow: var(--media-shadow-horizontal-offset) var(--media-shadow-vertical-offset) var(--media-shadow-blur-radius) rgba(var(--color-shadow), var(--media-shadow-opacity));
+  box-shadow: var(--media-shadow-horizontal-offset) var(--media-shadow-vertical-offset) var(--media-shadow-blur-radius)
+    rgba(var(--color-shadow), var(--media-shadow-opacity));
 }
+
 .video-section__media.deferred-media:after {
   content: none;
 }
+
 .video-section__poster.deferred-media__poster:focus {
   outline-offset: 0.3rem;
 }
+
 .video-section__media iframe {
   background-color: rgba(var(--color-foreground), 0.03);
   border: 0;
 }
+
 .video-section__poster,
-.video-section__media iframe {
+.video-section__media iframe,
+.video-section__media video {
   position: absolute;
   width: 100%;
   height: 100%;
 }
-.video_inner-content .video_btn_wrapper {
-  display: flex;
-  flex-wrap: wrap;
-  column-gap: 15px;
-  row-gap: 15px;
-}
-.video_inner-content .content-boxing {
-  width: 100%;
-  max-width: 50%;
-  padding: 20px;
-}
-.video_inner-content .video_btn_wrapper .theme_buttons {
-  margin-top: 60px;
-}
-.video-hover-img img{
-  transition: all 0.5s ease;
-  position: relative;
-  overflow: hidden;
-}
-.video-hover-img:hover img{
-  scale: 1.1;
-}
-.video-close svg {
-  height: 14px;
-  width: 14px;
-}
-.video-content-text {
-  margin-top: 40px;
-}
-deferred-media.video-section__media .deferred-media__poster {
-  border-radius: var(--media-radius);
-}
-.content_inner_heading{
-  font-weight: var(--text_weight);
-  text-transform: var(--text_style);
-}
-@media screen and (max-width: 1429px) {
-  .video_inner-content .video_btn_wrapper .theme_buttons {
-    margin-top: 50px;
-  }
-}
-@media screen and (max-width: 1199px) {
-  .video_inner-content .video_btn_wrapper .theme_buttons {
-    margin-top: 40px;
-  }
-}
-@media screen and (max-width: 991px) {
-  .video-content-text {
-    margin-top: 20px;
-  }
-  .video-close {
-    height: 30px;
-    width: 30px;
-    line-height: 30px;
-  }
-  .video-close svg {
-    height: 16px;
-    width: 16px;
-  }
-  .video_inner-content .video_btn_wrapper .theme_buttons {
-    margin-top: 30px;
-  }
-  .video_inner-content .content-boxing {
-    width: 100%;
-    max-width: 60%;
-  }
-  .video-section__media {
-    padding-bottom: 60%;
-  }
-  .deferred-media__poster-button {
-    margin: 0px auto 20px auto !important;
-  }
+
+.video-section__media video {
+  background: #000000;
 }
 
-@media screen and (max-width: 767px) {
-  .video_inner-content .video_btn_wrapper .theme_buttons {
-    margin-top: 20px;
-  }
-  .video_inner-content .content-boxing {
-    width: 100%;
-    max-width: 65%;
-  }
-  .video-section__media {
-    padding-bottom: 70%;
-  }
-  .video-content-text {
-    margin-top: 15px;
-  }
-}
-@media screen and (max-width: 575px) {
-  .video_inner-content .video_btn_wrapper {
-    column-gap: 10px;
-    row-gap: 10px;
-  }
-  .video_inner-content .video_btn_wrapper .theme_buttons {
-    margin-top: 10px;
-  }
-  .video_inner-content .content-boxing {
-    width: 100%;
-    max-width: 100%;
-  }
-  .video-section__media {
-    padding-bottom: 100%;
-  }
-  .deferred-media__poster-button {
-    margin: 0px auto 10px auto !important;
-  }
+.video-section__media.media-fit-cover video {
+  object-fit: cover;
 }
