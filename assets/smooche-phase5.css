@@ -49,9 +49,9 @@
 
 .smooche-iwt__heading {
   margin: 0 0 2rem;
-  font-size: clamp(2.4rem, 3.2vw, 3.4rem);
+  font-size: clamp(2.8rem, 3.2vw, 3.6rem);
   line-height: 1.25;
-  font-weight: 700;
+  font-weight: 600;
   text-transform: none;
   color: #151515;
 }
@@ -64,6 +64,7 @@
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
   line-height: 1.6;
+  font-weight: 600;
 }
 
 .smooche-iwt__text {
@@ -113,7 +114,7 @@
 
 /* Results */
 .smooche-results {
-  padding: 1.2rem 0 4rem;
+  padding: 2.4rem 0 5.6rem;
   background: #fff;
   font-family: var(--smooche-font, 'Jost', sans-serif);
 }
@@ -128,8 +129,8 @@
   text-align: center;
   text-transform: none;
   margin: 0 0 4rem;
-  font-size: clamp(2.4rem, 3.2vw, 3.4rem);
-  font-weight: 700;
+  font-size: clamp(2.8rem, 3.2vw, 3.6rem);
+  font-weight: 600;
   color: #151515;
 }
 
@@ -150,20 +151,21 @@
 
 .smooche-results__card {
   background: #f7f7f7;
+  border: 0;
   border-radius: 16px;
   padding: 4rem 2.8rem;
   text-align: center;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: none;
 }
 
 .smooche-results__card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  transform: none;
+  box-shadow: none;
 }
 
 .smooche-results__percentage {
-  font-size: 4.8rem;
-  font-weight: 700;
+  font-size: 8rem;
+  font-weight: 600;
   color: #df8096;
   line-height: 1;
   margin-bottom: 1.2rem;
@@ -181,11 +183,12 @@
   font-size: 1.25rem;
   color: #888;
   line-height: 1.4;
+  font-weight: 400;
 }
 
 /* Compare */
 .smooche-compare {
-  padding: 2rem 0 4.8rem;
+  padding: 3.2rem 0 5.6rem;
   background: #fff;
   font-family: var(--smooche-font, 'Jost', sans-serif);
 }
@@ -199,8 +202,8 @@
 .smooche-compare__heading {
   text-align: center;
   margin: 0 0 3.2rem;
-  font-size: clamp(2.4rem, 3.2vw, 3.4rem);
-  font-weight: 700;
+  font-size: clamp(2.8rem, 3.2vw, 3.6rem);
+  font-weight: 600;
   color: #151515;
 }
 
@@ -295,7 +298,7 @@
 
 /* Ingredients */
 .smooche-ingredients {
-  padding: 2rem 0 4.8rem;
+  padding: 3.2rem 0 5.6rem;
   background: #fff;
   font-family: var(--smooche-font, 'Jost', sans-serif);
 }
@@ -309,8 +312,8 @@
 .smooche-ingredients__heading {
   text-align: center;
   margin: 0 0 1rem;
-  font-size: clamp(2.4rem, 3.2vw, 3.4rem);
-  font-weight: 700;
+  font-size: clamp(2.8rem, 3.2vw, 3.6rem);
+  font-weight: 600;
   color: #151515;
 }
 
@@ -357,18 +360,20 @@
 }
 
 .smooche-ingredients__card {
-  background: #f7f7f7;
+  background: #fff;
+  border: 0;
   border-radius: 16px;
   overflow: hidden;
   height: 100%;
   display: flex;
   flex-direction: column;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .smooche-ingredients__card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 }
 
 .smooche-ingredients__image {
@@ -391,7 +396,7 @@
 .smooche-ingredients__name {
   margin: 0 0 0.6rem;
   font-size: 1.8rem;
-  font-weight: 700;
+  font-weight: 600;
   color: #151515;
 }
 
@@ -400,6 +405,7 @@
   color: #555;
   line-height: 1.45;
   margin-bottom: 1.2rem;
+  font-weight: 400;
 }
 
 .smooche-ingredients__desc p {
@@ -408,14 +414,14 @@
 
 .smooche-ingredients__badge {
   display: inline-flex;
-  padding: 0.35rem 0.9rem;
-  border-radius: 999px;
-  background: #fff;
-  color: #df8096;
-  font-size: 1.15rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  padding: 0.5rem 1.4rem;
+  border-radius: 20px;
+  background: #df8096;
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: none;
 }
 
 .smooche-ingredients__nav {
@@ -478,7 +484,7 @@
   }
 
   .smooche-results__percentage {
-    font-size: 4rem;
+    font-size: 6.4rem;
   }
 
   .smooche-results__card {

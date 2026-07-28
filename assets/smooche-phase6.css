@@ -1,7 +1,7 @@
 /* Phase 6 — FAQ + closing difference CTA */
 
 .smooche-faq {
-  padding: 4.8rem 0 5.6rem;
+  padding: 3.2rem 0 4.8rem;
   background: #fff;
   font-family: var(--smooche-font, 'Jost', sans-serif);
 }
@@ -15,9 +15,10 @@
 .smooche-faq__heading {
   text-align: center;
   margin: 0 0 3.2rem;
-  font-size: clamp(2.4rem, 3.2vw, 3.4rem);
-  font-weight: 700;
+  font-size: clamp(2.8rem, 3.2vw, 3.6rem);
+  font-weight: 600;
   color: #151515;
+  line-height: 1.25;
 }
 
 .smooche-faq__columns {
@@ -47,9 +48,16 @@
   }
 }
 
+.smooche-faq .smooche-accordion__trigger {
+  font-size: 1.6rem;
+  font-weight: 400;
+  padding: 1.5rem 0;
+  line-height: 1.6;
+}
+
 /* Difference / why */
 .smooche-why {
-  padding: 0 0 4.8rem;
+  padding: 0 0 6rem;
   font-family: var(--smooche-font, 'Jost', sans-serif);
 }
 
@@ -65,6 +73,8 @@
   border-radius: 12px;
   overflow: hidden;
   min-height: 500px;
+  border: 0;
+  box-shadow: none;
 }
 
 @media screen and (min-width: 750px) {
@@ -90,23 +100,23 @@
 
 @media screen and (min-width: 750px) {
   .smooche-why__content {
-    padding: 5rem;
+    padding: 6rem;
   }
 }
 
 .smooche-why__heading {
-  margin: 0 0 2.4rem;
-  font-size: clamp(2.4rem, 3vw, 3.2rem);
-  font-weight: 700;
+  margin: 0 0 3rem;
+  font-size: clamp(2.8rem, 3vw, 3.6rem);
+  font-weight: 600;
   color: #151515;
   text-align: left;
-  line-height: 1.2;
+  line-height: 1.25;
 }
 
 .smooche-why__features {
   display: flex;
   flex-direction: column;
-  margin-bottom: 2.4rem;
+  margin-bottom: 3rem;
 }
 
 .smooche-why__feature {
@@ -150,6 +160,7 @@
   font-size: 1.4rem;
   color: #666;
   line-height: 1.4;
+  font-weight: 400;
 }
 
 .smooche-why__feature-desc p {
@@ -164,20 +175,22 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 4.8rem;
-  padding: 1.2rem 2.8rem;
-  background: #000;
+  min-height: 4.6rem;
+  padding: 1.2rem 1.8rem;
+  background: #151515;
   color: #fff;
-  border-radius: 4px;
+  border: 1px solid #151515;
+  border-radius: 10px;
   text-decoration: none;
-  font-size: 1.4rem;
-  font-weight: 700;
+  font-size: 1.28rem;
+  font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
 .smooche-why__btn:hover {
-  background: #1a1a1a;
+  background: #000;
+  border-color: #000;
   color: #fff;
 }
 

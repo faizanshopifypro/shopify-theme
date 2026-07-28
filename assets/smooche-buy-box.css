@@ -177,11 +177,12 @@
 }
 
 .smooche-buy-box__title {
-  font-size: clamp(2.4rem, 3vw, 3.2rem);
-  line-height: 1.15;
+  font-size: clamp(2.8rem, 3.2vw, 3.5rem);
+  line-height: 1.2;
   font-weight: 600;
-  margin: 0 0 1rem;
+  margin: 0 0 1.2rem;
   letter-spacing: -0.01em;
+  color: #151515;
 }
 
 .smooche-buy-box__price-row {
@@ -196,7 +197,7 @@
   display: flex;
   align-items: baseline;
   gap: 0.8rem;
-  font-size: 2.1rem;
+  font-size: 2.2rem;
   font-weight: 600;
 }
 
@@ -208,6 +209,7 @@
 
 .smooche-buy-box__price--sale {
   color: #151515;
+  font-weight: 600;
 }
 
 .smooche-buy-box__sale-badge {
@@ -225,7 +227,7 @@
 
 .smooche-buy-box__afterpay {
   font-size: 1.3rem;
-  margin-bottom: 1.4rem;
+  margin-bottom: 1.6rem;
   color: #2d2d2d;
 }
 
@@ -240,15 +242,16 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
-  margin-bottom: 1.4rem;
+  margin-bottom: 1.6rem;
 }
 
 .smooche-usp-grid__item {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 10px 14px;
+  padding: 12px 14px;
   background: #f7f7f7;
+  border: 0;
   border-radius: 8px;
 }
 
@@ -267,22 +270,23 @@
 
 .smooche-buy-box__description {
   font-size: 1.45rem;
-  line-height: 1.5;
-  color: #2d2d2d;
-  margin-bottom: 1.6rem;
+  line-height: 1.55;
+  color: #555;
+  margin-bottom: 1.8rem;
+  font-weight: 400;
 }
 
 .smooche-buy-box__description p {
   margin: 0;
 }
 
-/* Bundles */
+/* Bundles — match Kaching reference */
 .smooche-bundles {
   border: 0;
-  margin: 0 0 1.2rem;
+  margin: 0 0 1.4rem;
   padding: 0;
   display: grid;
-  gap: 1rem;
+  gap: 0.7rem;
 }
 
 .smooche-bundle {
@@ -290,12 +294,14 @@
   grid-template-columns: auto 1fr;
   gap: 1rem;
   align-items: start;
-  padding: 1.2rem 1.4rem;
-  border: 1.5px solid #e6e6e6;
+  padding: 1.4rem 1.4rem;
+  border: 1px solid #e6e6e6;
   border-radius: 10px;
   cursor: pointer;
   background: #fff;
+  box-shadow: none;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  overflow: hidden;
 }
 
 .smooche-bundle input {
@@ -309,14 +315,14 @@
   height: 1.8rem;
   border-radius: 50%;
   border: 2px solid #cfcfcf;
-  margin-top: 0.2rem;
+  margin-top: 0.25rem;
   position: relative;
   flex-shrink: 0;
 }
 
 .smooche-bundle.is-selected {
-  border-color: var(--smooche-accent, #df8096);
-  box-shadow: 0 0 0 1px var(--smooche-accent, #df8096);
+  border-color: transparent;
+  box-shadow: inset 0 0 0 2px var(--smooche-accent, #df8096);
 }
 
 .smooche-bundle.is-selected .smooche-bundle__radio {
@@ -346,14 +352,15 @@
 .smooche-bundle__left {
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
+  gap: 0.25rem;
   min-width: 0;
 }
 
 .smooche-bundle__title {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   font-weight: 700;
-  line-height: 1.2;
+  line-height: 1.4;
+  color: #151515;
 }
 
 .smooche-bundle__title-wrap {
@@ -365,52 +372,58 @@
 
 .smooche-bundle__subtitle {
   display: block;
-  font-size: 1.25rem;
-  line-height: 1.3;
-  color: #666;
+  font-size: 1.3rem;
+  line-height: 1.4;
+  font-weight: 400;
+  color: #555;
 }
 
 .smooche-bundle__prices {
   text-align: right;
   display: grid;
-  gap: 0.15rem;
+  gap: 0.1rem;
   justify-items: end;
   flex-shrink: 0;
 }
 
 .smooche-bundle__price {
   font-weight: 700;
-  font-size: 1.5rem;
-  line-height: 1.2;
+  font-size: 1.8rem;
+  line-height: 1.4;
+  color: #151515;
 }
 
 .smooche-bundle__compare {
-  color: #bf0505;
-  font-size: 1.25rem;
-  line-height: 1.2;
+  color: #555;
+  font-size: 1.3rem;
+  font-weight: 400;
+  line-height: 1.4;
+  text-decoration: line-through;
 }
 
 .smooche-bundle__deal {
-  font-size: 1.15rem;
-  color: #666;
+  font-size: 1.3rem;
+  color: #555;
 }
 
 .smooche-bundle__save {
   display: inline-flex;
+  align-items: center;
   background: var(--smooche-accent, #df8096);
   color: #fff;
-  font-size: 1.05rem;
-  font-weight: 700;
-  padding: 0.2rem 0.55rem;
-  border-radius: 4px;
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
+  font-size: 1.1rem;
+  font-weight: 400;
+  padding: 0.4rem 0.8rem;
+  border-radius: 10px;
+  text-transform: none;
+  letter-spacing: 0;
+  line-height: 1.4;
 }
 
 .smooche-bundle__gifts {
   display: grid;
-  gap: 0.6rem;
-  margin-top: 1rem;
+  gap: 0;
+  margin: 1.2rem -1.4rem -1.4rem;
 }
 
 .smooche-bundle__gift {
@@ -418,8 +431,8 @@
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  padding: 0.7rem 0.9rem;
-  border-radius: 8px;
+  padding: 0.7rem 1.45rem 0.6rem 0.7rem;
+  border-radius: 0;
   background: #f7f7f7;
   color: #151515;
 }
@@ -448,20 +461,20 @@
 .smooche-bundle__gift-text {
   font-size: 1.2rem;
   font-weight: 700;
-  line-height: 1.3;
+  line-height: 1.4;
 }
 
 .smooche-bundle__gift-price {
-  font-size: 1.2rem;
-  font-weight: 600;
+  font-size: 1.1rem;
+  font-weight: 400;
   text-decoration: line-through;
-  opacity: 0.9;
+  color: inherit;
   flex-shrink: 0;
+  line-height: 1.4;
 }
 
 .smooche-bundle.is-selected .smooche-bundle__gift-price {
   color: #fff;
-  opacity: 0.95;
 }
 
 .smooche-bundle__perks {
@@ -483,23 +496,24 @@
   align-items: center;
   justify-content: center;
   gap: 0.8rem;
-  min-height: 5.2rem;
-  padding: 1.2rem 1.6rem;
-  border: 0;
-  border-radius: 4px;
-  background: #000;
+  min-height: 4.8rem;
+  padding: 1.2rem 1.8rem;
+  border: 1px solid #151515;
+  border-radius: 10px;
+  background: #151515;
   color: #fff;
   font-family: inherit;
-  font-size: 1.5rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   cursor: pointer;
   position: relative;
 }
 
 .smooche-buy-box__atc:hover {
-  background: #1a1a1a;
+  background: #000;
+  border-color: #000;
 }
 
 .smooche-buy-box__atc:disabled {
