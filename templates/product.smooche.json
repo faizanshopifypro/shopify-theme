@@ -8,7 +8,7 @@
  * ------------------------------------------------------------
  */
 {
-  "layout": "theme.smooche",
+  "layout": false,
   "sections": {
     "main": {
       "type": "smooche-buy-box",
