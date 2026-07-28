@@ -1,0 +1,154 @@
+{{ 'smooche-phase6.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign bg_image = section.settings.image
+  if bg_image != blank
+    assign bg_url = bg_image | image_url: width: 1600
+  elsif section.settings.fallback_asset != blank
+    assign bg_url = section.settings.fallback_asset | asset_url
+  else
+    assign bg_url = 'smooche-difference-bg.jpg' | asset_url
+  endif
+-%}
+
+<section class="smooche-why" id="smooche-difference">
+  <div class="smooche-why__inner">
+    <div class="smooche-why__grid">
+      <div class="smooche-why__image" style="background-image: url({{ bg_url }});" role="img" aria-label="{{ section.settings.heading | escape }}"></div>
+      <div class="smooche-why__content">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="smooche-why__heading">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+
+        <div class="smooche-why__features">
+          {%- for block in section.blocks -%}
+            <div class="smooche-why__feature" {{ block.shopify_attributes }}>
+              <div class="smooche-why__feature-icon">
+                {%- if block.settings.icon != blank -%}
+                  {{ block.settings.icon | image_url: width: 80 | image_tag: loading: 'lazy', widths: '40,60,80', alt: block.settings.title }}
+                {%- elsif block.settings.icon_url != blank -%}
+                  <img src="{{ block.settings.icon_url }}" alt="" width="28" height="28" loading="lazy">
+                {%- else -%}
+                  <img src="{{ 'smooche-usp-adapts.svg' | asset_url }}" alt="" width="28" height="28" loading="lazy">
+                {%- endif -%}
+              </div>
+              <div class="smooche-why__feature-text">
+                <div class="smooche-why__feature-title">{{ block.settings.title }}</div>
+                {%- if block.settings.description != blank -%}
+                  <div class="smooche-why__feature-desc">{{ block.settings.description }}</div>
+                {%- endif -%}
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+
+        {%- if section.settings.button_label != blank -%}
+          <div class="smooche-why__cta">
+            <a class="smooche-why__btn" href="{% if section.settings.button_link != blank %}{{ section.settings.button_link }}{% else %}#smooche-buy{% endif %}">
+              {{ section.settings.button_label }}
+            </a>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Smooche difference",
+  "tag": "section",
+  "class": "section-smooche-difference",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "The smooche difference"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Side image"
+    },
+    {
+      "type": "text",
+      "id": "fallback_asset",
+      "label": "Fallback asset filename",
+      "default": "smooche-difference-bg.jpg"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Claim offer"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Visible results in seconds"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description",
+          "default": "<p>Watch it adapt to your exact skin tone as you blend</p>"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "icon_url",
+          "label": "Fallback icon URL"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Smooche difference",
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Visible results in seconds",
+            "description": "<p>Watch it adapt to your exact skin tone as you blend</p>",
+            "icon_url": "https://smooche.com/cdn/shop/files/icons_smooche_new_4_bfdf70f5-3226-4cbd-b987-f623e75dd045.svg"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Trusted by 100,000+ women",
+            "description": "<p>Join thousands who stopped shade-matching for good</p>",
+            "icon_url": "https://smooche.com/cdn/shop/files/icons_smooche_new_12.svg"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Clean & cruelty free",
+            "description": "<p>Vegan formula with skin-nourishing ingredients</p>",
+            "icon_url": "https://smooche.com/cdn/shop/files/icons_smooche_new_13.svg"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,91 @@
+{{ 'smooche-phase5.css' | asset_url | stylesheet_tag }}
+
+<section class="smooche-results">
+  <div class="smooche-results__inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="smooche-results__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+
+    <div class="smooche-results__grid">
+      {%- for block in section.blocks -%}
+        <div class="smooche-results__card" {{ block.shopify_attributes }}>
+          <div class="smooche-results__percentage">{{ block.settings.percent }}</div>
+          <div class="smooche-results__title">{{ block.settings.title }}</div>
+          {%- if block.settings.subtitle != blank -%}
+            <div class="smooche-results__subtitle">{{ block.settings.subtitle }}</div>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Smooche results",
+  "tag": "section",
+  "class": "section-smooche-results",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Real results"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Stat",
+      "settings": [
+        {
+          "type": "text",
+          "id": "percent",
+          "label": "Percentage",
+          "default": "97%"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Said it instantly matched their skin tone"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle",
+          "default": "Based on an eight-week independent customer panel"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Smooche results",
+      "blocks": [
+        {
+          "type": "stat",
+          "settings": {
+            "percent": "97%",
+            "title": "Said it instantly matched their skin tone"
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "percent": "98%",
+            "title": "Said their blemishes became invisible"
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "percent": "95%",
+            "title": "Loved that it didn’t feel heavy or mask-like"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

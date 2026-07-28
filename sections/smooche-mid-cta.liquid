@@ -1,0 +1,132 @@
+{{ 'smooche-phase4.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign card_product = section.settings.product
+  if card_product == blank
+    assign card_product = product
+  endif
+-%}
+
+<section class="smooche-mid-cta" id="smooche-mid-cta">
+  <div class="smooche-mid-cta__inner">
+    {%- for block in section.blocks -%}
+      {%- liquid
+        assign block_product = block.settings.product | default: card_product
+        assign sold_out = block.settings.sold_out
+        if block_product != blank and block_product.available == false
+          assign sold_out = true
+        endif
+      -%}
+      <div class="smooche-mid-cta__card" {{ block.shopify_attributes }}>
+        <div class="smooche-mid-cta__image">
+          {%- if block.settings.image != blank -%}
+            {{ block.settings.image | image_url: width: 240 | image_tag: loading: 'lazy', widths: '120,180,240' }}
+          {%- elsif block_product != blank and block_product.featured_media -%}
+            {{ block_product.featured_media | image_url: width: 240 | image_tag: loading: 'lazy', widths: '120,180,240', alt: block_product.title }}
+          {%- else -%}
+            <img src="{{ 'smooche-product-hero.png' | asset_url }}" alt="" width="120" height="120" loading="lazy">
+          {%- endif -%}
+        </div>
+        <div class="smooche-mid-cta__content">
+          <h5 class="smooche-mid-cta__title">
+            {%- if block.settings.title != blank -%}
+              {{ block.settings.title }}
+            {%- elsif block_product != blank -%}
+              {{ block_product.title }}
+            {%- else -%}
+              Color Changing Foundation
+            {%- endif -%}
+          </h5>
+          <div class="smooche-mid-cta__prices">
+            {%- if block_product != blank -%}
+              {%- if block_product.compare_at_price > block_product.price -%}
+                <s class="smooche-mid-cta__compare">{{ block_product.compare_at_price | money_without_trailing_zeros }}</s>
+              {%- endif -%}
+              <span>{{ block_product.price | money_without_trailing_zeros }}</span>
+            {%- else -%}
+              <s class="smooche-mid-cta__compare">$59</s>
+              <span>$39</span>
+            {%- endif -%}
+          </div>
+          {%- if sold_out -%}
+            <span class="smooche-mid-cta__btn smooche-mid-cta__btn--sold">{{ block.settings.sold_label }}</span>
+          {%- else -%}
+            <a class="smooche-mid-cta__btn" href="{% if block.settings.button_link != blank %}{{ block.settings.button_link }}{% else %}#smooche-buy{% endif %}">
+              {{ block.settings.button_label }}
+            </a>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Smooche mid CTA",
+  "tag": "section",
+  "class": "section-smooche-mid-cta",
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Fallback product"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Product card",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image override"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title override"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Shop now"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        },
+        {
+          "type": "checkbox",
+          "id": "sold_out",
+          "label": "Force sold out state",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "sold_label",
+          "label": "Sold out label",
+          "default": "Sold Out"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Smooche mid CTA",
+      "blocks": [
+        { "type": "card", "settings": { "button_label": "Shop now", "sold_out": false } },
+        { "type": "card", "settings": { "button_label": "Sold Out", "sold_out": true } }
+      ]
+    }
+  ]
+}
+{% endschema %}

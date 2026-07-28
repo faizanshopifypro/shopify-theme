@@ -3,6 +3,78 @@
   "sections": {
     "main": {
       "type": "smooche-buy-box",
+      "blocks": {
+        "acc_different": {
+          "type": "accordion",
+          "settings": {
+            "title": "What makes it different?",
+            "content": "<p>Our adaptive pigment formula removes the need to choose a shade. As you blend, micro-encapsulated pigments react to your skin’s warmth and undertones, shifting within seconds to match your unique complexion. Made for fair to medium tones, it evens redness, blurs imperfections, and melts into the skin for a seamless, second-skin finish.</p>",
+            "show_usps": true,
+            "use_skin_tones_asset": false,
+            "enable_ingredients_popup": false
+          }
+        },
+        "acc_skin": {
+          "type": "accordion",
+          "settings": {
+            "title": "Does it work on my skin?",
+            "content": "<p>Our Color Changing Foundation is suitable for all skin tones above and in between.</p>",
+            "show_usps": false,
+            "use_skin_tones_asset": true,
+            "enable_ingredients_popup": false
+          }
+        },
+        "acc_use": {
+          "type": "accordion",
+          "settings": {
+            "title": "How do I use it?",
+            "content": "<p><strong>Step 1: Create the Perfect Canvas</strong><br>Start with moisturized skin. Smooth on your go-to primer or hydrating cream to create an even base that helps your foundation glide on seamlessly.</p><p><strong>Step 2: Build Your Base</strong><br>Dispense one pump onto the back of your hand. Using a brush, dot foundation on your forehead, cheeks, nose, and chin. Blend outward from the center of your face using circular motions for a naturally soft, medium coverage finish with a velvety matte texture.</p><p><strong>Step 3: Customize Your Coverage</strong><br>Want more coverage in specific areas? Layer a second application on any spots that need extra attention—blemishes, redness, or discoloration—and blend seamlessly into your base.</p><p><strong>Step 4: Lock It In</strong><br>Brighten under-eyes with your favorite concealer, then lightly dust translucent powder across your T-zone (forehead, nose, and chin) to control shine and keep your look fresh all day.</p>",
+            "show_usps": false,
+            "use_skin_tones_asset": false,
+            "enable_ingredients_popup": false
+          }
+        },
+        "acc_guarantee": {
+          "type": "accordion",
+          "settings": {
+            "title": "How does the money back guarantee work?",
+            "content": "<p>Find your flawless shade with zero risk. Our Changing Foundation comes with a complete satisfaction promise: if your shade isn't spot-on, we'll make it right with a full refund—no questions asked.</p><p>We know finding the perfect foundation match online can feel like a gamble. That's why we've eliminated the risk entirely. Try it on your skin, in your lighting, with your routine. If it's not your perfect match, simply let us know within 30 days and we'll process your full refund immediately.</p>",
+            "show_usps": false,
+            "use_skin_tones_asset": false,
+            "enable_ingredients_popup": false
+          }
+        },
+        "acc_ingredients": {
+          "type": "accordion",
+          "settings": {
+            "title": "Ingredients",
+            "content": "<p><strong>Revitalizing ingredients</strong></p><ol><li><strong>Glycerin</strong>: Skin-loving glycerin for all-day hydration</li><li><strong>Mica</strong>: Natural mineral pigments for a soft, healthy glow</li><li><strong>Vitamin E</strong>: Nourishes and protects with skin-soothing Vitamin E</li></ol>",
+            "show_usps": false,
+            "use_skin_tones_asset": false,
+            "enable_ingredients_popup": true,
+            "popup_link_label": "View full list",
+            "ingredients_full": "<p>Water, Titanium Dioxide, Alumina, Silica, Propylene Glycol, Ethylhexyl Palmitate, Isononyl Isononanoate, Glycerin, Peg-30 Dipolyhydroxystearate, Cetyl Peg/Ppg-10/1 Dimethicone, Triethylhexanoin, Mica, C12-15 Alkyl Benzoate, Disteardimonium Hectorite, Ci 77491, Ci 77492, Ci 77499, Tocopheryl Acetate, Phenoxyethanol, Ethylhexylglycerin, Parfum</p>"
+          }
+        },
+        "acc_shipping": {
+          "type": "accordion",
+          "settings": {
+            "title": "Shipping and returns",
+            "content": "<p><strong>We offer FREE Worldwide Shipping!</strong></p><p>Due to the influx of orders from our ongoing <strong>sale</strong>, there will be a slight delay in dispatch. Rest assured, all orders will be shipped within a <strong>24-48 hour timeframe</strong>. Depending on your geographic location, the delivery may take approximately <strong>5-7 business days</strong>.</p><p>Although we offer shipping to all countries, a few islands are excluded from our delivery area. If your country is available during checkout we ship to your country. We also provide standard international tracked shipping at no additional cost on all orders.</p><p>Additionally, we offer a premium international insured shipping option at a modest charge of <strong>$2.99USD</strong>, which we highly recommend for prioritized service and faster delivery.</p><p><strong>Returns</strong><br>All returns must be postmarked within fourteen (14) days of the delivery. All returned items must be in new and unused condition, in the original packaging.</p>",
+            "show_usps": false,
+            "use_skin_tones_asset": false,
+            "enable_ingredients_popup": false
+          }
+        }
+      },
+      "block_order": [
+        "acc_different",
+        "acc_skin",
+        "acc_use",
+        "acc_guarantee",
+        "acc_ingredients",
+        "acc_shipping"
+      ],
       "settings": {
         "eyebrow": "The viral skin tone adapting foundation",
         "social_name": "Hilda",
@@ -33,9 +105,361 @@
         "urgency_text": "Due to high demand, limited quantities available",
         "sold_percent": 89,
         "countdown_hours": 6,
-        "show_gallery_badges": false
+        "show_gallery_badges": false,
+        "show_guarantee": true,
+        "guarantee_heading": "30-day money-back guarantee",
+        "guarantee_text": "<p>Try it worry-free. If our skin-adapting foundation doesn't blend seamlessly with your tone, you'll get your money back*</p>"
+      }
+    },
+    "mid_cta": {
+      "type": "smooche-mid-cta",
+      "blocks": {
+        "card_shop": {
+          "type": "card",
+          "settings": {
+            "title": "Color Changing Foundation",
+            "button_label": "Shop now",
+            "button_link": "#smooche-buy",
+            "sold_out": false,
+            "sold_label": "Sold Out"
+          }
+        },
+        "card_sold": {
+          "type": "card",
+          "settings": {
+            "title": "Color Changing Foundation",
+            "button_label": "Sold Out",
+            "button_link": "#smooche-buy",
+            "sold_out": true,
+            "sold_label": "Sold Out"
+          }
+        }
+      },
+      "block_order": ["card_shop", "card_sold"],
+      "settings": {}
+    },
+    "testimonials": {
+      "type": "smooche-testimonials",
+      "blocks": {
+        "rev_margaret": {
+          "type": "review",
+          "settings": {
+            "name": "Margaret, 61",
+            "asset_key": "margaret",
+            "show_verified": true,
+            "verified_label": "Verified purchase",
+            "quote": "<p>\"I honestly thought my foundation days were over. At 61, everything I tried would settle into my smile lines within an hour and turn orange by lunch. I'd resigned myself to just using tinted moisturizer. Then my daughter bought me this for my birthday. I cried when I looked in the mirror. My skin looked like MY skin—just smoother, more even, more radiant. No lines emphasized. No orange. No mask. I'm 61 and I finally love wearing foundation again.\"</p>"
+          }
+        },
+        "rev_jennifer": {
+          "type": "review",
+          "settings": {
+            "name": "Jennifer, 58",
+            "asset_key": "jennifer",
+            "show_verified": true,
+            "verified_label": "Verified purchase",
+            "quote": "<p>\"In 25 years, I've spent thousands on foundation. High-end, drugstore, luxury brands, custom-mixed—I tried it ALL. Nothing worked on my 54-year-old skin. They all settled into my pores, clung to dry patches, and oxidized. This is the first foundation that's made me look YOUNGER, not older. My husband asked if I'd done something to my face. That's when I knew this was different\"</p>"
+          }
+        },
+        "rev_deborah": {
+          "type": "review",
+          "settings": {
+            "name": "Deborah, 63",
+            "asset_key": "deborah",
+            "show_verified": true,
+            "verified_label": "Verified purchase",
+            "quote": "<p>\"As a makeup artist for 30+ years, I've worked with every foundation on the market. I'm 63 and I've never found one that works this well on mature skin—including my own. The way it glides over texture instead of settling into it is remarkable. I've started recommending it to every client over 50. It's the only foundation I trust on aging skin\"</p>"
+          }
+        },
+        "rev_mia": {
+          "type": "review",
+          "settings": {
+            "name": "Mia, 56",
+            "asset_key": "mia",
+            "show_verified": true,
+            "verified_label": "Verified purchase",
+            "quote": "<p>\"I've spent over $300 in the past year alone returning foundations that didn't work. Wrong shade, oxidized, settled into lines—you name it. I was terrified to try another one. But the shade-match guarantee convinced me to give it ONE more shot. I've been wearing it for 3 months now and I've never looked back. It's the only foundation I'll ever buy again. I'm 56 and my skin finally looks flawless.\"</p>"
+          }
+        },
+        "rev_patricia": {
+          "type": "review",
+          "settings": {
+            "name": "Patricia, 58",
+            "asset_key": "patricia",
+            "show_verified": true,
+            "verified_label": "Verified purchase",
+            "quote": "<p>\"I'm a retired chemist, so I'm VERY skeptical of beauty marketing claims. 'Color-adapting'? Sure. But I tried it anyway because nothing else worked. I watched the formula literally transform on my skin—I could see it happening. Within 60 seconds it matched my exact tone, including the subtle pink undertone I can never find in stores. Eight hours later, still perfect. No oxidation. I actually went back and read the patent. This is real science, not marketing hype.\"</p>"
+          }
+        },
+        "rev_susan": {
+          "type": "review",
+          "settings": {
+            "name": "Susan, 62",
+            "asset_key": "susan",
+            "show_verified": true,
+            "verified_label": "Verified purchase",
+            "quote": "<p>\"My 28-year-old daughter is a beauty influencer and she sent me this saying 'Mom, you NEED to try this.' I was skeptical—what works for her young skin won't work for my 62-year-old face. But she insisted. Ladies, LISTEN TO YOUR DAUGHTERS. This is magic. No settling, no oxidation, and it actually made me look 10 years younger. Even my doctor asked what I'd been doing differently. Best beauty purchase of my life.\"</p>"
+          }
+        }
+      },
+      "block_order": [
+        "rev_margaret",
+        "rev_jennifer",
+        "rev_deborah",
+        "rev_mia",
+        "rev_patricia",
+        "rev_susan"
+      ],
+      "settings": {
+        "heading": true,
+        "heading_prefix": "Loved by",
+        "heading_accent": "50.000+"
+      }
+    },
+    "sticky_atc": {
+      "type": "smooche-sticky-atc",
+      "settings": {
+        "title": "Color Changing Foundation",
+        "button_label": "Shop now",
+        "sold_label": "Sold Out"
+      }
+    },
+    "story_adapts": {
+      "type": "smooche-image-with-text",
+      "settings": {
+        "reverse": false,
+        "fallback_asset": "smooche-adapts-img.png",
+        "heading": "Foundation that",
+        "heading_highlight": "adapts to you",
+        "text": "<p>Meet the foundation that takes the guesswork out of beauty. Our color-changing formula adjusts seamlessly to fair to medium skin tones, giving you a radiant, natural finish that looks like your skin, only better. It blurs imperfections, softens fine lines, and neutralizes redness in seconds, all while protecting with SPF 15. One shade, endless confidence. Just apply, blend, and watch the transformation.</p>",
+        "usp_1": "Adapts to your skin tone",
+        "usp_1_icon_asset": "smooche-usp-adapts.svg",
+        "usp_2": "Hides imperfections",
+        "usp_2_icon_asset": "smooche-usp-hides.svg"
+      }
+    },
+    "story_how": {
+      "type": "smooche-image-with-text",
+      "settings": {
+        "reverse": true,
+        "fallback_asset": "smooche-how-works-img.png",
+        "heading": "How does it work?",
+        "heading_highlight": "",
+        "text": "<p>Our Skin-Tone Adapting Foundation uses intelligent mineral pigments that adjust as you blend.</p><p>At first touch, the pigments look soft and neutral. As you smooth the formula across your skin, these micro-pigments disperse and warm up, revealing the natural blend of tones your complexion needs.</p><p>The result? A finish that looks like your skin—just more even, smoother, and perfectly balanced. No guesswork. No harsh lines. Just effortless, self-adjusting coverage that melts into your unique tone.</p>",
+        "usp_1": "Natural look for 16+ hours",
+        "usp_1_icon_asset": "smooche-usp-hours.svg",
+        "usp_2": "With SPF 15",
+        "usp_2_icon_asset": "smooche-usp-spf.svg"
+      }
+    },
+    "results": {
+      "type": "smooche-results",
+      "blocks": {
+        "stat_1": {
+          "type": "stat",
+          "settings": {
+            "percent": "97%",
+            "title": "Said it instantly matched their skin tone",
+            "subtitle": "Based on an eight-week independent customer panel"
+          }
+        },
+        "stat_2": {
+          "type": "stat",
+          "settings": {
+            "percent": "98%",
+            "title": "Said their blemishes became invisible",
+            "subtitle": "Based on an eight-week independent customer panel"
+          }
+        },
+        "stat_3": {
+          "type": "stat",
+          "settings": {
+            "percent": "95%",
+            "title": "Loved that it didn’t feel heavy or mask-like",
+            "subtitle": "Based on an eight-week independent customer panel"
+          }
+        }
+      },
+      "block_order": ["stat_1", "stat_2", "stat_3"],
+      "settings": {
+        "heading": "Real results"
+      }
+    },
+    "compare": {
+      "type": "smooche-compare",
+      "blocks": {
+        "row_1": { "type": "row", "settings": { "feature": "Adapts to skin tone" } },
+        "row_2": { "type": "row", "settings": { "feature": "SPF 15" } },
+        "row_3": { "type": "row", "settings": { "feature": "Lasts 16+ hours" } },
+        "row_4": { "type": "row", "settings": { "feature": "Feels lightweight" } },
+        "row_5": { "type": "row", "settings": { "feature": "No settling in fine lines" } }
+      },
+      "block_order": ["row_1", "row_2", "row_3", "row_4", "row_5"],
+      "settings": {
+        "heading": "Why smooche?",
+        "brand_label": "SMOOCHE",
+        "others_label": "Others"
+      }
+    },
+    "ingredients": {
+      "type": "smooche-ingredients",
+      "blocks": {
+        "ing_glycerin": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Glycerin",
+            "badge": "Hydrating",
+            "description": "<p>Skin-loving glycerin for all-day hydration</p>",
+            "image_url": "https://smooche.com/cdn/shop/files/3_4e5b0265-3b6d-43bb-84c5-d120590d4a9c_600x600.jpg?v=1765904720"
+          }
+        },
+        "ing_vitamine": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Vitamin E",
+            "badge": "Nourishing",
+            "description": "<p>Nourishes and protects with skin-soothing Vitamin E</p>",
+            "image_url": "https://smooche.com/cdn/shop/files/1_c4516a77-bd76-4c69-b753-710b3848f891_600x600.jpg?v=1765904715"
+          }
+        },
+        "ing_mica": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Mica",
+            "badge": "Natural",
+            "description": "<p>Natural mineral pigments for a soft, healthy glow</p>",
+            "image_url": "https://smooche.com/cdn/shop/files/2_5019c3ba-97f8-47b8-b8dd-2231a9070845_600x600.jpg?v=1765904718"
+          }
+        }
+      },
+      "block_order": ["ing_glycerin", "ing_vitamine", "ing_mica"],
+      "settings": {
+        "heading": "Skin-Loving Ingredients",
+        "subtitle": "<p>Clean, nourishing formulas your skin will thank you for</p>"
+      }
+    },
+    "faq": {
+      "type": "smooche-faq",
+      "blocks": {
+        "faq_apply": {
+          "type": "item",
+          "settings": {
+            "title": "How to apply?",
+            "content": "<p><strong>Step 1: Create the Perfect Canvas</strong><br>Start with moisturized skin. Smooth on your go-to primer or hydrating cream to create an even base that helps your foundation glide on seamlessly.</p><p><strong>Step 2: Build Your Base</strong><br>Dispense one pump onto the back of your hand. Using a brush, dot foundation on your forehead, cheeks, nose, and chin. Blend outward from the center of your face using circular motions for a naturally soft, medium coverage finish with a velvety matte texture.</p><p><strong>Step 3: Customize Your Coverage</strong><br>Want more coverage in specific areas? Layer a second application on any spots that need extra attention—blemishes, redness, or discoloration—and blend seamlessly into your base.</p><p><strong>Step 4: Lock It In</strong><br>Brighten under-eyes with your favorite concealer, then lightly dust translucent powder across your T-zone (forehead, nose, and chin) to control shine and keep your look fresh all day.</p>"
+          }
+        },
+        "faq_last": {
+          "type": "item",
+          "settings": {
+            "title": "How long does it last?",
+            "content": "<p>Our long-wear formula is designed to stay put for up to 16 hours without fading, oxidizing, or transferring onto clothes or masks. The breathable, lightweight texture locks onto skin while still feeling comfortable, so you get all-day coverage that looks as fresh at 8 PM as it did at 8 AM.</p>"
+          }
+        },
+        "faq_coverage": {
+          "type": "item",
+          "settings": {
+            "title": "What's the coverage like? Can I make it lighter or heavier?",
+            "content": "<p>You're in complete control. One pump gives you natural, \"your skin but better\" medium coverage that evens tone and softens imperfections. Need more? Layer a second application on specific areas for full coverage that still looks like skin—never cakey or heavy. It's truly customizable to your needs each day.</p>"
+          }
+        },
+        "faq_breakout": {
+          "type": "item",
+          "settings": {
+            "title": "Will it break me out or irritate sensitive skin?",
+            "content": "<p>Our formula is dermatologist-tested, non-comedogenic (won't clog pores), and free from harsh irritants. We've also excluded common sensitizers like parabens, sulfates, and synthetic fragrances. In fact, 88% of users in our clinical study reported improved skin texture after just 2 weeks of use—it's skincare and makeup in one.</p>"
+          }
+        },
+        "faq_guarantee": {
+          "type": "item",
+          "settings": {
+            "title": "How does the money back guarantee work?",
+            "content": "<p>Find your flawless shade with zero risk. Our Changing Foundation comes with a complete satisfaction promise: if your shade isn't spot-on, we'll make it right with a full refund—no questions asked.</p><p>We know finding the perfect foundation match online can feel like a gamble. That's why we've eliminated the risk entirely. Try it on your skin, in your lighting, with your routine. If it's not your perfect match, simply let us know within 30 days and we'll process your full refund immediately.</p>"
+          }
+        },
+        "faq_ship": {
+          "type": "item",
+          "settings": {
+            "title": "Where do you ship to?",
+            "content": "<p>We offer free worldwide shipping! Shipping to 65+ countries. Please see our shipping policy to find your country and shipping times.</p>"
+          }
+        },
+        "faq_return": {
+          "type": "item",
+          "settings": {
+            "title": "Can I return my order?",
+            "content": "<p>All returns must be postmarked within fourteen (14) days of the delivery. All returned items must be in new and unused condition, in the original packaging. See our return policy for more info</p>"
+          }
+        },
+        "faq_duties": {
+          "type": "item",
+          "settings": {
+            "title": "Do I have to pay import duties and tax?",
+            "content": "<p>No, you do not have to pay any import duties and tax. We aim to provide a hassle-free shopping experience, so the price you see is the price you pay. There are no hidden fees or additional charges at delivery. This ensures that you can enjoy our products without worrying about extra costs.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_apply",
+        "faq_last",
+        "faq_coverage",
+        "faq_breakout",
+        "faq_guarantee",
+        "faq_ship",
+        "faq_return",
+        "faq_duties"
+      ],
+      "settings": {
+        "heading": "Frequently asked questions"
+      }
+    },
+    "difference": {
+      "type": "smooche-difference",
+      "blocks": {
+        "feat_results": {
+          "type": "feature",
+          "settings": {
+            "title": "Visible results in seconds",
+            "description": "<p>Watch it adapt to your exact skin tone as you blend</p>",
+            "icon_url": "https://smooche.com/cdn/shop/files/icons_smooche_new_4_bfdf70f5-3226-4cbd-b987-f623e75dd045.svg"
+          }
+        },
+        "feat_trusted": {
+          "type": "feature",
+          "settings": {
+            "title": "Trusted by 100,000+ women",
+            "description": "<p>Join thousands who stopped shade-matching for good</p>",
+            "icon_url": "https://smooche.com/cdn/shop/files/icons_smooche_new_12.svg"
+          }
+        },
+        "feat_clean": {
+          "type": "feature",
+          "settings": {
+            "title": "Clean & cruelty free",
+            "description": "<p>Vegan formula with skin-nourishing ingredients</p>",
+            "icon_url": "https://smooche.com/cdn/shop/files/icons_smooche_new_13.svg"
+          }
+        }
+      },
+      "block_order": ["feat_results", "feat_trusted", "feat_clean"],
+      "settings": {
+        "heading": "The smooche difference",
+        "fallback_asset": "smooche-difference-bg.jpg",
+        "button_label": "Claim offer",
+        "button_link": "#smooche-buy"
       }
     }
   },
-  "order": ["main"]
+  "order": [
+    "main",
+    "mid_cta",
+    "testimonials",
+    "story_adapts",
+    "story_how",
+    "results",
+    "compare",
+    "ingredients",
+    "faq",
+    "difference",
+    "sticky_atc"
+  ]
 }

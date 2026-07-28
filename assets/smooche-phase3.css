@@ -1,0 +1,287 @@
+/* Phase 3 — guarantee + product accordions */
+
+.smooche-guarantee {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin: 2rem 0 1.2rem;
+  padding: 1.4rem 0 0;
+  border-top: 1px solid #eee;
+}
+
+.smooche-guarantee__head {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.smooche-guarantee__icon {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: #f7f7f7;
+}
+
+.smooche-guarantee__icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.smooche-guarantee__title {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: #151515;
+}
+
+.smooche-guarantee__text {
+  margin: 0;
+  font-size: 1.35rem;
+  line-height: 1.45;
+  color: #484848;
+}
+
+.smooche-guarantee__text p {
+  margin: 0;
+}
+
+/* Accordions */
+.smooche-accordions {
+  margin: 0 0 1.6rem;
+  border-top: 1px solid #e8e8e8;
+}
+
+.smooche-accordion {
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.smooche-accordion__trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.2rem;
+  padding: 1.45rem 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  font-size: 1.55rem;
+  font-weight: 600;
+  color: #151515;
+  line-height: 1.3;
+}
+
+.smooche-accordion__trigger:hover {
+  color: #000;
+}
+
+.smooche-accordion__icon {
+  position: relative;
+  width: 1.6rem;
+  height: 1.6rem;
+  flex-shrink: 0;
+}
+
+.smooche-accordion__icon::before,
+.smooche-accordion__icon::after {
+  content: '';
+  position: absolute;
+  background: #151515;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.smooche-accordion__icon::before {
+  width: 100%;
+  height: 1.5px;
+}
+
+.smooche-accordion__icon::after {
+  width: 1.5px;
+  height: 100%;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.smooche-accordion.is-open .smooche-accordion__icon::after {
+  opacity: 0;
+  transform: translate(-50%, -50%) scaleY(0);
+}
+
+.smooche-accordion__panel {
+  display: none;
+  padding: 0 0 1.6rem;
+}
+
+.smooche-accordion.is-open .smooche-accordion__panel {
+  display: block;
+}
+
+.smooche-accordion__inner {
+  font-size: 1.4rem;
+  line-height: 1.55;
+  color: #2d2d2d;
+}
+
+.smooche-accordion__inner p {
+  margin: 0 0 1rem;
+}
+
+.smooche-accordion__inner p:last-child {
+  margin-bottom: 0;
+}
+
+.smooche-accordion__inner ol {
+  margin: 0.6rem 0 1rem;
+  padding-left: 1.6rem;
+}
+
+.smooche-accordion__inner li {
+  margin-bottom: 0.4rem;
+}
+
+.smooche-accordion__usps {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+  margin-top: 1.2rem;
+}
+
+.smooche-accordion__usp {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.8rem 1rem;
+  background: #f7f7f7;
+  border-radius: 8px;
+}
+
+.smooche-accordion__usp img {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.smooche-accordion__usp p {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.smooche-accordion__image {
+  margin-top: 1rem;
+}
+
+.smooche-accordion__image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+}
+
+.smooche-accordion__popup-link {
+  margin-top: 1rem;
+}
+
+.smooche-accordion__popup-link button,
+.smooche-accordion__popup-link a {
+  background: none;
+  border: 0;
+  padding: 0;
+  color: #151515;
+  font: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* Ingredients modal */
+.smooche-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1.6rem;
+}
+
+.smooche-modal.is-open {
+  display: flex;
+}
+
+.smooche-modal__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.smooche-modal__dialog {
+  position: relative;
+  z-index: 1;
+  width: min(52rem, 100%);
+  max-height: min(80vh, 640px);
+  overflow: auto;
+  background: #fff;
+  border-radius: 12px;
+  padding: 2.4rem 2rem 2rem;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.18);
+}
+
+.smooche-modal__close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 3.2rem;
+  height: 3.2rem;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  font-size: 2.4rem;
+  line-height: 1;
+  color: #151515;
+}
+
+.smooche-modal__title {
+  margin: 0 2.4rem 1.2rem 0;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.smooche-modal__body {
+  font-size: 1.4rem;
+  line-height: 1.55;
+  color: #2d2d2d;
+}
+
+.smooche-modal__body p {
+  margin: 0;
+}
+
+/* Standalone section wrappers (full-width below buy box) */
+.smooche-phase3-section {
+  max-width: var(--smooche-page-width, 1200px);
+  margin: 0 auto;
+  padding: 0 1.6rem 1.6rem;
+  font-family: var(--smooche-font, 'Jost', sans-serif);
+}
+
+@media screen and (min-width: 990px) {
+  .smooche-phase3-section--split {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    gap: 4rem;
+  }
+
+  .smooche-phase3-section--split .smooche-phase3-section__spacer {
+    min-height: 1px;
+  }
+}

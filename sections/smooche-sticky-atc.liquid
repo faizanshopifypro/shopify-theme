@@ -1,0 +1,91 @@
+{{ 'smooche-phase4.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'smooche-phase4.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign sticky_product = section.settings.product
+  if sticky_product == blank
+    assign sticky_product = product
+  endif
+-%}
+
+<aside class="smooche-sticky-atc" data-smooche-sticky-atc aria-label="Sticky buy bar">
+  <div class="smooche-sticky-atc__wrap">
+    <div class="smooche-sticky-atc__left">
+      {%- if sticky_product != blank and sticky_product.featured_media -%}
+        {{
+          sticky_product.featured_media
+          | image_url: width: 120
+          | image_tag: loading: 'lazy', widths: '60,90,120', alt: sticky_product.title
+        }}
+      {%- else -%}
+        <img src="{{ 'smooche-product-hero.png' | asset_url }}" alt="" width="60" height="60" loading="lazy">
+      {%- endif -%}
+      <div>
+        <h5 class="smooche-sticky-atc__title">
+          {%- if sticky_product != blank -%}
+            {{ sticky_product.title }}
+          {%- else -%}
+            {{ section.settings.title }}
+          {%- endif -%}
+        </h5>
+        <div class="smooche-sticky-atc__prices">
+          {%- if sticky_product != blank -%}
+            {%- if sticky_product.compare_at_price > sticky_product.price -%}
+              <s class="smooche-sticky-atc__compare">{{ sticky_product.compare_at_price | money_without_trailing_zeros }}</s>
+            {%- endif -%}
+            <span>{{ sticky_product.price | money_without_trailing_zeros }}</span>
+          {%- else -%}
+            <s class="smooche-sticky-atc__compare">$59</s>
+            <span>$39</span>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+
+    {%- if sticky_product != blank and sticky_product.available == false -%}
+      <span class="smooche-sticky-atc__btn" style="opacity:0.55;cursor:default;">{{ section.settings.sold_label }}</span>
+    {%- else -%}
+      <a class="smooche-sticky-atc__btn" href="#smooche-buy" data-sticky-shop-now>
+        {{ section.settings.button_label }}
+      </a>
+    {%- endif -%}
+  </div>
+</aside>
+
+{% schema %}
+{
+  "name": "Smooche sticky ATC",
+  "tag": "section",
+  "class": "section-smooche-sticky-atc",
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Fallback title",
+      "default": "Color Changing Foundation"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Shop now"
+    },
+    {
+      "type": "text",
+      "id": "sold_label",
+      "label": "Sold out label",
+      "default": "Sold Out"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Smooche sticky ATC"
+    }
+  ]
+}
+{% endschema %}

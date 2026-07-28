@@ -1,0 +1,221 @@
+{{ 'smooche-phase3.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'smooche-phase3.js' | asset_url }}" defer="defer"></script>
+
+<div class="smooche-phase3-section" {{ section.shopify_attributes }}>
+  <div class="smooche-accordions" data-smooche-accordions>
+    {%- for block in section.blocks -%}
+      {%- assign panel_id = 'SmoocheAccordion-' | append: section.id | append: '-' | append: block.id -%}
+      <div class="smooche-accordion" data-smooche-accordion {{ block.shopify_attributes }}>
+        <button
+          type="button"
+          class="smooche-accordion__trigger"
+          data-smooche-accordion-trigger
+          aria-expanded="false"
+          aria-controls="{{ panel_id }}"
+        >
+          <span>{{ block.settings.title }}</span>
+          <span class="smooche-accordion__icon" aria-hidden="true"></span>
+        </button>
+        <div class="smooche-accordion__panel" id="{{ panel_id }}">
+          <div class="smooche-accordion__inner rte">
+            {{ block.settings.content }}
+
+            {%- if block.settings.show_usps -%}
+              <div class="smooche-accordion__usps">
+                <div class="smooche-accordion__usp">
+                  <img src="{{ 'smooche-usp-adapts.svg' | asset_url }}" alt="" width="22" height="22" loading="lazy">
+                  <p>Adapts to your skin tone</p>
+                </div>
+                <div class="smooche-accordion__usp">
+                  <img src="{{ 'smooche-usp-hides.svg' | asset_url }}" alt="" width="22" height="22" loading="lazy">
+                  <p>Hides imperfections</p>
+                </div>
+                <div class="smooche-accordion__usp">
+                  <img src="{{ 'smooche-usp-hours.svg' | asset_url }}" alt="" width="22" height="22" loading="lazy">
+                  <p>Natural look for 16+ hours</p>
+                </div>
+                <div class="smooche-accordion__usp">
+                  <img src="{{ 'smooche-usp-spf.svg' | asset_url }}" alt="" width="22" height="22" loading="lazy">
+                  <p>With SPF 15</p>
+                </div>
+              </div>
+            {%- endif -%}
+
+            {%- if block.settings.image != blank -%}
+              <div class="smooche-accordion__image">
+                {{
+                  block.settings.image
+                  | image_url: width: 900
+                  | image_tag: loading: 'lazy', widths: '400,600,800,900', sizes: '(min-width: 990px) 40vw, 100vw'
+                }}
+              </div>
+            {%- elsif block.settings.use_skin_tones_asset -%}
+              <div class="smooche-accordion__image">
+                <img
+                  src="{{ 'smooche-skin-tones.png' | asset_url }}"
+                  alt="Skin tone range"
+                  width="800"
+                  height="450"
+                  loading="lazy"
+                >
+              </div>
+            {%- endif -%}
+
+            {%- if block.settings.enable_ingredients_popup -%}
+              <div class="smooche-accordion__popup-link">
+                <button type="button" data-smooche-modal-open="SmoocheIngredientsModal-{{ section.id }}">
+                  {{ block.settings.popup_link_label }}
+                </button>
+              </div>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+
+  {%- assign has_ingredients_popup = false -%}
+  {%- for block in section.blocks -%}
+    {%- if block.settings.enable_ingredients_popup -%}
+      {%- assign has_ingredients_popup = true -%}
+      {%- assign ingredients_full = block.settings.ingredients_full -%}
+    {%- endif -%}
+  {%- endfor -%}
+
+  {%- if has_ingredients_popup -%}
+    <div
+      class="smooche-modal"
+      id="SmoocheIngredientsModal-{{ section.id }}"
+      data-smooche-modal
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="SmoocheIngredientsTitle-{{ section.id }}"
+    >
+      <div class="smooche-modal__overlay" data-smooche-modal-close></div>
+      <div class="smooche-modal__dialog">
+        <button type="button" class="smooche-modal__close" data-smooche-modal-close aria-label="Close">&times;</button>
+        <h3 class="smooche-modal__title" id="SmoocheIngredientsTitle-{{ section.id }}">Ingredients</h3>
+        <div class="smooche-modal__body rte">
+          {{ ingredients_full }}
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Smooche accordions",
+  "tag": "section",
+  "class": "section-smooche-accordions",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Accordion item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Accordion title"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content",
+          "default": "<p>Accordion content</p>"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_usps",
+          "label": "Show USP grid under content",
+          "default": false
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Content image"
+        },
+        {
+          "type": "checkbox",
+          "id": "use_skin_tones_asset",
+          "label": "Use bundled skin tones image",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_ingredients_popup",
+          "label": "Enable ingredients popup link",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "popup_link_label",
+          "label": "Popup link label",
+          "default": "View full list"
+        },
+        {
+          "type": "richtext",
+          "id": "ingredients_full",
+          "label": "Full ingredients list (popup)",
+          "default": "<p>Water, Titanium Dioxide, Alumina, Silica, Propylene Glycol, Ethylhexyl Palmitate, Isononyl Isononanoate, Glycerin, Peg-30 Dipolyhydroxystearate, Cetyl Peg/Ppg-10/1 Dimethicone, Triethylhexanoin, Mica, C12-15 Alkyl Benzoate, Disteardimonium Hectorite, Ci 77491, Ci 77492, Ci 77499, Tocopheryl Acetate, Phenoxyethanol, Ethylhexylglycerin, Parfum</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Smooche accordions",
+      "blocks": [
+        {
+          "type": "item",
+          "settings": {
+            "title": "What makes it different?",
+            "content": "<p>Our adaptive pigment formula removes the need to choose a shade. As you blend, micro-encapsulated pigments react to your skin’s warmth and undertones, shifting within seconds to match your unique complexion. Made for fair to medium tones, it evens redness, blurs imperfections, and melts into the skin for a seamless, second-skin finish.</p>",
+            "show_usps": true
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "title": "Does it work on my skin?",
+            "content": "<p>Our Color Changing Foundation is suitable for all skin tones above and in between.</p>",
+            "use_skin_tones_asset": true
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "title": "How do I use it?",
+            "content": "<p><strong>Step 1: Create the Perfect Canvas</strong><br>Start with moisturized skin. Smooth on your go-to primer or hydrating cream to create an even base that helps your foundation glide on seamlessly.</p><p><strong>Step 2: Build Your Base</strong><br>Dispense one pump onto the back of your hand. Using a brush, dot foundation on your forehead, cheeks, nose, and chin. Blend outward from the center of your face using circular motions for a naturally soft, medium coverage finish with a velvety matte texture.</p><p><strong>Step 3: Customize Your Coverage</strong><br>Want more coverage in specific areas? Layer a second application on any spots that need extra attention—blemishes, redness, or discoloration—and blend seamlessly into your base.</p><p><strong>Step 4: Lock It In</strong><br>Brighten under-eyes with your favorite concealer, then lightly dust translucent powder across your T-zone (forehead, nose, and chin) to control shine and keep your look fresh all day.</p>"
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "title": "How does the money back guarantee work?",
+            "content": "<p>Find your flawless shade with zero risk. Our Changing Foundation comes with a complete satisfaction promise: if your shade isn't spot-on, we'll make it right with a full refund—no questions asked.</p><p>We know finding the perfect foundation match online can feel like a gamble. That's why we've eliminated the risk entirely. Try it on your skin, in your lighting, with your routine. If it's not your perfect match, simply let us know within 30 days and we'll process your full refund immediately.</p>"
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "title": "Ingredients",
+            "content": "<p><strong>Revitalizing ingredients</strong></p><ol><li><strong>Glycerin</strong>: Skin-loving glycerin for all-day hydration</li><li><strong>Mica</strong>: Natural mineral pigments for a soft, healthy glow</li><li><strong>Vitamin E</strong>: Nourishes and protects with skin-soothing Vitamin E</li></ol>",
+            "enable_ingredients_popup": true,
+            "popup_link_label": "View full list"
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "title": "Shipping and returns",
+            "content": "<p><strong>We offer FREE Worldwide Shipping!</strong></p><p>Due to the influx of orders from our ongoing <strong>sale</strong>, there will be a slight delay in dispatch. Rest assured, all orders will be shipped within a <strong>24-48 hour timeframe</strong>. Depending on your geographic location, the delivery may take approximately <strong>5-7 business days</strong>.</p><p>Although we offer shipping to all countries, a few islands are excluded from our delivery area. If your country is available during checkout we ship to your country. We also provide standard international tracked shipping at no additional cost on all orders.</p><p>Additionally, we offer a premium international insured shipping option at a modest charge of <strong>$2.99USD</strong>, which we highly recommend for prioritized service and faster delivery.</p><p><strong>Returns</strong><br>All returns must be postmarked within fourteen (14) days of the delivery. All returned items must be in new and unused condition, in the original packaging.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,19 @@
+{%- comment -%}
+  Smooche 30-day money-back guarantee card
+  Accepts: heading, text, icon_url (optional string)
+{%- endcomment -%}
+<div class="smooche-guarantee">
+  <div class="smooche-guarantee__head">
+    <div class="smooche-guarantee__icon">
+      {%- if icon_url != blank -%}
+        <img src="{{ icon_url }}" alt="" width="80" height="80" loading="lazy">
+      {%- else -%}
+        <img src="{{ 'smooche-guarantee-icon.png' | asset_url }}" alt="" width="80" height="80" loading="lazy">
+      {%- endif -%}
+    </div>
+    <h5 class="smooche-guarantee__title">{{ heading }}</h5>
+  </div>
+  <div class="smooche-guarantee__text">
+    {{ text }}
+  </div>
+</div>

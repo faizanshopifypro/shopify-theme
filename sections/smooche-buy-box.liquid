@@ -1,6 +1,8 @@
 {{ 'smooche-buy-box.css' | asset_url | stylesheet_tag }}
+{{ 'smooche-phase3.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'smooche-buy-box.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'smooche-phase3.js' | asset_url }}" defer="defer"></script>
 
 {%- liquid
   assign product = product
@@ -87,7 +89,7 @@
       </div>
 
       {%- comment -%} ========== Product info ========== {%- endcomment -%}
-      <div class="smooche-buy-box__info">
+      <div class="smooche-buy-box__info" id="smooche-buy" data-smooche-buy-anchor>
         {%- if section.settings.eyebrow != blank -%}
           <div class="smooche-buy-box__eyebrow">{{ section.settings.eyebrow }}</div>
         {%- endif -%}
@@ -295,6 +297,104 @@
               </div>
             </div>
           </div>
+        {%- endif -%}
+
+        {%- if section.settings.show_guarantee -%}
+          {% render 'smooche-guarantee',
+            heading: section.settings.guarantee_heading,
+            text: section.settings.guarantee_text
+          %}
+        {%- endif -%}
+
+        {%- if section.blocks.size > 0 -%}
+          <div class="smooche-accordions" data-smooche-accordions>
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'accordion' -%}
+              {%- assign panel_id = 'SmoocheBuyAccordion-' | append: section.id | append: '-' | append: block.id -%}
+              <div class="smooche-accordion" data-smooche-accordion {{ block.shopify_attributes }}>
+                <button
+                  type="button"
+                  class="smooche-accordion__trigger"
+                  data-smooche-accordion-trigger
+                  aria-expanded="false"
+                  aria-controls="{{ panel_id }}"
+                >
+                  <span>{{ block.settings.title }}</span>
+                  <span class="smooche-accordion__icon" aria-hidden="true"></span>
+                </button>
+                <div class="smooche-accordion__panel" id="{{ panel_id }}">
+                  <div class="smooche-accordion__inner rte">
+                    {{ block.settings.content }}
+
+                    {%- if block.settings.show_usps -%}
+                      <div class="smooche-accordion__usps">
+                        <div class="smooche-accordion__usp">
+                          <img src="{{ 'smooche-usp-adapts.svg' | asset_url }}" alt="" width="22" height="22" loading="lazy">
+                          <p>Adapts to your skin tone</p>
+                        </div>
+                        <div class="smooche-accordion__usp">
+                          <img src="{{ 'smooche-usp-hides.svg' | asset_url }}" alt="" width="22" height="22" loading="lazy">
+                          <p>Hides imperfections</p>
+                        </div>
+                        <div class="smooche-accordion__usp">
+                          <img src="{{ 'smooche-usp-hours.svg' | asset_url }}" alt="" width="22" height="22" loading="lazy">
+                          <p>Natural look for 16+ hours</p>
+                        </div>
+                        <div class="smooche-accordion__usp">
+                          <img src="{{ 'smooche-usp-spf.svg' | asset_url }}" alt="" width="22" height="22" loading="lazy">
+                          <p>With SPF 15</p>
+                        </div>
+                      </div>
+                    {%- endif -%}
+
+                    {%- if block.settings.use_skin_tones_asset -%}
+                      <div class="smooche-accordion__image">
+                        <img
+                          src="{{ 'smooche-skin-tones.png' | asset_url }}"
+                          alt="Skin tone range"
+                          width="800"
+                          height="450"
+                          loading="lazy"
+                        >
+                      </div>
+                    {%- endif -%}
+
+                    {%- if block.settings.enable_ingredients_popup -%}
+                      <div class="smooche-accordion__popup-link">
+                        <button type="button" data-smooche-modal-open="SmoocheIngredientsModal-{{ section.id }}">
+                          {{ block.settings.popup_link_label | default: 'View full list' }}
+                        </button>
+                      </div>
+                    {%- endif -%}
+                  </div>
+                </div>
+              </div>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+
+          {%- for block in section.blocks -%}
+            {%- if block.settings.enable_ingredients_popup -%}
+              <div
+                class="smooche-modal"
+                id="SmoocheIngredientsModal-{{ section.id }}"
+                data-smooche-modal
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="SmoocheIngredientsTitle-{{ section.id }}"
+              >
+                <div class="smooche-modal__overlay" data-smooche-modal-close></div>
+                <div class="smooche-modal__dialog">
+                  <button type="button" class="smooche-modal__close" data-smooche-modal-close aria-label="Close">&times;</button>
+                  <h3 class="smooche-modal__title" id="SmoocheIngredientsTitle-{{ section.id }}">Ingredients</h3>
+                  <div class="smooche-modal__body rte">
+                    {{ block.settings.ingredients_full }}
+                  </div>
+                </div>
+              </div>
+              {%- break -%}
+            {%- endif -%}
+          {%- endfor -%}
         {%- endif -%}
       </div>
     </div>
@@ -516,6 +616,78 @@
       "type": "image_picker",
       "id": "badge_right",
       "label": "Right badge image"
+    },
+    {
+      "type": "header",
+      "content": "Guarantee"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_guarantee",
+      "label": "Show money-back guarantee",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "guarantee_heading",
+      "label": "Guarantee heading",
+      "default": "30-day money-back guarantee"
+    },
+    {
+      "type": "richtext",
+      "id": "guarantee_text",
+      "label": "Guarantee text",
+      "default": "<p>Try it worry-free. If our skin-adapting foundation doesn't blend seamlessly with your tone, you'll get your money back*</p>"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "accordion",
+      "name": "Accordion",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Accordion title"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content",
+          "default": "<p>Accordion content</p>"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_usps",
+          "label": "Show USP grid",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "use_skin_tones_asset",
+          "label": "Show skin tones image",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_ingredients_popup",
+          "label": "Enable ingredients popup",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "popup_link_label",
+          "label": "Popup link label",
+          "default": "View full list"
+        },
+        {
+          "type": "richtext",
+          "id": "ingredients_full",
+          "label": "Full ingredients (popup)",
+          "default": "<p>Water, Titanium Dioxide, Alumina, Silica, Propylene Glycol, Ethylhexyl Palmitate, Isononyl Isononanoate, Glycerin, Peg-30 Dipolyhydroxystearate, Cetyl Peg/Ppg-10/1 Dimethicone, Triethylhexanoin, Mica, C12-15 Alkyl Benzoate, Disteardimonium Hectorite, Ci 77491, Ci 77492, Ci 77499, Tocopheryl Acetate, Phenoxyethanol, Ethylhexylglycerin, Parfum</p>"
+        }
+      ]
     }
   ],
   "presets": [

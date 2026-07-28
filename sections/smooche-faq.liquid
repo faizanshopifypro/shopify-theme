@@ -1,0 +1,105 @@
+{{ 'smooche-phase3.css' | asset_url | stylesheet_tag }}
+{{ 'smooche-phase6.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'smooche-phase3.js' | asset_url }}" defer="defer"></script>
+
+<section class="smooche-faq smooche-phase3-section" id="smooche-faq">
+  <div class="smooche-faq__inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="smooche-faq__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+
+    {%- liquid
+      assign total = section.blocks.size
+      assign half = total | plus: 1 | divided_by: 2
+    -%}
+
+    <div class="smooche-faq__columns" data-smooche-accordions>
+      <div class="smooche-faq__col">
+        {%- for block in section.blocks -%}
+          {%- if forloop.index <= half -%}
+            {%- assign panel_id = 'SmoocheFaq-' | append: section.id | append: '-' | append: block.id -%}
+            <div class="smooche-accordion" data-smooche-accordion {{ block.shopify_attributes }}>
+              <button
+                type="button"
+                class="smooche-accordion__trigger"
+                data-smooche-accordion-trigger
+                aria-expanded="false"
+                aria-controls="{{ panel_id }}"
+              >
+                <span>{{ block.settings.title }}</span>
+                <span class="smooche-accordion__icon" aria-hidden="true"></span>
+              </button>
+              <div class="smooche-accordion__panel" id="{{ panel_id }}">
+                <div class="smooche-accordion__inner rte">{{ block.settings.content }}</div>
+              </div>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+
+      <div class="smooche-faq__col">
+        {%- for block in section.blocks -%}
+          {%- if forloop.index > half -%}
+            {%- assign panel_id = 'SmoocheFaq-' | append: section.id | append: '-' | append: block.id -%}
+            <div class="smooche-accordion" data-smooche-accordion {{ block.shopify_attributes }}>
+              <button
+                type="button"
+                class="smooche-accordion__trigger"
+                data-smooche-accordion-trigger
+                aria-expanded="false"
+                aria-controls="{{ panel_id }}"
+              >
+                <span>{{ block.settings.title }}</span>
+                <span class="smooche-accordion__icon" aria-hidden="true"></span>
+              </button>
+              <div class="smooche-accordion__panel" id="{{ panel_id }}">
+                <div class="smooche-accordion__inner rte">{{ block.settings.content }}</div>
+              </div>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Smooche FAQ",
+  "tag": "section",
+  "class": "section-smooche-faq",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Frequently asked questions"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "FAQ item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Question",
+          "default": "How to apply?"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Answer",
+          "default": "<p>Answer goes here.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Smooche FAQ"
+    }
+  ]
+}
+{% endschema %}

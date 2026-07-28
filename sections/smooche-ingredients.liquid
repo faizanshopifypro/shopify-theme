@@ -1,0 +1,148 @@
+{{ 'smooche-phase5.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'smooche-phase5.js' | asset_url }}" defer="defer"></script>
+
+<section class="smooche-ingredients" data-smooche-ingredients>
+  <div class="smooche-ingredients__inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="smooche-ingredients__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.subtitle != blank -%}
+      <div class="smooche-ingredients__subtitle">{{ section.settings.subtitle }}</div>
+    {%- endif -%}
+
+    <div class="smooche-ingredients__track" data-ingredients-track>
+      {%- for block in section.blocks -%}
+        <div class="smooche-ingredients__slide" {{ block.shopify_attributes }}>
+          <article class="smooche-ingredients__card">
+            <div class="smooche-ingredients__image">
+              {%- if block.settings.image != blank -%}
+                {{
+                  block.settings.image
+                  | image_url: width: 800
+                  | image_tag: loading: 'lazy', widths: '400,600,800', alt: block.settings.name
+                }}
+              {%- elsif block.settings.image_url != blank -%}
+                <img src="{{ block.settings.image_url }}" alt="{{ block.settings.name | escape }}" width="600" height="600" loading="lazy">
+              {%- else -%}
+                <img src="{{ 'smooche-product-hero.png' | asset_url }}" alt="{{ block.settings.name | escape }}" width="600" height="600" loading="lazy">
+              {%- endif -%}
+            </div>
+            <div class="smooche-ingredients__info">
+              <h4 class="smooche-ingredients__name">{{ block.settings.name }}</h4>
+              {%- if block.settings.description != blank -%}
+                <div class="smooche-ingredients__desc">{{ block.settings.description }}</div>
+              {%- endif -%}
+              {%- if block.settings.badge != blank -%}
+                <span class="smooche-ingredients__badge">{{ block.settings.badge }}</span>
+              {%- endif -%}
+            </div>
+          </article>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    <div class="smooche-ingredients__nav">
+      <button type="button" class="smooche-ingredients__arrow" data-ingredients-prev aria-label="Previous">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button type="button" class="smooche-ingredients__arrow" data-ingredients-next aria-label="Next">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+    <div class="smooche-ingredients__progress" aria-hidden="true">
+      <div class="smooche-ingredients__progress-bar" data-ingredients-progress></div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Smooche ingredients",
+  "tag": "section",
+  "class": "section-smooche-ingredients",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Skin-Loving Ingredients"
+    },
+    {
+      "type": "richtext",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "<p>Clean, nourishing formulas your skin will thank you for</p>"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "ingredient",
+      "name": "Ingredient",
+      "settings": [
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Glycerin"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "image_url",
+          "label": "Fallback image URL"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description",
+          "default": "<p>Skin-loving glycerin for all-day hydration</p>"
+        },
+        {
+          "type": "text",
+          "id": "badge",
+          "label": "Badge",
+          "default": "Hydrating"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Smooche ingredients",
+      "blocks": [
+        {
+          "type": "ingredient",
+          "settings": {
+            "name": "Glycerin",
+            "badge": "Hydrating",
+            "description": "<p>Skin-loving glycerin for all-day hydration</p>",
+            "image_url": "https://smooche.com/cdn/shop/files/3_4e5b0265-3b6d-43bb-84c5-d120590d4a9c_600x600.jpg?v=1765904720"
+          }
+        },
+        {
+          "type": "ingredient",
+          "settings": {
+            "name": "Vitamin E",
+            "badge": "Nourishing",
+            "description": "<p>Nourishes and protects with skin-soothing Vitamin E</p>",
+            "image_url": "https://smooche.com/cdn/shop/files/1_c4516a77-bd76-4c69-b753-710b3848f891_600x600.jpg?v=1765904715"
+          }
+        },
+        {
+          "type": "ingredient",
+          "settings": {
+            "name": "Mica",
+            "badge": "Natural",
+            "description": "<p>Natural mineral pigments for a soft, healthy glow</p>",
+            "image_url": "https://smooche.com/cdn/shop/files/2_5019c3ba-97f8-47b8-b8dd-2231a9070845_600x600.jpg?v=1765904718"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

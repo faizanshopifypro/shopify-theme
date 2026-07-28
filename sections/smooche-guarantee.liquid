@@ -1,0 +1,31 @@
+{{ 'smooche-phase3.css' | asset_url | stylesheet_tag }}
+
+<div class="smooche-phase3-section">
+  {% render 'smooche-guarantee',
+    heading: section.settings.heading,
+    text: section.settings.text
+  %}
+</div>
+
+{% schema %}
+{
+  "name": "Smooche guarantee",
+  "tag": "section",
+  "class": "section-smooche-guarantee",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "30-day money-back guarantee"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Try it worry-free. If our skin-adapting foundation doesn't blend seamlessly with your tone, you'll get your money back*</p>"
+    }
+  ],
+  "presets": [{ "name": "Smooche guarantee" }]
+}
+{% endschema %}

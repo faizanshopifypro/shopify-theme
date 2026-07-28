@@ -1,0 +1,168 @@
+{{ 'smooche-phase4.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'smooche-phase4.js' | asset_url }}" defer="defer"></script>
+
+<section
+  class="smooche-testimonials"
+  id="smooche-reviews"
+  data-smooche-testimonials
+>
+  <div class="smooche-testimonials__inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="smooche-testimonials__heading">
+        {{ section.settings.heading_prefix }}
+        <span class="smooche-testimonials__heading-accent">
+          {{ section.settings.heading_accent }}
+          <svg width="226" height="92" viewBox="0 0 226 92" fill="none" aria-hidden="true">
+            <path d="M223.164 36.9069C223.618 42.3287 221.306 47.9316 216.296 53.4861C211.282 59.0442 203.693 64.3996 193.997 69.2175C174.617 78.8478 147.203 86.1414 116.362 88.7259C85.521 91.3104 57.2753 88.6811 36.5628 82.4106C26.2005 79.2735 17.8263 75.2559 11.9575 70.6097C6.09246 65.9666 2.87988 60.8266 2.42553 55.4048C1.97118 49.983 4.2835 44.3801 9.29397 38.8255C14.3077 33.2675 21.8964 27.9121 31.592 23.0942C50.9721 13.4639 78.3863 6.17031 109.227 3.58582C140.068 1.00133 168.314 3.63062 189.027 9.90111C199.389 13.0382 207.763 17.0558 213.632 21.702C219.497 26.3451 222.71 31.4851 223.164 36.9069Z" stroke="currentColor" stroke-width="2"/>
+          </svg>
+        </span>
+      </h2>
+    {%- endif -%}
+
+    <div class="smooche-testimonials__nav">
+      <div class="smooche-testimonials__track" data-testimonials-track>
+        {%- for block in section.blocks -%}
+          <div class="smooche-testimonials__slide" {{ block.shopify_attributes }}>
+            <article class="smooche-testimonials__card" data-testimonial-card>
+              {%- if block.settings.image != blank -%}
+                <div class="smooche-testimonials__image">
+                  {{
+                    block.settings.image
+                    | image_url: width: 800
+                    | image_tag:
+                      loading: 'lazy',
+                      widths: '400,600,800',
+                      sizes: '(min-width: 750px) 33vw, 85vw',
+                      alt: block.settings.name
+                  }}
+                </div>
+              {%- elsif block.settings.asset_key != blank -%}
+                <div class="smooche-testimonials__image">
+                  <img
+                    src="{{ block.settings.asset_key | append: '.jpg' | prepend: 'smooche-review-' | asset_url }}"
+                    alt="{{ block.settings.name | escape }}"
+                    width="800"
+                    height="800"
+                    loading="lazy"
+                  >
+                </div>
+              {%- endif -%}
+
+              <div class="smooche-testimonials__body">
+                <div class="smooche-testimonials__top">
+                  <span class="smooche-testimonials__name">{{ block.settings.name }}</span>
+                  <div class="smooche-testimonials__stars" aria-hidden="true">
+                    {%- for i in (1..5) -%}
+                      <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 1l2.47 5.01L18 6.87l-4 3.9.94 5.5L10 13.77l-4.94 2.5.94-5.5-4-3.9 5.53-.86L10 1z"/></svg>
+                    {%- endfor -%}
+                  </div>
+                </div>
+
+                {%- if block.settings.show_verified -%}
+                  <span class="smooche-testimonials__verified">
+                    <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M10 0C4.48 0 0 4.48 0 10s4.48 10 10 10 10-4.48 10-10S15.52 0 10 0zm-2 15l-5-5 1.41-1.41L8 12.17l7.59-7.59L17 6l-9 9z" fill="currentColor"/></svg>
+                    {{ block.settings.verified_label }}
+                  </span>
+                {%- endif -%}
+
+                <div class="smooche-testimonials__text" data-testimonial-text>
+                  {{ block.settings.quote }}
+                </div>
+                <button type="button" class="smooche-testimonials__read-more" data-testimonial-more>Read More</button>
+              </div>
+            </article>
+          </div>
+        {%- endfor -%}
+      </div>
+
+      <div class="smooche-testimonials__arrows">
+        <button type="button" class="smooche-testimonials__arrow" data-testimonials-prev aria-label="Previous">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button type="button" class="smooche-testimonials__arrow" data-testimonials-next aria-label="Next">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+
+      <div class="smooche-testimonials__progress" aria-hidden="true">
+        <div class="smooche-testimonials__progress-bar" data-testimonials-progress></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Smooche testimonials",
+  "tag": "section",
+  "class": "section-smooche-testimonials",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "heading",
+      "label": "Show heading",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "heading_prefix",
+      "label": "Heading prefix",
+      "default": "Loved by"
+    },
+    {
+      "type": "text",
+      "id": "heading_accent",
+      "label": "Heading accent",
+      "default": "50.000+"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Customer"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Photo"
+        },
+        {
+          "type": "text",
+          "id": "asset_key",
+          "label": "Bundled asset key",
+          "info": "Optional: margaret, jennifer, deborah, mia, patricia, susan"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_verified",
+          "label": "Show verified badge",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "verified_label",
+          "label": "Verified label",
+          "default": "Verified purchase"
+        },
+        {
+          "type": "richtext",
+          "id": "quote",
+          "label": "Quote",
+          "default": "<p>Great product.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Smooche testimonials"
+    }
+  ]
+}
+{% endschema %}
