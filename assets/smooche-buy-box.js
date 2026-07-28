@@ -27,12 +27,55 @@
   /* Quantity bundles */
   const qtyInput = root.querySelector('[data-smooche-qty]');
   const bundles = root.querySelectorAll('[data-bundle-option]');
+  const propBundle = root.querySelector('[data-smooche-prop="bundle"]');
+  const propDeal = root.querySelector('[data-smooche-prop="deal"]');
+  const propPrice = root.querySelector('[data-smooche-prop="price"]');
+  const priceSaleEl = root.querySelector('[data-smooche-price]');
+  const priceCompareEl = root.querySelector('[data-smooche-compare]');
+
+  const syncBundleProps = (option) => {
+    const send = option.getAttribute('data-send-props') === 'true';
+    const bundleLabel = option.getAttribute('data-prop-bundle') || '';
+    const dealLabel = option.getAttribute('data-prop-deal') || '';
+    const priceLabel = option.getAttribute('data-prop-price') || '';
+    const compareLabel = option.querySelector('.smooche-bundle__compare')?.textContent?.trim() || '';
+
+    [propBundle, propDeal, propPrice].forEach((input) => {
+      if (!input) return;
+      input.disabled = !send;
+    });
+
+    if (send) {
+      if (propBundle) {
+        propBundle.name = 'properties[2 bottles]';
+        propBundle.value = bundleLabel;
+      }
+      if (propDeal) {
+        propDeal.name = 'properties[Temporary deal]';
+        propDeal.value = dealLabel;
+      }
+      if (propPrice) {
+        /* Dynamic key so cart shows the exact selected price label */
+        propPrice.name = `properties[${priceLabel}]`;
+        propPrice.value = priceLabel;
+      }
+    }
+
+    if (priceSaleEl && priceLabel) {
+      priceSaleEl.textContent = priceLabel;
+    }
+    if (priceCompareEl && compareLabel) {
+      priceCompareEl.textContent = compareLabel;
+      priceCompareEl.hidden = false;
+    }
+  };
 
   bundles.forEach((option) => {
     const input = option.querySelector('input[type="radio"]');
     const apply = () => {
       bundles.forEach((o) => o.classList.toggle('is-selected', o === option));
       if (qtyInput) qtyInput.value = option.getAttribute('data-qty') || '1';
+      syncBundleProps(option);
     };
     if (input) {
       input.addEventListener('change', apply);

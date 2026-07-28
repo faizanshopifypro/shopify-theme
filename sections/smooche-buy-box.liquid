@@ -123,10 +123,10 @@
         <div class="smooche-buy-box__price-row">
           <div class="smooche-buy-box__prices" data-price-wrapper>
             {%- if compare_price > sale_price -%}
-              <s class="smooche-buy-box__compare">{{ compare_price | money }}</s>
+              <s class="smooche-buy-box__compare" data-smooche-compare>{{ compare_price | money_without_trailing_zeros }}</s>
             {%- endif -%}
-            <span class="smooche-buy-box__price{% if compare_price > sale_price %} smooche-buy-box__price--sale{% endif %}" data-product-price>
-              {{ sale_price | money }}
+            <span class="smooche-buy-box__price{% if compare_price > sale_price %} smooche-buy-box__price--sale{% endif %}" data-product-price data-smooche-price>
+              {{ sale_price | money_without_trailing_zeros }}
             </span>
           </div>
           {%- if section.settings.badge_text != blank -%}
@@ -203,51 +203,128 @@
             <input type="hidden" name="quantity" value="1" data-smooche-qty>
 
             {%- if section.settings.show_bundles -%}
+              {%- liquid
+                assign gift_1_label = section.settings.gift_1_label | default: '+ FREE Smooche Blender'
+                assign gift_2_label = section.settings.gift_2_label | default: '+ FREE Mystery Gift'
+                assign gift_3_label = section.settings.gift_3_label | default: '+ FREE Shipping'
+                assign gift_1_compare_raw = section.settings.gift_1_compare | default: 5400
+                assign gift_2_compare_raw = section.settings.gift_2_compare | default: 4300
+                assign gift_1_compare = gift_1_compare_raw | times: 100
+                assign gift_2_compare = gift_2_compare_raw | times: 100
+                assign gift_1_img = section.settings.gift_1_image
+                assign gift_2_img = section.settings.gift_2_image
+                assign gift_3_img = section.settings.gift_3_image
+                assign bundle_1_price_label = bundle_1_price | money_without_trailing_zeros
+                assign bundle_2_price_label = bundle_2_price | money_without_trailing_zeros
+              -%}
               <fieldset class="smooche-bundles" data-smooche-bundles>
                 <legend class="visually-hidden">Purchase options</legend>
 
-                <label class="smooche-bundle is-selected" data-bundle-option data-qty="1" data-price="{{ bundle_1_price }}">
+                <label
+                  class="smooche-bundle is-selected"
+                  data-bundle-option
+                  data-qty="1"
+                  data-price="{{ bundle_1_price }}"
+                  data-prop-bundle="{{ section.settings.bundle_1_title | escape }}"
+                  data-prop-deal="{{ section.settings.bundle_1_subtitle | escape }}"
+                  data-prop-price="{{ bundle_1_price_label | escape }}"
+                  data-send-props="false"
+                >
                   <input type="radio" name="smooche-bundle" value="1" checked>
                   <span class="smooche-bundle__radio" aria-hidden="true"></span>
                   <span class="smooche-bundle__body">
                     <span class="smooche-bundle__top">
-                      <span class="smooche-bundle__title">{{ section.settings.bundle_1_title }}</span>
+                      <span class="smooche-bundle__left">
+                        <span class="smooche-bundle__title">{{ section.settings.bundle_1_title }}</span>
+                        <span class="smooche-bundle__subtitle">{{ section.settings.bundle_1_subtitle }}</span>
+                      </span>
                       <span class="smooche-bundle__prices">
-                        <span class="smooche-bundle__price">{{ bundle_1_price | money }}</span>
+                        <span class="smooche-bundle__price">{{ bundle_1_price_label }}</span>
                         {%- if bundle_1_compare > bundle_1_price -%}
-                          <s class="smooche-bundle__compare">{{ bundle_1_compare | money }}</s>
+                          <s class="smooche-bundle__compare">{{ bundle_1_compare | money_without_trailing_zeros }}</s>
                         {%- endif -%}
                       </span>
                     </span>
-                    <span class="smooche-bundle__subtitle">{{ section.settings.bundle_1_subtitle }}</span>
                   </span>
                 </label>
 
-                <label class="smooche-bundle" data-bundle-option data-qty="{{ bundle_2_qty }}" data-price="{{ bundle_2_price }}">
+                <label
+                  class="smooche-bundle smooche-bundle--deal"
+                  data-bundle-option
+                  data-qty="{{ bundle_2_qty }}"
+                  data-price="{{ bundle_2_price }}"
+                  data-prop-bundle="{{ section.settings.bundle_2_title | escape }}"
+                  data-prop-deal="{{ section.settings.bundle_2_deal_label | escape }}"
+                  data-prop-price="{{ bundle_2_price_label | escape }}"
+                  data-send-props="true"
+                >
                   <input type="radio" name="smooche-bundle" value="{{ bundle_2_qty }}">
                   <span class="smooche-bundle__radio" aria-hidden="true"></span>
                   <span class="smooche-bundle__body">
                     <span class="smooche-bundle__top">
-                      <span class="smooche-bundle__title-wrap">
-                        <span class="smooche-bundle__title">{{ section.settings.bundle_2_title }}</span>
-                        {%- if bundle_2_save > 0 -%}
-                          <span class="smooche-bundle__save">SAVE {{ bundle_2_save | money }}</span>
-                        {%- endif -%}
+                      <span class="smooche-bundle__left">
+                        <span class="smooche-bundle__title-wrap">
+                          <span class="smooche-bundle__title">{{ section.settings.bundle_2_title }}</span>
+                          {%- if bundle_2_save > 0 -%}
+                            <span class="smooche-bundle__save">SAVE {{ bundle_2_save | money_without_trailing_zeros }}</span>
+                          {%- endif -%}
+                        </span>
+                        <span class="smooche-bundle__subtitle">{{ section.settings.bundle_2_deal_label }}</span>
                       </span>
                       <span class="smooche-bundle__prices">
-                        <span class="smooche-bundle__deal">{{ section.settings.bundle_2_deal_label }}</span>
-                        <span class="smooche-bundle__price">{{ bundle_2_price | money }}</span>
+                        <span class="smooche-bundle__price">{{ bundle_2_price_label }}</span>
                         {%- if bundle_2_compare > bundle_2_price -%}
-                          <s class="smooche-bundle__compare">{{ bundle_2_compare | money }}</s>
+                          <s class="smooche-bundle__compare">{{ bundle_2_compare | money_without_trailing_zeros }}</s>
                         {%- endif -%}
                       </span>
                     </span>
-                    {%- if section.settings.bundle_2_perks != blank -%}
-                      <span class="smooche-bundle__perks">{{ section.settings.bundle_2_perks }}</span>
-                    {%- endif -%}
+
+                    <span class="smooche-bundle__gifts" data-bundle-gifts>
+                      <span class="smooche-bundle__gift">
+                        <span class="smooche-bundle__gift-main">
+                          {%- if gift_1_img != blank -%}
+                            {{ gift_1_img | image_url: width: 90 | image_tag: class: 'smooche-bundle__gift-img', loading: 'lazy', widths: '60,90', alt: gift_1_label }}
+                          {%- else -%}
+                            <img class="smooche-bundle__gift-img" src="{{ 'smooche-gift-blender.jpg' | asset_url }}" alt="" width="30" height="30" loading="lazy">
+                          {%- endif -%}
+                          <span class="smooche-bundle__gift-text">{{ gift_1_label }}</span>
+                        </span>
+                        {%- if gift_1_compare > 0 -%}
+                          <s class="smooche-bundle__gift-price">{{ gift_1_compare | money_without_trailing_zeros }}</s>
+                        {%- endif -%}
+                      </span>
+                      <span class="smooche-bundle__gift">
+                        <span class="smooche-bundle__gift-main">
+                          {%- if gift_2_img != blank -%}
+                            {{ gift_2_img | image_url: width: 90 | image_tag: class: 'smooche-bundle__gift-img', loading: 'lazy', widths: '60,90', alt: gift_2_label }}
+                          {%- else -%}
+                            <img class="smooche-bundle__gift-img" src="{{ 'smooche-gift-mystery.jpg' | asset_url }}" alt="" width="30" height="30" loading="lazy">
+                          {%- endif -%}
+                          <span class="smooche-bundle__gift-text">{{ gift_2_label }}</span>
+                        </span>
+                        {%- if gift_2_compare > 0 -%}
+                          <s class="smooche-bundle__gift-price">{{ gift_2_compare | money_without_trailing_zeros }}</s>
+                        {%- endif -%}
+                      </span>
+                      <span class="smooche-bundle__gift">
+                        <span class="smooche-bundle__gift-main">
+                          {%- if gift_3_img != blank -%}
+                            {{ gift_3_img | image_url: width: 90 | image_tag: class: 'smooche-bundle__gift-img', loading: 'lazy', widths: '60,90', alt: gift_3_label }}
+                          {%- else -%}
+                            <img class="smooche-bundle__gift-img" src="{{ 'smooche-gift-shipping.jpg' | asset_url }}" alt="" width="30" height="30" loading="lazy">
+                          {%- endif -%}
+                          <span class="smooche-bundle__gift-text">{{ gift_3_label }}</span>
+                        </span>
+                      </span>
+                    </span>
                   </span>
                 </label>
               </fieldset>
+
+              {%- comment -%} Line item properties for 2-bottle deal (enabled via JS when selected) {%- endcomment -%}
+              <input type="hidden" name="properties[2 bottles]" value="{{ section.settings.bundle_2_title | escape }}" data-smooche-prop="bundle" disabled>
+              <input type="hidden" name="properties[Temporary deal]" value="{{ section.settings.bundle_2_deal_label | escape }}" data-smooche-prop="deal" disabled>
+              <input type="hidden" name="properties[{{ bundle_2_price_label }}]" value="{{ bundle_2_price_label | escape }}" data-smooche-prop="price" disabled>
             {%- endif -%}
 
             <button
@@ -350,10 +427,10 @@
                     {%- if block.settings.use_skin_tones_asset -%}
                       <div class="smooche-accordion__image">
                         <img
-                          src="{{ 'smooche-skin-tones.png' | asset_url }}"
+                          src="{{ 'smooche-skin-tones.jpg' | asset_url }}"
                           alt="Skin tone range"
                           width="800"
-                          height="450"
+                          height="217"
                           loading="lazy"
                         >
                       </div>
@@ -534,8 +611,57 @@
     {
       "type": "richtext",
       "id": "bundle_2_perks",
-      "label": "Bundle 2 perks",
+      "label": "Bundle 2 perks (legacy fallback)",
       "default": "<p>+ FREE Smooche Blender<br>+ FREE Mystery Gift<br>+ FREE Shipping</p>"
+    },
+    {
+      "type": "header",
+      "content": "Bundle 2 free gifts"
+    },
+    {
+      "type": "text",
+      "id": "gift_1_label",
+      "label": "Gift 1 label",
+      "default": "+ FREE Smooche Blender"
+    },
+    {
+      "type": "image_picker",
+      "id": "gift_1_image",
+      "label": "Gift 1 image"
+    },
+    {
+      "type": "number",
+      "id": "gift_1_compare",
+      "label": "Gift 1 compare price (whole currency units)",
+      "default": 5400
+    },
+    {
+      "type": "text",
+      "id": "gift_2_label",
+      "label": "Gift 2 label",
+      "default": "+ FREE Mystery Gift"
+    },
+    {
+      "type": "image_picker",
+      "id": "gift_2_image",
+      "label": "Gift 2 image"
+    },
+    {
+      "type": "number",
+      "id": "gift_2_compare",
+      "label": "Gift 2 compare price (whole currency units)",
+      "default": 4300
+    },
+    {
+      "type": "text",
+      "id": "gift_3_label",
+      "label": "Gift 3 label",
+      "default": "+ FREE Shipping"
+    },
+    {
+      "type": "image_picker",
+      "id": "gift_3_image",
+      "label": "Gift 3 image"
     },
     {
       "type": "text",

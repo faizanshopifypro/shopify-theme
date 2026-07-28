@@ -1,7 +1,7 @@
 /* Phase 4 — mid product CTA + testimonials + sticky ATC */
 
 .smooche-mid-cta {
-  padding: 2.4rem 0 1.2rem;
+  padding: 3.2rem 0 2rem;
   font-family: var(--smooche-font, 'Jost', sans-serif);
   background: #fff;
 }
@@ -12,22 +12,22 @@
   padding: 0 1.6rem;
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.2rem;
+  gap: 1.6rem;
 }
 
 @media screen and (min-width: 750px) {
   .smooche-mid-cta__inner {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1.6rem;
+    gap: 2rem;
   }
 }
 
 .smooche-mid-cta__card {
   display: grid;
   grid-template-columns: 8.8rem 1fr;
-  gap: 1.4rem;
+  gap: 1.6rem;
   align-items: center;
-  padding: 1.4rem;
+  padding: 1.8rem 2rem;
   background: #f7f7f7;
   border-radius: 12px;
 }
