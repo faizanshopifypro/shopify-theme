@@ -4,7 +4,7 @@
  * Phase 1 foundation — used by product.smooche template / theme.smooche layout
  */
 
-@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600;1,700&display=swap');
 
 :root {
   /* Brand / accent (sale badges, highlights) */
@@ -25,10 +25,10 @@
   --smooche-border-strong: #e6e6e6;
 
   /* Buttons */
-  --smooche-btn-bg: #000000;
+  --smooche-btn-bg: #151515;
   --smooche-btn-text: #ffffff;
-  --smooche-btn-border: #000000;
-  --smooche-btn-hover: #1a1a1a;
+  --smooche-btn-border: #151515;
+  --smooche-btn-hover: #000000;
 
   /* Status */
   --smooche-success: #56ad6a;
@@ -39,7 +39,7 @@
   --smooche-sold-bg: #000000;
   --smooche-sold-text: #ffffff;
 
-  /* Typography — reference uses futura-pt (Adobe); Jost is the free geometric match used on-page */
+  /* Typography — reference uses futura-pt (Adobe Typekit); Jost is the free geometric match */
   --smooche-font: 'Jost', 'futura-pt', sans-serif;
   --smooche-font-body-weight: 400;
   --smooche-font-heading-weight: 600;
@@ -49,7 +49,7 @@
   --smooche-page-width: 1200px;
   --smooche-gap: 1.6rem;
   --smooche-radius-sm: 4px;
-  --smooche-radius-md: 8px;
+  --smooche-radius-md: 10px;
   --smooche-radius-pill: 999px;
 
   /* Breakpoints (documented; use in media queries as needed)
@@ -67,6 +67,9 @@ body.smooche-pdp {
   background-color: var(--smooche-bg);
   color: var(--smooche-text);
   font-family: var(--smooche-font);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: normal;
 }
 
 body.smooche-pdp .product,

@@ -3,25 +3,27 @@
 .smooche-guarantee {
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
-  margin: 2rem 0 1.2rem;
-  padding: 1.4rem 0 0;
-  border-top: 1px solid #eee;
+  gap: 1.2rem;
+  margin: 2rem 0 1.6rem;
+  padding: 2rem;
+  border: 2px solid #df8096;
+  border-radius: 10px;
+  background: #fafafa;
 }
 
 .smooche-guarantee__head {
   display: flex;
   align-items: center;
-  gap: 1.2rem;
+  gap: 1.4rem;
 }
 
 .smooche-guarantee__icon {
-  width: 5rem;
-  height: 5rem;
+  width: 6.4rem;
+  height: 6.4rem;
   border-radius: 50%;
   overflow: hidden;
   flex-shrink: 0;
-  background: #f7f7f7;
+  background: transparent;
 }
 
 .smooche-guarantee__icon img {
@@ -41,9 +43,10 @@
 
 .smooche-guarantee__text {
   margin: 0;
-  font-size: 1.35rem;
-  line-height: 1.45;
-  color: #484848;
+  font-size: 1.4rem;
+  line-height: 1.5;
+  color: #151515;
+  font-weight: 400;
 }
 
 .smooche-guarantee__text p {

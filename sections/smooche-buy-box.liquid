@@ -57,6 +57,15 @@
               {{ 'product-1' | placeholder_svg_tag: 'smooche-buy-box__stage-img' }}
             {%- endif -%}
           </div>
+
+          {%- if media_count > 1 -%}
+            <button type="button" class="smooche-buy-box__nav smooche-buy-box__nav--prev" data-gallery-prev aria-label="Previous image">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button type="button" class="smooche-buy-box__nav smooche-buy-box__nav--next" data-gallery-next aria-label="Next image">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          {%- endif -%}
         </div>
 
         {%- if media_count > 1 -%}
@@ -112,7 +121,7 @@
         <a class="smooche-buy-box__rating" href="{{ section.settings.reviews_anchor | default: '#smooche-reviews' }}">
           <span class="smooche-buy-box__stars" aria-hidden="true">
             {%- for i in (1..5) -%}
-              <svg viewBox="0 0 24 24" width="16" height="16"><path fill="#a94e63" d="M12 2.5l2.9 5.88 6.49.94-4.7 4.58 1.11 6.47L12 17.77l-5.8 3.05 1.11-6.47-4.7-4.58 6.49-.94L12 2.5z"/></svg>
+              <svg viewBox="0 0 24 24" width="16" height="16"><path fill="#df8096" d="M12 2.5l2.9 5.88 6.49.94-4.7 4.58 1.11 6.47L12 17.77l-5.8 3.05 1.11-6.47-4.7-4.58 6.49-.94L12 2.5z"/></svg>
             {%- endfor -%}
           </span>
           <span>{{ section.settings.rating_label }}</span>

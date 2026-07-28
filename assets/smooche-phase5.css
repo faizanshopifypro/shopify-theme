@@ -186,63 +186,76 @@
   font-weight: 400;
 }
 
-/* Compare */
+/* Compare — match reference “Why smooche?” table */
 .smooche-compare {
-  padding: 3.2rem 0 5.6rem;
-  background: #fff;
+  padding: 5rem 1.6rem 6rem;
+  background: #f7f7f7;
   font-family: var(--smooche-font, 'Jost', sans-serif);
 }
 
 .smooche-compare__inner {
-  max-width: 720px;
+  max-width: 800px;
   margin: 0 auto;
-  padding: 0 1.6rem;
+  padding: 0;
 }
 
 .smooche-compare__heading {
   text-align: center;
-  margin: 0 0 3.2rem;
+  margin: 0 0 4rem;
   font-size: clamp(2.8rem, 3.2vw, 3.6rem);
   font-weight: 600;
   color: #151515;
+  text-transform: none;
 }
 
 .smooche-compare-table {
   width: 100%;
-  border-collapse: collapse;
+  max-width: 800px;
+  margin: 0 auto;
+  border-collapse: separate;
+  border-spacing: 0;
   table-layout: fixed;
+  overflow: hidden;
+  border-radius: 12px;
 }
 
 .smooche-compare-table thead th {
-  padding: 1.2rem 0.8rem 1.6rem;
+  padding: 1.8rem 1.6rem;
   font-size: 1.4rem;
   font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
   text-align: center;
   vertical-align: bottom;
-  border-bottom: 1px solid #ececec;
+  border-bottom: 2px solid #000;
+  background: transparent;
+  color: #151515;
 }
 
 .smooche-compare-table thead th:first-child {
   text-align: left;
   width: 46%;
+  border-bottom-color: #000;
 }
 
 .smooche-compare-table thead th.col-highlight {
   position: relative;
   color: #fff;
   background: transparent;
+  border-bottom-color: #df8096;
+  z-index: 1;
 }
 
 .smooche-compare-table thead th.col-highlight::before {
   content: '';
   position: absolute;
-  left: 8%;
-  right: 8%;
-  top: 0;
-  bottom: 0.8rem;
+  top: -2px;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background: #df8096;
   border-radius: 12px 12px 0 0;
-  z-index: 0;
+  z-index: -1;
 }
 
 .smooche-compare-table thead th.col-highlight span,
@@ -252,17 +265,19 @@
   color: #fff;
   font-weight: 800;
   font-style: italic;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
 .smooche-compare-table tbody td {
-  padding: 1.6rem 0.8rem;
-  border-bottom: 1px solid #ececec;
+  padding: 1.6rem;
+  border-bottom: 1px solid #dadada;
   text-align: center;
   vertical-align: middle;
-  font-size: 1.45rem;
+  font-size: 1.4rem;
+  font-weight: 500;
   color: #2d2d2d;
+  background: #fff;
 }
 
 .smooche-compare-table tbody td:first-child {
@@ -271,7 +286,7 @@
 }
 
 .smooche-compare-table tbody td.col-highlight {
-  background: rgba(223, 128, 150, 0.08);
+  background: rgba(223, 128, 150, 0.07);
 }
 
 .smooche-compare-table tbody tr:last-child td {
@@ -282,8 +297,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2.4rem;
-  height: 2.4rem;
+  width: 2.8rem;
+  height: 2.8rem;
 }
 
 .smooche-compare__icon--yes svg {
@@ -294,6 +309,18 @@
 .smooche-compare__icon--no svg {
   width: 20px;
   height: 20px;
+}
+
+@media screen and (max-width: 600px) {
+  .smooche-compare {
+    padding: 4rem 1.2rem 5rem;
+  }
+
+  .smooche-compare-table thead th,
+  .smooche-compare-table tbody td {
+    padding: 1.2rem 0.8rem;
+    font-size: 1.2rem;
+  }
 }
 
 /* Ingredients */

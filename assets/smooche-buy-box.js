@@ -2,27 +2,39 @@
   const root = document.querySelector('[data-section-id].smooche-buy-box') || document.querySelector('.smooche-buy-box');
   if (!root) return;
 
-  /* Gallery thumbs */
+  /* Gallery thumbs + arrows */
   const stage = root.querySelector('[data-gallery-stage] img, [data-gallery-stage] .smooche-buy-box__stage-img');
-  const thumbs = root.querySelectorAll('[data-gallery-thumbs] [data-thumb-index]');
+  const thumbs = [...root.querySelectorAll('[data-gallery-thumbs] [data-thumb-index]')];
+  let activeIndex = Math.max(0, thumbs.findIndex((t) => t.classList.contains('is-active')));
 
-  thumbs.forEach((thumb) => {
-    thumb.addEventListener('click', () => {
-      const full = thumb.getAttribute('data-full-src');
-      const srcset = thumb.getAttribute('data-srcset');
-      const stageImg = root.querySelector('[data-gallery-stage] img');
-      if (!stageImg || !full) return;
+  const setActiveThumb = (index) => {
+    if (!thumbs.length) return;
+    const next = (index + thumbs.length) % thumbs.length;
+    const thumb = thumbs[next];
+    const full = thumb.getAttribute('data-full-src');
+    const srcset = thumb.getAttribute('data-srcset');
+    const stageImg = root.querySelector('[data-gallery-stage] img');
+    if (!stageImg || !full) return;
 
-      stageImg.src = full;
-      if (srcset) stageImg.srcset = srcset;
+    stageImg.src = full;
+    if (srcset) stageImg.srcset = srcset;
+    activeIndex = next;
 
-      thumbs.forEach((t) => {
-        t.classList.toggle('is-active', t === thumb);
-        if (t === thumb) t.setAttribute('aria-current', 'true');
-        else t.removeAttribute('aria-current');
-      });
+    thumbs.forEach((t, i) => {
+      t.classList.toggle('is-active', i === next);
+      if (i === next) t.setAttribute('aria-current', 'true');
+      else t.removeAttribute('aria-current');
     });
+  };
+
+  thumbs.forEach((thumb, index) => {
+    thumb.addEventListener('click', () => setActiveThumb(index));
   });
+
+  const prevBtn = root.querySelector('[data-gallery-prev]');
+  const nextBtn = root.querySelector('[data-gallery-next]');
+  if (prevBtn) prevBtn.addEventListener('click', () => setActiveThumb(activeIndex - 1));
+  if (nextBtn) nextBtn.addEventListener('click', () => setActiveThumb(activeIndex + 1));
 
   /* Quantity bundles */
   const qtyInput = root.querySelector('[data-smooche-qty]');
