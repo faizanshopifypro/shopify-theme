@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "layout": "theme.smooche",
   "sections": {
@@ -11,7 +20,9 @@
             "content": "<p>Our adaptive pigment formula removes the need to choose a shade. As you blend, micro-encapsulated pigments react to your skin’s warmth and undertones, shifting within seconds to match your unique complexion. Made for fair to medium tones, it evens redness, blurs imperfections, and melts into the skin for a seamless, second-skin finish.</p>",
             "show_usps": true,
             "use_skin_tones_asset": false,
-            "enable_ingredients_popup": false
+            "enable_ingredients_popup": false,
+            "popup_link_label": "View full list",
+            "ingredients_full": "<p>Water, Titanium Dioxide, Alumina, Silica, Propylene Glycol, Ethylhexyl Palmitate, Isononyl Isononanoate, Glycerin, Peg-30 Dipolyhydroxystearate, Cetyl Peg/Ppg-10/1 Dimethicone, Triethylhexanoin, Mica, C12-15 Alkyl Benzoate, Disteardimonium Hectorite, Ci 77491, Ci 77492, Ci 77499, Tocopheryl Acetate, Phenoxyethanol, Ethylhexylglycerin, Parfum</p>"
           }
         },
         "acc_skin": {
@@ -21,7 +32,9 @@
             "content": "<p>Our Color Changing Foundation is suitable for all skin tones above and in between.</p>",
             "show_usps": false,
             "use_skin_tones_asset": true,
-            "enable_ingredients_popup": false
+            "enable_ingredients_popup": false,
+            "popup_link_label": "View full list",
+            "ingredients_full": "<p>Water, Titanium Dioxide, Alumina, Silica, Propylene Glycol, Ethylhexyl Palmitate, Isononyl Isononanoate, Glycerin, Peg-30 Dipolyhydroxystearate, Cetyl Peg/Ppg-10/1 Dimethicone, Triethylhexanoin, Mica, C12-15 Alkyl Benzoate, Disteardimonium Hectorite, Ci 77491, Ci 77492, Ci 77499, Tocopheryl Acetate, Phenoxyethanol, Ethylhexylglycerin, Parfum</p>"
           }
         },
         "acc_use": {
@@ -31,7 +44,9 @@
             "content": "<p><strong>Step 1: Create the Perfect Canvas</strong><br>Start with moisturized skin. Smooth on your go-to primer or hydrating cream to create an even base that helps your foundation glide on seamlessly.</p><p><strong>Step 2: Build Your Base</strong><br>Dispense one pump onto the back of your hand. Using a brush, dot foundation on your forehead, cheeks, nose, and chin. Blend outward from the center of your face using circular motions for a naturally soft, medium coverage finish with a velvety matte texture.</p><p><strong>Step 3: Customize Your Coverage</strong><br>Want more coverage in specific areas? Layer a second application on any spots that need extra attention—blemishes, redness, or discoloration—and blend seamlessly into your base.</p><p><strong>Step 4: Lock It In</strong><br>Brighten under-eyes with your favorite concealer, then lightly dust translucent powder across your T-zone (forehead, nose, and chin) to control shine and keep your look fresh all day.</p>",
             "show_usps": false,
             "use_skin_tones_asset": false,
-            "enable_ingredients_popup": false
+            "enable_ingredients_popup": false,
+            "popup_link_label": "View full list",
+            "ingredients_full": "<p>Water, Titanium Dioxide, Alumina, Silica, Propylene Glycol, Ethylhexyl Palmitate, Isononyl Isononanoate, Glycerin, Peg-30 Dipolyhydroxystearate, Cetyl Peg/Ppg-10/1 Dimethicone, Triethylhexanoin, Mica, C12-15 Alkyl Benzoate, Disteardimonium Hectorite, Ci 77491, Ci 77492, Ci 77499, Tocopheryl Acetate, Phenoxyethanol, Ethylhexylglycerin, Parfum</p>"
           }
         },
         "acc_guarantee": {
@@ -41,7 +56,9 @@
             "content": "<p>Find your flawless shade with zero risk. Our Changing Foundation comes with a complete satisfaction promise: if your shade isn't spot-on, we'll make it right with a full refund—no questions asked.</p><p>We know finding the perfect foundation match online can feel like a gamble. That's why we've eliminated the risk entirely. Try it on your skin, in your lighting, with your routine. If it's not your perfect match, simply let us know within 30 days and we'll process your full refund immediately.</p>",
             "show_usps": false,
             "use_skin_tones_asset": false,
-            "enable_ingredients_popup": false
+            "enable_ingredients_popup": false,
+            "popup_link_label": "View full list",
+            "ingredients_full": "<p>Water, Titanium Dioxide, Alumina, Silica, Propylene Glycol, Ethylhexyl Palmitate, Isononyl Isononanoate, Glycerin, Peg-30 Dipolyhydroxystearate, Cetyl Peg/Ppg-10/1 Dimethicone, Triethylhexanoin, Mica, C12-15 Alkyl Benzoate, Disteardimonium Hectorite, Ci 77491, Ci 77492, Ci 77499, Tocopheryl Acetate, Phenoxyethanol, Ethylhexylglycerin, Parfum</p>"
           }
         },
         "acc_ingredients": {
@@ -63,7 +80,9 @@
             "content": "<p><strong>We offer FREE Worldwide Shipping!</strong></p><p>Due to the influx of orders from our ongoing <strong>sale</strong>, there will be a slight delay in dispatch. Rest assured, all orders will be shipped within a <strong>24-48 hour timeframe</strong>. Depending on your geographic location, the delivery may take approximately <strong>5-7 business days</strong>.</p><p>Although we offer shipping to all countries, a few islands are excluded from our delivery area. If your country is available during checkout we ship to your country. We also provide standard international tracked shipping at no additional cost on all orders.</p><p>Additionally, we offer a premium international insured shipping option at a modest charge of <strong>$2.99USD</strong>, which we highly recommend for prioritized service and faster delivery.</p><p><strong>Returns</strong><br>All returns must be postmarked within fourteen (14) days of the delivery. All returned items must be in new and unused condition, in the original packaging.</p>",
             "show_usps": false,
             "use_skin_tones_asset": false,
-            "enable_ingredients_popup": false
+            "enable_ingredients_popup": false,
+            "popup_link_label": "View full list",
+            "ingredients_full": "<p>Water, Titanium Dioxide, Alumina, Silica, Propylene Glycol, Ethylhexyl Palmitate, Isononyl Isononanoate, Glycerin, Peg-30 Dipolyhydroxystearate, Cetyl Peg/Ppg-10/1 Dimethicone, Triethylhexanoin, Mica, C12-15 Alkyl Benzoate, Disteardimonium Hectorite, Ci 77491, Ci 77492, Ci 77499, Tocopheryl Acetate, Phenoxyethanol, Ethylhexylglycerin, Parfum</p>"
           }
         }
       },
@@ -122,6 +141,7 @@
         "card_shop": {
           "type": "card",
           "settings": {
+            "product": "",
             "title": "Color Changing Foundation",
             "button_label": "Shop now",
             "button_link": "#smooche-buy",
@@ -132,6 +152,7 @@
         "card_sold": {
           "type": "card",
           "settings": {
+            "product": "",
             "title": "Color Changing Foundation",
             "button_label": "Sold Out",
             "button_link": "#smooche-buy",
@@ -140,8 +161,13 @@
           }
         }
       },
-      "block_order": ["card_shop", "card_sold"],
-      "settings": {}
+      "block_order": [
+        "card_shop",
+        "card_sold"
+      ],
+      "settings": {
+        "product": ""
+      }
     },
     "testimonials": {
       "type": "smooche-testimonials",
@@ -221,14 +247,6 @@
         "heading_accent": "50.000+"
       }
     },
-    "sticky_atc": {
-      "type": "smooche-sticky-atc",
-      "settings": {
-        "title": "Color Changing Foundation",
-        "button_label": "Shop now",
-        "sold_label": "Sold Out"
-      }
-    },
     "story_adapts": {
       "type": "smooche-image-with-text",
       "settings": {
@@ -285,7 +303,11 @@
           }
         }
       },
-      "block_order": ["stat_1", "stat_2", "stat_3"],
+      "block_order": [
+        "stat_1",
+        "stat_2",
+        "stat_3"
+      ],
       "settings": {
         "heading": "Real results"
       }
@@ -293,13 +315,44 @@
     "compare": {
       "type": "smooche-compare",
       "blocks": {
-        "row_1": { "type": "row", "settings": { "feature": "Adapts to skin tone" } },
-        "row_2": { "type": "row", "settings": { "feature": "SPF 15" } },
-        "row_3": { "type": "row", "settings": { "feature": "Lasts 16+ hours" } },
-        "row_4": { "type": "row", "settings": { "feature": "Feels lightweight" } },
-        "row_5": { "type": "row", "settings": { "feature": "No settling in fine lines" } }
+        "row_1": {
+          "type": "row",
+          "settings": {
+            "feature": "Adapts to skin tone"
+          }
+        },
+        "row_2": {
+          "type": "row",
+          "settings": {
+            "feature": "SPF 15"
+          }
+        },
+        "row_3": {
+          "type": "row",
+          "settings": {
+            "feature": "Lasts 16+ hours"
+          }
+        },
+        "row_4": {
+          "type": "row",
+          "settings": {
+            "feature": "Feels lightweight"
+          }
+        },
+        "row_5": {
+          "type": "row",
+          "settings": {
+            "feature": "No settling in fine lines"
+          }
+        }
       },
-      "block_order": ["row_1", "row_2", "row_3", "row_4", "row_5"],
+      "block_order": [
+        "row_1",
+        "row_2",
+        "row_3",
+        "row_4",
+        "row_5"
+      ],
       "settings": {
         "heading": "Why smooche?",
         "brand_label": "SMOOCHE",
@@ -313,31 +366,35 @@
           "type": "ingredient",
           "settings": {
             "name": "Glycerin",
-            "badge": "Hydrating",
+            "image_url": "https://smooche.com/cdn/shop/files/3_4e5b0265-3b6d-43bb-84c5-d120590d4a9c_600x600.jpg?v=1765904720",
             "description": "<p>Skin-loving glycerin for all-day hydration</p>",
-            "image_url": "https://smooche.com/cdn/shop/files/3_4e5b0265-3b6d-43bb-84c5-d120590d4a9c_600x600.jpg?v=1765904720"
+            "badge": "Hydrating"
           }
         },
         "ing_vitamine": {
           "type": "ingredient",
           "settings": {
             "name": "Vitamin E",
-            "badge": "Nourishing",
+            "image_url": "https://smooche.com/cdn/shop/files/1_c4516a77-bd76-4c69-b753-710b3848f891_600x600.jpg?v=1765904715",
             "description": "<p>Nourishes and protects with skin-soothing Vitamin E</p>",
-            "image_url": "https://smooche.com/cdn/shop/files/1_c4516a77-bd76-4c69-b753-710b3848f891_600x600.jpg?v=1765904715"
+            "badge": "Nourishing"
           }
         },
         "ing_mica": {
           "type": "ingredient",
           "settings": {
             "name": "Mica",
-            "badge": "Natural",
+            "image_url": "https://smooche.com/cdn/shop/files/2_5019c3ba-97f8-47b8-b8dd-2231a9070845_600x600.jpg?v=1765904718",
             "description": "<p>Natural mineral pigments for a soft, healthy glow</p>",
-            "image_url": "https://smooche.com/cdn/shop/files/2_5019c3ba-97f8-47b8-b8dd-2231a9070845_600x600.jpg?v=1765904718"
+            "badge": "Natural"
           }
         }
       },
-      "block_order": ["ing_glycerin", "ing_vitamine", "ing_mica"],
+      "block_order": [
+        "ing_glycerin",
+        "ing_vitamine",
+        "ing_mica"
+      ],
       "settings": {
         "heading": "Skin-Loving Ingredients",
         "subtitle": "<p>Clean, nourishing formulas your skin will thank you for</p>"
@@ -445,12 +502,26 @@
           }
         }
       },
-      "block_order": ["feat_results", "feat_trusted", "feat_clean"],
+      "block_order": [
+        "feat_results",
+        "feat_trusted",
+        "feat_clean"
+      ],
       "settings": {
         "heading": "The smooche difference",
+        "image": "shopify://shop_images/WhatsApp_Image_2025-12-03_at_04.38.03_1500x1500_fc734fca-9a2e-4e72-85b6-a38f787dd4be.webp",
         "fallback_asset": "smooche-difference-bg.jpg",
         "button_label": "Claim offer",
         "button_link": "#smooche-buy"
+      }
+    },
+    "sticky_atc": {
+      "type": "smooche-sticky-atc",
+      "settings": {
+        "product": "",
+        "title": "Color Changing Foundation",
+        "button_label": "Shop now",
+        "sold_label": "Sold Out"
       }
     }
   },
