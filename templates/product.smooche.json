@@ -129,6 +129,8 @@
         "urgency_text": "Due to high demand, limited quantities available",
         "sold_percent": 89,
         "countdown_hours": 6,
+        "show_frontrow_sticker": true,
+        "frontrow_product_id": 4694,
         "show_gallery_badges": false,
         "show_guarantee": true,
         "guarantee_heading": "30-day money-back guarantee",

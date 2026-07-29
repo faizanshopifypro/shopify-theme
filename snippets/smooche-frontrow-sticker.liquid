@@ -1,0 +1,121 @@
+{%- comment -%}
+  FrontrowMD Clinicians' Choice sticker (matches reference gallery overlay).
+  Mounts into the product gallery; visible on the first media slide only.
+{%- endcomment -%}
+
+{%- liquid
+  assign frontrow_id = frontrow_product_id | default: section.settings.frontrow_product_id | default: 4694
+  if enable_frontrow == nil
+    assign enabled = section.settings.show_frontrow_sticker
+  else
+    assign enabled = enable_frontrow
+  endif
+  if enabled == nil
+    assign enabled = true
+  endif
+-%}
+
+{%- if enabled -%}
+  <style>
+    #frontrow-sticker {
+      position: absolute;
+      z-index: 4;
+      border-radius: 0 !important;
+      max-width: unset !important;
+      left: 0 !important;
+      top: 0 !important;
+      width: 415px;
+      height: 78px;
+      border: 0;
+      overflow: hidden;
+      background: transparent;
+      pointer-events: auto;
+    }
+
+    @media only screen and (max-width: 480px) {
+      #frontrow-sticker {
+        transform: scale(0.7) !important;
+        transform-origin: 0 0 !important;
+      }
+    }
+
+    .iframe.frontrow {
+      display: none;
+      position: fixed;
+      left: 0;
+      top: 0;
+      z-index: 99999997;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+  </style>
+
+  <script>
+    (function () {
+      var productId = {{ frontrow_id | json }};
+      if (!productId) return;
+
+      var scriptSrc = 'https://app.thefrontrowhealth.com/api/widgets/script?presentation_type=sticker&product_id=' + productId;
+      var iframeSrc = 'https://app.thefrontrowhealth.com/api/widgets?presentation_type=sticker&product_id=' + productId;
+
+      function mount() {
+        if (document.getElementById('frontrow-sticker')) return;
+
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = scriptSrc;
+        document.head.appendChild(script);
+
+        var iframe = document.createElement('iframe');
+        iframe.className = 'iframe-frontrow-sticker';
+        iframe.id = 'frontrow-sticker';
+        iframe.setAttribute('data-state', 'max');
+        iframe.frameBorder = '0';
+        iframe.title = "Clinicians' Choice";
+        iframe.src = iframeSrc;
+        iframe.setAttribute('allowtransparency', 'true');
+
+        var gallery =
+          document.querySelector('[data-smooche-gallery] .smooche-buy-box__media-main') ||
+          document.querySelector('[data-smooche-gallery]');
+        if (gallery) {
+          if (getComputedStyle(gallery).position === 'static') {
+            gallery.style.position = 'relative';
+          }
+          gallery.appendChild(iframe);
+          bindFirstSlideOnly(iframe);
+        }
+      }
+
+      function bindFirstSlideOnly(iframe) {
+        var thumbs = document.querySelectorAll('[data-gallery-thumbs] [data-thumb-index]');
+        if (!thumbs.length) return;
+
+        function update() {
+          var active = document.querySelector('[data-gallery-thumbs] [data-thumb-index].is-active');
+          var isFirst = !active || active.getAttribute('data-thumb-index') === '0';
+          iframe.style.display = isFirst ? '' : 'none';
+        }
+
+        thumbs.forEach(function (thumb) {
+          thumb.addEventListener('click', update);
+        });
+        document.querySelectorAll('[data-gallery-prev], [data-gallery-next]').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            setTimeout(update, 0);
+          });
+        });
+        update();
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', mount);
+      } else {
+        mount();
+      }
+    })();
+  </script>
+{%- endif -%}

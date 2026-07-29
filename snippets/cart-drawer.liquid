@@ -8,14 +8,25 @@
 {{ 'quantity-popover.css' | asset_url | stylesheet_tag }}
 {{ 'component-card.css' | asset_url | stylesheet_tag }}
 
-<script src="{{ 'cart.js' | asset_url }}" defer="defer"></script>
-<script src="{{ 'quantity-popover.js' | asset_url }}" defer="defer"></script>
-
+{%- comment -%}
+  Load Dawn base.css for cart-drawer buttons/qty/svg/fields only.
+  Placed in @layer dawn-base so unlayered Smooche PDP CSS always wins on MainContent.
+{%- endcomment -%}
 <style>
+  @import url('{{ 'base.css' | asset_url }}') layer(dawn-base);
+
   .drawer {
     visibility: hidden;
   }
+
+  cart-drawer .button,
+  cart-drawer .cart__checkout-button {
+    font-family: var(--font-body-family);
+  }
 </style>
+
+<script src="{{ 'cart.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'quantity-popover.js' | asset_url }}" defer="defer"></script>
 
 <cart-drawer class="drawer{% if cart == empty %} is-empty{% endif %}">
   <div id="CartDrawer" class="cart-drawer">
