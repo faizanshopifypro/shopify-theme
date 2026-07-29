@@ -3,13 +3,14 @@
   if (!root) return;
 
   /* Gallery thumbs + arrows */
-  const stage = root.querySelector('[data-gallery-stage] img, [data-gallery-stage] .smooche-buy-box__stage-img');
   const thumbs = [...root.querySelectorAll('[data-gallery-thumbs] [data-thumb-index]')];
+  const thumbsTrack = root.querySelector('[data-gallery-thumbs]');
   let activeIndex = Math.max(0, thumbs.findIndex((t) => t.classList.contains('is-active')));
+  let dragMoved = false;
 
   const setActiveThumb = (index) => {
     if (!thumbs.length) return;
-    const next = (index + thumbs.length) % thumbs.length;
+    const next = ((index % thumbs.length) + thumbs.length) % thumbs.length;
     const thumb = thumbs[next];
     const full = thumb.getAttribute('data-full-src');
     const srcset = thumb.getAttribute('data-srcset');
@@ -25,10 +26,21 @@
       if (i === next) t.setAttribute('aria-current', 'true');
       else t.removeAttribute('aria-current');
     });
+
+    if (typeof thumb.scrollIntoView === 'function') {
+      thumb.scrollIntoView({ inline: 'nearest', block: 'nearest', behavior: 'smooth' });
+    }
   };
 
   thumbs.forEach((thumb, index) => {
-    thumb.addEventListener('click', () => setActiveThumb(index));
+    thumb.addEventListener('click', (e) => {
+      if (dragMoved) {
+        e.preventDefault();
+        e.stopPropagation();
+        return;
+      }
+      setActiveThumb(index);
+    });
   });
 
   const prevBtn = root.querySelector('[data-gallery-prev]');
@@ -36,101 +48,115 @@
   if (prevBtn) prevBtn.addEventListener('click', () => setActiveThumb(activeIndex - 1));
   if (nextBtn) nextBtn.addEventListener('click', () => setActiveThumb(activeIndex + 1));
 
-  /* Drag-to-scroll thumbs (scrollbar is visually hidden) */
-  const thumbsTrack = root.querySelector('[data-gallery-thumbs]');
+  /* Drag-to-scroll thumbs without blocking thumb clicks */
   if (thumbsTrack) {
-    let isDown = false;
+    let pointerId = null;
     let startX = 0;
     let startScroll = 0;
-    let moved = false;
+    const DRAG_THRESHOLD = 8;
 
     thumbsTrack.addEventListener('pointerdown', (e) => {
       if (e.pointerType === 'mouse' && e.button !== 0) return;
-      isDown = true;
-      moved = false;
+      pointerId = e.pointerId;
+      dragMoved = false;
       startX = e.clientX;
       startScroll = thumbsTrack.scrollLeft;
-      thumbsTrack.setPointerCapture?.(e.pointerId);
     });
 
     thumbsTrack.addEventListener('pointermove', (e) => {
-      if (!isDown) return;
+      if (pointerId !== e.pointerId) return;
       const dx = e.clientX - startX;
-      if (Math.abs(dx) > 3) moved = true;
+      if (!dragMoved && Math.abs(dx) < DRAG_THRESHOLD) return;
+
+      if (!dragMoved) {
+        dragMoved = true;
+        try {
+          thumbsTrack.setPointerCapture(e.pointerId);
+        } catch (err) {
+          /* ignore */
+        }
+      }
+
       thumbsTrack.scrollLeft = startScroll - dx;
+      e.preventDefault();
     });
 
-    const endDrag = () => {
-      isDown = false;
+    const endDrag = (e) => {
+      if (pointerId !== null && e && e.pointerId !== pointerId) return;
+      pointerId = null;
+      /* Keep dragMoved true through the following click event, then clear */
+      if (dragMoved) {
+        window.setTimeout(() => {
+          dragMoved = false;
+        }, 0);
+      }
     };
 
     thumbsTrack.addEventListener('pointerup', endDrag);
     thumbsTrack.addEventListener('pointercancel', endDrag);
-    thumbsTrack.addEventListener('click', (e) => {
-      if (moved) {
-        e.preventDefault();
-        e.stopPropagation();
-        moved = false;
-      }
-    }, true);
+    thumbsTrack.addEventListener('lostpointercapture', endDrag);
   }
 
-  /* Quantity bundles */
+  /* Quantity option → variant id (qty always stays 1) */
   const qtyInput = root.querySelector('[data-smooche-qty]');
+  const variantInput = root.querySelector('[data-smooche-variant-input]');
   const bundles = root.querySelectorAll('[data-bundle-option]');
-  const propBundle = root.querySelector('[data-smooche-prop="bundle"]');
-  const propDeal = root.querySelector('[data-smooche-prop="deal"]');
-  const propPrice = root.querySelector('[data-smooche-prop="price"]');
+  const giftProps = [...root.querySelectorAll('[data-smooche-gift-prop]')];
   const priceSaleEl = root.querySelector('[data-smooche-price]');
   const priceCompareEl = root.querySelector('[data-smooche-compare]');
+  const atcBtn = root.querySelector('[data-smooche-atc]');
+  const atcLabel = root.querySelector('[data-smooche-atc-label]');
+  const atcDefaultLabel = atcLabel?.textContent?.trim() || 'Add to Cart';
+  const soldOutLabel = (window.variantStrings && window.variantStrings.soldOut) || 'Sold Out';
 
-  const syncBundleProps = (option) => {
-    const send = option.getAttribute('data-send-props') === 'true';
-    const bundleLabel = option.getAttribute('data-prop-bundle') || '';
-    const dealLabel = option.getAttribute('data-prop-deal') || '';
-    const priceLabel = option.getAttribute('data-prop-price') || '';
-    const compareLabel = option.querySelector('.smooche-bundle__compare')?.textContent?.trim() || '';
+  const applyBundle = (option) => {
+    bundles.forEach((o) => o.classList.toggle('is-selected', o === option));
 
-    [propBundle, propDeal, propPrice].forEach((input) => {
-      if (!input) return;
-      input.disabled = !send;
-    });
+    if (qtyInput) qtyInput.value = '1';
 
-    if (send) {
-      if (propBundle) {
-        propBundle.name = 'properties[2 bottles]';
-        propBundle.value = bundleLabel;
-      }
-      if (propDeal) {
-        propDeal.name = 'properties[Temporary deal]';
-        propDeal.value = dealLabel;
-      }
-      if (propPrice) {
-        /* Dynamic key so cart shows the exact selected price label */
-        propPrice.name = `properties[${priceLabel}]`;
-        propPrice.value = priceLabel;
-      }
+    const variantId = option.getAttribute('data-variant-id');
+    const available = option.getAttribute('data-variant-available') !== 'false';
+    const sendGifts = option.getAttribute('data-send-gifts') === 'true';
+    const priceLabel = option.getAttribute('data-price-label') || '';
+    const compareLabel = option.getAttribute('data-compare-label') || '';
+
+    if (variantInput && variantId) {
+      variantInput.value = variantId;
+      variantInput.disabled = !available;
     }
+
+    giftProps.forEach((input) => {
+      input.disabled = !sendGifts;
+    });
 
     if (priceSaleEl && priceLabel) {
       priceSaleEl.textContent = priceLabel;
     }
-    if (priceCompareEl && compareLabel) {
-      priceCompareEl.textContent = compareLabel;
-      priceCompareEl.hidden = false;
+
+    if (priceCompareEl) {
+      if (compareLabel) {
+        priceCompareEl.textContent = compareLabel;
+        priceCompareEl.hidden = false;
+        priceCompareEl.style.display = '';
+      } else {
+        priceCompareEl.hidden = true;
+        priceCompareEl.style.display = 'none';
+      }
+    }
+
+    if (atcBtn) {
+      atcBtn.disabled = !available;
+    }
+    if (atcLabel) {
+      atcLabel.textContent = available ? atcDefaultLabel : soldOutLabel;
     }
   };
 
   bundles.forEach((option) => {
     const input = option.querySelector('input[type="radio"]');
-    const apply = () => {
-      bundles.forEach((o) => o.classList.toggle('is-selected', o === option));
-      if (qtyInput) qtyInput.value = option.getAttribute('data-qty') || '1';
-      syncBundleProps(option);
-    };
     if (input) {
-      input.addEventListener('change', apply);
-      if (input.checked) apply();
+      input.addEventListener('change', () => applyBundle(option));
+      if (input.checked) applyBundle(option);
     }
     option.addEventListener('click', () => {
       if (input && !input.checked) {

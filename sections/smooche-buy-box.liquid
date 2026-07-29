@@ -8,6 +8,24 @@
   assign product = product
   assign current_variant = product.selected_or_first_available_variant
   assign product_form_id = 'SmoocheProductForm-' | append: section.id
+
+  assign variant_1_early = blank
+  assign variant_2_early = blank
+  for variant in product.variants
+    for option in variant.options
+      assign opt_down = option | downcase | strip
+      if opt_down == '1 bottle' or opt_down == '1 bottles'
+        assign variant_1_early = variant
+      endif
+      if opt_down == '2 bottles' or opt_down == '2 bottle'
+        assign variant_2_early = variant
+      endif
+    endfor
+  endfor
+  if variant_1_early != blank
+    assign current_variant = variant_1_early
+  endif
+
   assign compare_price = current_variant.compare_at_price
   assign sale_price = current_variant.price
   assign installment = sale_price | divided_by: 4.0
@@ -190,18 +208,43 @@
         {%- endif -%}
 
         {%- liquid
-          assign bundle_1_price = sale_price
-          assign bundle_1_compare = compare_price
-          assign bundle_2_qty = section.settings.bundle_2_qty | default: 2
-          assign bundle_2_price = sale_price | times: bundle_2_qty
-          assign bundle_2_compare = compare_price | times: bundle_2_qty
+          assign variant_1 = blank
+          assign variant_2 = blank
+
+          for variant in product.variants
+            for option in variant.options
+              assign opt_down = option | downcase | strip
+              if opt_down == '1 bottle' or opt_down == '1 bottles'
+                assign variant_1 = variant
+              endif
+              if opt_down == '2 bottles' or opt_down == '2 bottle'
+                assign variant_2 = variant
+              endif
+            endfor
+          endfor
+
+          if variant_1 == blank
+            assign variant_1 = product.selected_or_first_available_variant
+          endif
+          if variant_2 == blank
+            assign variant_2 = variant_1
+          endif
+
+          assign bundle_1_price = variant_1.price
+          assign bundle_1_compare = variant_1.compare_at_price | default: 0
+          assign bundle_2_price = variant_2.price
+          assign bundle_2_compare = variant_2.compare_at_price | default: 0
+
           if section.settings.bundle_2_price != blank
             assign bundle_2_price = section.settings.bundle_2_price | times: 100
           endif
           if section.settings.bundle_2_compare != blank
             assign bundle_2_compare = section.settings.bundle_2_compare | times: 100
           endif
-          assign bundle_2_save = bundle_2_compare | minus: bundle_2_price
+          assign bundle_2_save = 0
+          if bundle_2_compare > bundle_2_price
+            assign bundle_2_save = bundle_2_compare | minus: bundle_2_price
+          endif
         -%}
 
         <product-form class="smooche-buy-box__form" data-section-id="{{ section.id }}">
@@ -210,7 +253,7 @@
           </div>
 
           {%- form 'product', product, id: product_form_id, class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
-            <input type="hidden" name="id" value="{{ current_variant.id }}" class="product-variant-id" {% unless current_variant.available %}disabled{% endunless %}>
+            <input type="hidden" name="id" value="{{ variant_1.id }}" class="product-variant-id" data-smooche-variant-input {% unless variant_1.available %}disabled{% endunless %}>
             <input type="hidden" name="quantity" value="1" data-smooche-qty>
 
             {%- if section.settings.show_bundles -%}
@@ -227,6 +270,9 @@
                 assign gift_3_img = section.settings.gift_3_image
                 assign bundle_1_price_label = bundle_1_price | money_without_trailing_zeros
                 assign bundle_2_price_label = bundle_2_price | money_without_trailing_zeros
+                assign gift_1_prop_key = gift_1_label | strip
+                assign gift_2_prop_key = gift_2_label | strip
+                assign gift_3_prop_key = gift_3_label | strip
               -%}
               <fieldset class="smooche-bundles" data-smooche-bundles>
                 <legend class="visually-hidden">Purchase options</legend>
@@ -234,14 +280,14 @@
                 <label
                   class="smooche-bundle is-selected"
                   data-bundle-option
-                  data-qty="1"
+                  data-variant-id="{{ variant_1.id }}"
+                  data-variant-available="{{ variant_1.available }}"
                   data-price="{{ bundle_1_price }}"
-                  data-prop-bundle="{{ section.settings.bundle_1_title | escape }}"
-                  data-prop-deal="{{ section.settings.bundle_1_subtitle | escape }}"
-                  data-prop-price="{{ bundle_1_price_label | escape }}"
-                  data-send-props="false"
+                  data-price-label="{{ bundle_1_price_label | escape }}"
+                  data-compare-label="{% if bundle_1_compare > bundle_1_price %}{{ bundle_1_compare | money_without_trailing_zeros }}{% endif %}"
+                  data-send-gifts="false"
                 >
-                  <input type="radio" name="smooche-bundle" value="1" checked>
+                  <input type="radio" name="smooche-bundle" value="{{ variant_1.id }}" checked>
                   <span class="smooche-bundle__radio" aria-hidden="true"></span>
                   <span class="smooche-bundle__body">
                     <span class="smooche-bundle__top">
@@ -262,14 +308,14 @@
                 <label
                   class="smooche-bundle smooche-bundle--deal"
                   data-bundle-option
-                  data-qty="{{ bundle_2_qty }}"
+                  data-variant-id="{{ variant_2.id }}"
+                  data-variant-available="{{ variant_2.available }}"
                   data-price="{{ bundle_2_price }}"
-                  data-prop-bundle="{{ section.settings.bundle_2_title | escape }}"
-                  data-prop-deal="{{ section.settings.bundle_2_deal_label | escape }}"
-                  data-prop-price="{{ bundle_2_price_label | escape }}"
-                  data-send-props="true"
+                  data-price-label="{{ bundle_2_price_label | escape }}"
+                  data-compare-label="{% if bundle_2_compare > bundle_2_price %}{{ bundle_2_compare | money_without_trailing_zeros }}{% endif %}"
+                  data-send-gifts="true"
                 >
-                  <input type="radio" name="smooche-bundle" value="{{ bundle_2_qty }}">
+                  <input type="radio" name="smooche-bundle" value="{{ variant_2.id }}">
                   <span class="smooche-bundle__radio" aria-hidden="true"></span>
                   <span class="smooche-bundle__body">
                     <span class="smooche-bundle__top">
@@ -332,20 +378,21 @@
                 </label>
               </fieldset>
 
-              {%- comment -%} Line item properties for 2-bottle deal (enabled via JS when selected) {%- endcomment -%}
-              <input type="hidden" name="properties[2 bottles]" value="{{ section.settings.bundle_2_title | escape }}" data-smooche-prop="bundle" disabled>
-              <input type="hidden" name="properties[Temporary deal]" value="{{ section.settings.bundle_2_deal_label | escape }}" data-smooche-prop="deal" disabled>
-              <input type="hidden" name="properties[{{ bundle_2_price_label }}]" value="{{ bundle_2_price_label | escape }}" data-smooche-prop="price" disabled>
+              {%- comment -%} Free-gift line properties — only sent with the 2-bottle variant {%- endcomment -%}
+              <input type="hidden" name="properties[{{ gift_1_prop_key }}]" value="{% if gift_1_compare > 0 %}{{ gift_1_compare | money_without_trailing_zeros }}{% else %}Included{% endif %}" data-smooche-gift-prop disabled>
+              <input type="hidden" name="properties[{{ gift_2_prop_key }}]" value="{% if gift_2_compare > 0 %}{{ gift_2_compare | money_without_trailing_zeros }}{% else %}Included{% endif %}" data-smooche-gift-prop disabled>
+              <input type="hidden" name="properties[{{ gift_3_prop_key }}]" value="Included" data-smooche-gift-prop disabled>
             {%- endif -%}
 
             <button
               type="submit"
               name="add"
               class="smooche-buy-box__atc product-form__submit"
-              {% unless current_variant.available %}disabled{% endunless %}
+              data-smooche-atc
+              {% unless variant_1.available %}disabled{% endunless %}
             >
-              <span>
-                {%- if current_variant.available -%}
+              <span data-smooche-atc-label>
+                {%- if variant_1.available -%}
                   {{ section.settings.atc_label }}
                 {%- else -%}
                   {{ 'products.product.sold_out' | t }}
@@ -598,8 +645,9 @@
     {
       "type": "number",
       "id": "bundle_2_qty",
-      "label": "Bundle 2 quantity",
-      "default": 2
+      "label": "Bundle 2 quantity (legacy — unused; use Quantity variants)",
+      "default": 2,
+      "info": "Ignored. Select 1 bottle / 2 bottles via the product Quantity option variants."
     },
     {
       "type": "text",
