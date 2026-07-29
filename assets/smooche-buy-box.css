@@ -115,23 +115,34 @@
 
 .smooche-buy-box__thumbs {
   display: flex;
+  flex-wrap: nowrap;
   gap: 0.8rem;
   margin-top: 1.2rem;
   overflow-x: auto;
-  padding-bottom: 0.4rem;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  touch-action: pan-x;
+  /* Hide scrollbar chrome; keep horizontal scroll (swipe / trackpad / shift+wheel) */
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
 
 .smooche-buy-box__thumbs::-webkit-scrollbar {
-  display: none;
   width: 0;
   height: 0;
+  background: transparent;
+}
+
+.smooche-buy-box__thumbs::-webkit-scrollbar-thumb,
+.smooche-buy-box__thumbs::-webkit-scrollbar-track {
+  background: transparent;
 }
 
 .smooche-buy-box__thumb {
   flex: 0 0 9rem;
   width: 9rem;
+  min-width: 9rem;
   height: 9rem;
   padding: 0;
   border: 1px solid transparent;
@@ -466,6 +477,7 @@
 }
 
 .smooche-bundle__gifts {
+  grid-column: 1 / -1;
   display: grid;
   gap: 0;
   margin: 1.2rem -1.4rem -1.4rem;
@@ -476,7 +488,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  padding: 0.7rem 1.45rem 0.6rem 0.7rem;
+  padding: 0.7rem 1.4rem 0.6rem 1.4rem;
   border-radius: 0;
   background: #f7f7f7;
   color: #151515;

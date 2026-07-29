@@ -36,6 +36,45 @@
   if (prevBtn) prevBtn.addEventListener('click', () => setActiveThumb(activeIndex - 1));
   if (nextBtn) nextBtn.addEventListener('click', () => setActiveThumb(activeIndex + 1));
 
+  /* Drag-to-scroll thumbs (scrollbar is visually hidden) */
+  const thumbsTrack = root.querySelector('[data-gallery-thumbs]');
+  if (thumbsTrack) {
+    let isDown = false;
+    let startX = 0;
+    let startScroll = 0;
+    let moved = false;
+
+    thumbsTrack.addEventListener('pointerdown', (e) => {
+      if (e.pointerType === 'mouse' && e.button !== 0) return;
+      isDown = true;
+      moved = false;
+      startX = e.clientX;
+      startScroll = thumbsTrack.scrollLeft;
+      thumbsTrack.setPointerCapture?.(e.pointerId);
+    });
+
+    thumbsTrack.addEventListener('pointermove', (e) => {
+      if (!isDown) return;
+      const dx = e.clientX - startX;
+      if (Math.abs(dx) > 3) moved = true;
+      thumbsTrack.scrollLeft = startScroll - dx;
+    });
+
+    const endDrag = () => {
+      isDown = false;
+    };
+
+    thumbsTrack.addEventListener('pointerup', endDrag);
+    thumbsTrack.addEventListener('pointercancel', endDrag);
+    thumbsTrack.addEventListener('click', (e) => {
+      if (moved) {
+        e.preventDefault();
+        e.stopPropagation();
+        moved = false;
+      }
+    }, true);
+  }
+
   /* Quantity bundles */
   const qtyInput = root.querySelector('[data-smooche-qty]');
   const bundles = root.querySelectorAll('[data-bundle-option]');

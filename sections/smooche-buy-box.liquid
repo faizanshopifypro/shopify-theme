@@ -289,43 +289,43 @@
                         {%- endif -%}
                       </span>
                     </span>
+                  </span>
 
-                    <span class="smooche-bundle__gifts" data-bundle-gifts>
-                      <span class="smooche-bundle__gift">
-                        <span class="smooche-bundle__gift-main">
-                          {%- if gift_1_img != blank -%}
-                            {{ gift_1_img | image_url: width: 90 | image_tag: class: 'smooche-bundle__gift-img', loading: 'lazy', widths: '60,90', alt: gift_1_label }}
-                          {%- else -%}
-                            <img class="smooche-bundle__gift-img" src="{{ 'smooche-gift-blender.jpg' | asset_url }}" alt="" width="30" height="30" loading="lazy">
-                          {%- endif -%}
-                          <span class="smooche-bundle__gift-text">{{ gift_1_label }}</span>
-                        </span>
-                        {%- if gift_1_compare > 0 -%}
-                          <s class="smooche-bundle__gift-price">{{ gift_1_compare | money_without_trailing_zeros }}</s>
+                  <span class="smooche-bundle__gifts" data-bundle-gifts>
+                    <span class="smooche-bundle__gift">
+                      <span class="smooche-bundle__gift-main">
+                        {%- if gift_1_img != blank -%}
+                          {{ gift_1_img | image_url: width: 90 | image_tag: class: 'smooche-bundle__gift-img', loading: 'lazy', widths: '60,90', alt: gift_1_label }}
+                        {%- else -%}
+                          <img class="smooche-bundle__gift-img" src="{{ 'smooche-gift-blender.jpg' | asset_url }}" alt="" width="30" height="30" loading="lazy">
                         {%- endif -%}
+                        <span class="smooche-bundle__gift-text">{{ gift_1_label }}</span>
                       </span>
-                      <span class="smooche-bundle__gift">
-                        <span class="smooche-bundle__gift-main">
-                          {%- if gift_2_img != blank -%}
-                            {{ gift_2_img | image_url: width: 90 | image_tag: class: 'smooche-bundle__gift-img', loading: 'lazy', widths: '60,90', alt: gift_2_label }}
-                          {%- else -%}
-                            <img class="smooche-bundle__gift-img" src="{{ 'smooche-gift-mystery.jpg' | asset_url }}" alt="" width="30" height="30" loading="lazy">
-                          {%- endif -%}
-                          <span class="smooche-bundle__gift-text">{{ gift_2_label }}</span>
-                        </span>
-                        {%- if gift_2_compare > 0 -%}
-                          <s class="smooche-bundle__gift-price">{{ gift_2_compare | money_without_trailing_zeros }}</s>
+                      {%- if gift_1_compare > 0 -%}
+                        <s class="smooche-bundle__gift-price">{{ gift_1_compare | money_without_trailing_zeros }}</s>
+                      {%- endif -%}
+                    </span>
+                    <span class="smooche-bundle__gift">
+                      <span class="smooche-bundle__gift-main">
+                        {%- if gift_2_img != blank -%}
+                          {{ gift_2_img | image_url: width: 90 | image_tag: class: 'smooche-bundle__gift-img', loading: 'lazy', widths: '60,90', alt: gift_2_label }}
+                        {%- else -%}
+                          <img class="smooche-bundle__gift-img" src="{{ 'smooche-gift-mystery.jpg' | asset_url }}" alt="" width="30" height="30" loading="lazy">
                         {%- endif -%}
+                        <span class="smooche-bundle__gift-text">{{ gift_2_label }}</span>
                       </span>
-                      <span class="smooche-bundle__gift">
-                        <span class="smooche-bundle__gift-main">
-                          {%- if gift_3_img != blank -%}
-                            {{ gift_3_img | image_url: width: 90 | image_tag: class: 'smooche-bundle__gift-img', loading: 'lazy', widths: '60,90', alt: gift_3_label }}
-                          {%- else -%}
-                            <img class="smooche-bundle__gift-img" src="{{ 'smooche-gift-shipping.jpg' | asset_url }}" alt="" width="30" height="30" loading="lazy">
-                          {%- endif -%}
-                          <span class="smooche-bundle__gift-text">{{ gift_3_label }}</span>
-                        </span>
+                      {%- if gift_2_compare > 0 -%}
+                        <s class="smooche-bundle__gift-price">{{ gift_2_compare | money_without_trailing_zeros }}</s>
+                      {%- endif -%}
+                    </span>
+                    <span class="smooche-bundle__gift">
+                      <span class="smooche-bundle__gift-main">
+                        {%- if gift_3_img != blank -%}
+                          {{ gift_3_img | image_url: width: 90 | image_tag: class: 'smooche-bundle__gift-img', loading: 'lazy', widths: '60,90', alt: gift_3_label }}
+                        {%- else -%}
+                          <img class="smooche-bundle__gift-img" src="{{ 'smooche-gift-shipping.jpg' | asset_url }}" alt="" width="30" height="30" loading="lazy">
+                        {%- endif -%}
+                        <span class="smooche-bundle__gift-text">{{ gift_3_label }}</span>
                       </span>
                     </span>
                   </span>
