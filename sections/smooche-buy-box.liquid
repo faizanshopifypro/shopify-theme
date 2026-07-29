@@ -379,8 +379,8 @@
               </fieldset>
 
               {%- comment -%} Free-gift line properties — only sent with the 2-bottle variant {%- endcomment -%}
-              <input type="hidden" name="properties[{{ gift_1_prop_key }}]" value="{% if gift_1_compare > 0 %}{{ gift_1_compare | money_without_trailing_zeros }}{% else %}Included{% endif %}" data-smooche-gift-prop disabled>
-              <input type="hidden" name="properties[{{ gift_2_prop_key }}]" value="{% if gift_2_compare > 0 %}{{ gift_2_compare | money_without_trailing_zeros }}{% else %}Included{% endif %}" data-smooche-gift-prop disabled>
+              <input type="hidden" name="properties[{{ gift_1_prop_key }}]" value="{% if gift_1_compare > 0 %}Included{% else %}Included{% endif %}" data-smooche-gift-prop disabled>
+              <input type="hidden" name="properties[{{ gift_2_prop_key }}]" value="{% if gift_2_compare > 0 %}Included{% else %}Included{% endif %}" data-smooche-gift-prop disabled>
               <input type="hidden" name="properties[{{ gift_3_prop_key }}]" value="Included" data-smooche-gift-prop disabled>
             {%- endif -%}
 
